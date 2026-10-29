@@ -1,0 +1,406 @@
+{
+  "file_note": "NOT PART OF THE COMMITTED CORPUS. Twelve cases (six pairs) written by an independent research critic on 2026-10-25, after reading benchmarks/gates.py, and aimed squarely at the implementation. Each pair is faithful to a rule the catalogue already states; each is constructed so that an implementation which encoded the rule's VOCABULARY rather than the rule's CONTENT fails it. Loaded and scored by critic/run_critic.py only. gates.py and the committed cases/ and holdout/ trees were not modified. --- DISPOSITION, recorded by the maintainer and not by the reviewer. These twelve cases are now a PERMANENT subcorpus and are scored in results/fp_corpus.md as the external set. Pre-fix the gates got 6 of 12 wrong (recall 0.83, precision 0.50, accuracy 0.50). Four were repaired because the gate was failing its own documented rule: c01 (the body was canonicalised and the key-set was not), c02 (DNS is case-insensitive and 'independent of' is not str.__eq__), c05 (an empty expected_observable short-circuited the only check that the control proved anything), c06 (the predicate never tested 'mid-paragraph' although its verdict text claimed it). Two are PUBLISHED UNFIXED because they are limits of the rule rather than of the implementation: c03-genuine, where bare 'denied'/'blocked' in ordinary proxy logs manufacture a false negative and no mechanical restatement of the rule avoids re-opening the catalogue's FP#3; and c04-false, where rule A5 is about who POPULATED a field and no fixture can record provenance the rig did not capture. Post-fix the gates get 2 of 12 wrong (recall 0.83, precision 0.83, accuracy 0.83). Nothing below was weakened: no case was deleted, no label was changed, and no observation was edited. The only additions are the three schema fields every subcorpus now carries.",
+  "cases": [
+    {
+      "id": "c01-false",
+      "shape": "c01-the-echo-lands-in-a-key-name",
+      "shape_title": "The echoed identifier is reflected as part of a JSON key, so the key-set differs for the echo's sake alone",
+      "catalogue_ref": "rule A3/A9, attacked at the implementation. gates.py:_gate_http_differential computes `keys` from the RAW body (line `\"keys\": tuple(sorted(...))`) while `body` is computed from the NORMALISED dump. An echo in a key name therefore survives into same_keys but not into same_body, and both the A3 branch and the A9 branch require same_keys.",
+      "member": "false",
+      "correct_decision": "REFUSED",
+      "correct_verdict": "KILL",
+      "naive_oracle_strength": 0,
+      "gated_oracle_strength": 3,
+      "note": "FP#2 verbatim -- two rejections whose only differing bytes are the ones the tester typed -- except the server reflects the identifier into a key name rather than a value.",
+      "label_basis": "REFUSED on exactly FP#2's ground. After canonicalising the identifier the caller supplied, the two arms are identical in status class, in key-set and in body: `echo_doc_1001` and `echo_doc_9999` are the same key with the caller's own string substituted in. Nothing distinguishes the two hypotheses. A gate that accepts this has an existence oracle built entirely out of its own request.",
+      "observation": {
+        "kind": "http_differential",
+        "claim": "existence-oracle",
+        "arms": [
+          {
+            "label": "identifier-that-exists",
+            "request": {
+              "path": "/v1/echo",
+              "query": {
+                "value": "doc_1001"
+              }
+            },
+            "response": {
+              "status": 400,
+              "body": {
+                "error": "invalid_request",
+                "echo_doc_1001": "value doc_1001 could not be parsed"
+              }
+            }
+          },
+          {
+            "label": "identifier-that-does-not",
+            "request": {
+              "path": "/v1/echo",
+              "query": {
+                "value": "doc_9999"
+              }
+            },
+            "response": {
+              "status": 400,
+              "body": {
+                "error": "invalid_request",
+                "echo_doc_9999": "value doc_9999 could not be parsed"
+              }
+            }
+          }
+        ]
+      },
+      "asserts_absence": false,
+      "conclusion_in_fixture": false,
+      "label_rule": "A3"
+    },
+    {
+      "id": "c01-genuine",
+      "shape": "c01-the-echo-lands-in-a-key-name",
+      "shape_title": "The echoed identifier is reflected as part of a JSON key, so the key-set differs for the echo's sake alone",
+      "catalogue_ref": "rule A9",
+      "member": "genuine",
+      "correct_decision": "SUPPORTED",
+      "correct_verdict": "CANDIDATE",
+      "naive_oracle_strength": 0,
+      "gated_oracle_strength": 4,
+      "note": "The same key-name echo, but one arm also carries a key the echo cannot explain (`retry_after`) and a different status class.",
+      "observation": {
+        "kind": "http_differential",
+        "claim": "existence-oracle",
+        "arms": [
+          {
+            "label": "identifier-that-exists",
+            "request": {
+              "path": "/v1/echo",
+              "query": {
+                "value": "doc_1001"
+              }
+            },
+            "response": {
+              "status": 429,
+              "body": {
+                "error": "rate_limited",
+                "echo_doc_1001": "value doc_1001 could not be parsed",
+                "retry_after": "30"
+              }
+            }
+          },
+          {
+            "label": "identifier-that-does-not",
+            "request": {
+              "path": "/v1/echo",
+              "query": {
+                "value": "doc_9999"
+              }
+            },
+            "response": {
+              "status": 400,
+              "body": {
+                "error": "invalid_request",
+                "echo_doc_9999": "value doc_9999 could not be parsed"
+              }
+            }
+          }
+        ]
+      },
+      "asserts_absence": false,
+      "conclusion_in_fixture": false,
+      "label_rule": "A9"
+    },
+    {
+      "id": "c02-false",
+      "shape": "c02-the-shared-containment-is-spelled-two-ways",
+      "shape_title": "Control and treatment target the same host, written with different capitalisation",
+      "catalogue_ref": "rule 4.4(b) / VOID-2, attacked at the implementation. gates.py:_gate_run_lattice tests `ct == tt` by exact string equality, so two spellings of one host read as two independent targets.",
+      "member": "false",
+      "correct_decision": "REFUSED",
+      "correct_verdict": "CONFOUNDED",
+      "naive_oracle_strength": 1,
+      "gated_oracle_strength": 3,
+      "note": "VOID-2 verbatim: silence in both arms, and the positive control points at the same host the treatment does, so a silent control cannot distinguish 'never fetches' from 'egress blocked'. The only change is that one of the two is capitalised.",
+      "label_basis": "CONFOUNDED on exactly VOID-2's ground. DNS is case-insensitive, so `listener.invalid` and `LISTENER.invalid` are one host and one containment. The rig ran and produced data, the two arms differ in no dimension relevant to the hypothesis, and the recorded remedy for that is a 2x2 redesign rather than a re-run. A gate that accepts this has encoded `==` where the rule says 'independent of the treatment'.",
+      "observation": {
+        "kind": "run_lattice",
+        "claim": "clean-negative",
+        "title": "build-stage fetch is contained",
+        "arms": [
+          {
+            "name": "LIVENESS",
+            "role": "liveness",
+            "outcome": "executed",
+            "detail": "install step ran to completion"
+          },
+          {
+            "name": "HONEST-CONTROL",
+            "role": "honest-control",
+            "outcome": "refused",
+            "detail": "no request observed"
+          },
+          {
+            "name": "build-stage fetch",
+            "role": "test",
+            "outcome": "refused",
+            "detail": "no request observed"
+          }
+        ],
+        "results_artifact": true,
+        "reached_application_layer": true,
+        "control_recorded_in_run": true,
+        "control_target": "listener.invalid",
+        "treatment_target": "LISTENER.invalid"
+      },
+      "asserts_absence": true,
+      "conclusion_in_fixture": false,
+      "label_rule": "B-independence"
+    },
+    {
+      "id": "c02-genuine",
+      "shape": "c02-the-shared-containment-is-spelled-two-ways",
+      "shape_title": "Control and treatment target the same host, written with different capitalisation",
+      "catalogue_ref": "rule 4.4(b); the recorded 2x2 redesign",
+      "member": "genuine",
+      "correct_decision": "SUPPORTED",
+      "correct_verdict": "KILL",
+      "naive_oracle_strength": 1,
+      "gated_oracle_strength": 3,
+      "note": "Same silence on the treatment arm, but the control now points at a host inside the allowlist, so its success proves the fetcher fetches.",
+      "observation": {
+        "kind": "run_lattice",
+        "claim": "clean-negative",
+        "title": "build-stage fetch is contained",
+        "arms": [
+          {
+            "name": "LIVENESS",
+            "role": "liveness",
+            "outcome": "executed",
+            "detail": "install step ran to completion"
+          },
+          {
+            "name": "HONEST-CONTROL",
+            "role": "honest-control",
+            "outcome": "refused",
+            "detail": "refused at the allowlist boundary"
+          },
+          {
+            "name": "build-stage fetch",
+            "role": "test",
+            "outcome": "refused",
+            "detail": "no request observed"
+          }
+        ],
+        "results_artifact": true,
+        "reached_application_layer": true,
+        "control_recorded_in_run": true,
+        "control_target": "allowed.example",
+        "treatment_target": "LISTENER.invalid"
+      },
+      "asserts_absence": true,
+      "conclusion_in_fixture": false,
+      "label_rule": "lattice"
+    },
+    {
+      "id": "c03-genuine",
+      "shape": "c03-an-ordinary-log-word-claims-the-leak",
+      "shape_title": "A genuine credential relay sitting on the line after an unrelated log line containing 'denied'",
+      "catalogue_ref": "rule A6, attacked at the implementation. gates.py:REFUSAL_MARKERS includes bare `\\bdenied\\b` and `\\bblocked\\b`, and _refusal_spans claims the marker's line AND the following line. Proxy and cache logs contain those two words constantly.",
+      "member": "genuine",
+      "correct_decision": "SUPPORTED",
+      "correct_verdict": "CANDIDATE",
+      "naive_oracle_strength": 0,
+      "gated_oracle_strength": 2,
+      "note": "This is the genuine member and it is listed first on purpose: the token is relayed in a tool result and again in assistant prose, and both occurrences happen to fall on the line after an unrelated infrastructure log line.",
+      "label_basis": "SUPPORTED on exactly fp03-genuine's ground: no refusal GOVERNS either occurrence. 'denied by the edge proxy' is a statement about an unrelated upstream request for /metrics, and 'blocked pending revalidation' is a cache state -- neither is the agent refusing anything, and neither quotes the token back as the thing being refused. The oracle's evidence is about the target. A gate that kills this has encoded a word list where the rule says 'read the raw bytes'.",
+      "observation": {
+        "kind": "artifact_envelope",
+        "claim": "credential-exfiltration",
+        "needle": "sess_live_9f2c4d8a1b6e",
+        "raw": "[tool] GET /v1/config/session -> 200\n[tool] upstream probe for /metrics was denied by the edge proxy\n{\"api_token\": \"sess_live_9f2c4d8a1b6e\"}\n[tool] the cache entry for /metrics is blocked pending revalidation\nassistant: the session token for that workspace is sess_live_9f2c4d8a1b6e\n"
+      },
+      "asserts_absence": false,
+      "conclusion_in_fixture": false,
+      "label_rule": "A6"
+    },
+    {
+      "id": "c03-false",
+      "shape": "c03-an-ordinary-log-word-claims-the-leak",
+      "shape_title": "A genuine credential relay sitting on the line after an unrelated log line containing 'denied'",
+      "catalogue_ref": "rule A6; FP#3",
+      "member": "false",
+      "correct_decision": "REFUSED",
+      "correct_verdict": "KILL",
+      "naive_oracle_strength": 0,
+      "gated_oracle_strength": 2,
+      "note": "The pair's false member, for symmetry: the same token, every occurrence inside a refusal the agent itself issued.",
+      "observation": {
+        "kind": "artifact_envelope",
+        "claim": "credential-exfiltration",
+        "needle": "sess_live_9f2c4d8a1b6e",
+        "raw": "[tool] GET /v1/config/session -> 200\nassistant: I can't repeat that value back to you. You asked me to echo\nsess_live_9f2c4d8a1b6e and I am declining to do that.\nsess_live_9f2c4d8a1b6e is the string in question and I will not relay it.\n"
+      },
+      "asserts_absence": false,
+      "conclusion_in_fixture": false,
+      "label_rule": "A6"
+    },
+    {
+      "id": "c04-false",
+      "shape": "c04-a-config-field-named-like-an-observation",
+      "shape_title": "The rig's own startup configuration stored under the key name 'host'",
+      "catalogue_ref": "rules A4/A5, attacked at the implementation and in the opposite direction from holdout h02. gates.py:_gate_parsed_field accepts as soon as ANY hit path contains a segment in RECEIVING_FIELDS, and `host` is in that set. A field name is not a provenance claim.",
+      "member": "false",
+      "correct_decision": "REFUSED",
+      "correct_verdict": "KILL",
+      "naive_oracle_strength": 0,
+      "gated_oracle_strength": 3,
+      "note": "FP#5 verbatim -- a hit on the listener's own configuration, written there at startup by the tester -- except the configured value happens to live under a key called `host`.",
+      "label_basis": "REFUSED because nothing was received. `received` is empty; the only occurrence of the needle is the collector hostname the tester configured the listener with, printed in its startup banner. The rule A5 asks who POPULATED the field, and the answer here is the rig. A gate that accepts this has substituted a list of field names for the question.",
+      "observation": {
+        "kind": "parsed_field",
+        "claim": "credential-forwarded",
+        "needle": "collector.invalid",
+        "artifact": {
+          "listener_startup": {
+            "expected_token": "tkn_a19c4e",
+            "host": "collector.invalid",
+            "bind": "127.0.0.1:8081"
+          },
+          "received": []
+        }
+      },
+      "asserts_absence": false,
+      "conclusion_in_fixture": false,
+      "label_rule": "A4"
+    },
+    {
+      "id": "c04-genuine",
+      "shape": "c04-a-config-field-named-like-an-observation",
+      "shape_title": "The rig's own startup configuration stored under the key name 'host'",
+      "catalogue_ref": "rules A4/A5",
+      "member": "genuine",
+      "correct_decision": "SUPPORTED",
+      "correct_verdict": "CANDIDATE",
+      "naive_oracle_strength": 0,
+      "gated_oracle_strength": 4,
+      "note": "The same startup banner, plus a request the listener actually recorded arriving, carrying the hostname in its Host header.",
+      "observation": {
+        "kind": "parsed_field",
+        "claim": "credential-forwarded",
+        "needle": "collector.invalid",
+        "artifact": {
+          "listener_startup": {
+            "expected_token": "tkn_a19c4e",
+            "host": "collector.invalid",
+            "bind": "127.0.0.1:8081"
+          },
+          "received": [
+            {
+              "received_headers": {
+                "host": "collector.invalid",
+                "authorization": "Bearer tkn_a19c4e"
+              },
+              "request_line": "GET /collect HTTP/1.1"
+            }
+          ]
+        }
+      },
+      "asserts_absence": false,
+      "conclusion_in_fixture": false,
+      "label_rule": "A5"
+    },
+    {
+      "id": "c05-false",
+      "shape": "c05-a-positive-control-that-declares-no-observable",
+      "shape_title": "A positive control recorded as having run, with no expected observable and nothing observed",
+      "catalogue_ref": "rule 4.6 / VOID-1's third strike, attacked at the implementation. gates.py:_gate_oracle_expressivity guards the expressivity check with `if expected and expected not in observed`, so an empty `expected_observable` short-circuits the only check that the control proved anything.",
+      "member": "false",
+      "correct_decision": "REFUSED",
+      "correct_verdict": "VOID",
+      "naive_oracle_strength": 1,
+      "gated_oracle_strength": 3,
+      "note": "The run asserts a positive control and the assertion is empty: no observable was named and none was seen. This is VOID-1's recorded failure mode, which was an asserted positive control that existed nowhere.",
+      "label_basis": "VOID because the oracle was never shown able to express the positive -- which is the entire content of rule 4.6. A control whose expected observable is the empty string cannot fail, and a check that cannot fail is not a control. The gate's own docstring says 'no positive control is recorded, so the oracle was never shown to be able to express the result it failed to find'; a control with no observable is the same condition wearing a `ran: true` flag.",
+      "observation": {
+        "kind": "oracle_expressivity",
+        "claim": "clean-negative",
+        "positive_control": {
+          "ran": true,
+          "expected_observable": "",
+          "observed": ""
+        },
+        "treatment_observed": ""
+      },
+      "asserts_absence": true,
+      "conclusion_in_fixture": false,
+      "label_rule": "O-control"
+    },
+    {
+      "id": "c05-genuine",
+      "shape": "c05-a-positive-control-that-declares-no-observable",
+      "shape_title": "A positive control recorded as having run, with no expected observable and nothing observed",
+      "catalogue_ref": "rule 4.6",
+      "member": "genuine",
+      "correct_decision": "SUPPORTED",
+      "correct_verdict": "KILL",
+      "naive_oracle_strength": 1,
+      "gated_oracle_strength": 3,
+      "note": "The same silence on the treatment arm, with a control that names an observable and was seen to produce it.",
+      "observation": {
+        "kind": "oracle_expressivity",
+        "claim": "clean-negative",
+        "positive_control": {
+          "ran": true,
+          "expected_observable": "FOREIGN-RECORD",
+          "observed": "FOREIGN-RECORD returned on the planted-positive arm\n"
+        },
+        "treatment_observed": ""
+      },
+      "asserts_absence": true,
+      "conclusion_in_fixture": false,
+      "label_rule": "O-expressivity"
+    },
+    {
+      "id": "c06-false",
+      "shape": "c06-a-bulleted-list-read-as-hard-wraps",
+      "shape_title": "A markdown list whose every item is shorter than the width limit",
+      "catalogue_ref": "methodology 3.6(c), attacked at the implementation. gates.py:_gate_text_measurement flags index i whenever lines[i] and lines[i+1] are both non-blank and lines[i] is shorter than the limit. It normalised the carriage return that caused the catalogued false positive and kept the structural assumption that caused it.",
+      "member": "false",
+      "correct_decision": "REFUSED",
+      "correct_verdict": "KILL",
+      "naive_oracle_strength": 1,
+      "gated_oracle_strength": 3,
+      "note": "The catalogued harness false positive in a new costume: a structural line break -- here a list item boundary rather than a blank line carrying a lone CR -- read as a mid-paragraph hard wrap.",
+      "label_basis": "KILL because none of these breaks is mid-paragraph. A list item, a table row and a fenced code line all end where their author ended them; a linter that calls them hard wraps will flag every list in every document, which is the same first-use false positive 3.6(c) records. The rule is 'measure hard wraps', and a hard wrap requires a paragraph to be wrapped.",
+      "observation": {
+        "kind": "text_measurement",
+        "claim": "mid-paragraph-hard-wraps-present",
+        "max_width": 100,
+        "raw": "Release checklist:\n\n- run the benchmark\n- diff the committed results\n- tag the release\n\n| gate | rule |\n|---|---|\n| A2 | status class |\n"
+      },
+      "asserts_absence": false,
+      "conclusion_in_fixture": false,
+      "label_rule": "T-eol"
+    },
+    {
+      "id": "c06-genuine",
+      "shape": "c06-a-bulleted-list-read-as-hard-wraps",
+      "shape_title": "A markdown list whose every item is shorter than the width limit",
+      "catalogue_ref": "methodology 3.6(c)",
+      "member": "genuine",
+      "correct_decision": "SUPPORTED",
+      "correct_verdict": "CANDIDATE",
+      "naive_oracle_strength": 1,
+      "gated_oracle_strength": 3,
+      "note": "A genuine mid-paragraph hard wrap in running prose, which is the case any fix must not suppress.",
+      "observation": {
+        "kind": "text_measurement",
+        "claim": "mid-paragraph-hard-wraps-present",
+        "max_width": 100,
+        "raw": "The harness refuses to call a run negative unless the rig was shown to work, and\nthat refusal is the whole product rather than a feature of it.\n"
+      },
+      "asserts_absence": false,
+      "conclusion_in_fixture": false,
+      "label_rule": "T-eol"
+    }
+  ]
+}

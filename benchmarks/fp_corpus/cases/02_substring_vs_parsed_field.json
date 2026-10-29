@@ -1,0 +1,184 @@
+{
+  "file_note": "FP#4, FP#5 and FP#6. The catalogue's single most reusable observation is that these three plus FP#2 and FP#6 are the SAME error: the detector matched on a value the tester had put into the request, and the request was echoed. They are kept as three shapes because the fixtures differ, but a scorer that treats them as independent evidence is overcounting one mistake.",
+  "cases": [
+    {
+      "id": "fp04-false",
+      "shape": "fp04-marker-in-the-source-we-submitted",
+      "shape_title": "A success marker that was a literal inside the code we submitted",
+      "catalogue_ref": "methodology 3.1 FP#4; rule A4",
+      "member": "false",
+      "correct_decision": "REFUSED",
+      "correct_verdict": "KILL",
+      "naive_oracle_strength": 0,
+      "gated_oracle_strength": 3,
+      "note": "The marker string really is in the captured bytes; it is in the input half of them, and the real stdout shows name resolution failing.",
+      "observation": {
+        "kind": "parsed_field",
+        "claim": "network-egress",
+        "needle": "EGRESS-OK-7f31",
+        "artifact": {
+          "submitted_source": "import socket\nprint('EGRESS-OK-7f31')\nsocket.create_connection(('listener.invalid', 9),)",
+          "stdout": "",
+          "stderr": "socket.gaierror: [Errno -2] Name or service not known"
+        }
+      },
+      "asserts_absence": false,
+      "conclusion_in_fixture": false,
+      "label_rule": "A4"
+    },
+    {
+      "id": "fp04-genuine",
+      "shape": "fp04-marker-in-the-source-we-submitted",
+      "shape_title": "A success marker that was a literal inside the code we submitted",
+      "catalogue_ref": "methodology 3.1 FP#4; rule A4",
+      "member": "genuine",
+      "correct_decision": "SUPPORTED",
+      "correct_verdict": "CANDIDATE",
+      "naive_oracle_strength": 0,
+      "gated_oracle_strength": 4,
+      "note": "The same marker in the same submitted source, but this time a loopback listener recorded receiving it, which is a field the submitted source cannot populate.",
+      "observation": {
+        "kind": "parsed_field",
+        "claim": "network-egress",
+        "needle": "EGRESS-OK-7f31",
+        "artifact": {
+          "submitted_source": "import socket\ns = socket.create_connection(('127.0.0.1', 0))\ns.sendall(b'EGRESS-OK-7f31')",
+          "stdout": "",
+          "stderr": "",
+          "received": {
+            "body": "EGRESS-OK-7f31",
+            "peer": "127.0.0.1"
+          }
+        }
+      },
+      "asserts_absence": false,
+      "conclusion_in_fixture": false,
+      "label_rule": "A5"
+    },
+    {
+      "id": "fp05-false",
+      "shape": "fp05-substring-hit-on-the-listeners-own-config",
+      "shape_title": "A grep hit on the listener's own expected_token configuration field",
+      "catalogue_ref": "methodology 3.1 FP#5; rule A5",
+      "member": "false",
+      "correct_decision": "REFUSED",
+      "correct_verdict": "KILL",
+      "naive_oracle_strength": 0,
+      "gated_oracle_strength": 3,
+      "note": "The token value genuinely appears in the listener's log file -- as the listener's own configuration, written there at startup by the tester.",
+      "observation": {
+        "kind": "parsed_field",
+        "claim": "credential-forwarded",
+        "needle": "tkn_a19c4e",
+        "artifact": {
+          "listener_config": {
+            "expected_token": "tkn_a19c4e",
+            "port": 0
+          },
+          "received_headers": {
+            "user-agent": "probe/1.0",
+            "accept": "*/*"
+          }
+        }
+      },
+      "asserts_absence": false,
+      "conclusion_in_fixture": false,
+      "label_rule": "A4"
+    },
+    {
+      "id": "fp05-genuine",
+      "shape": "fp05-substring-hit-on-the-listeners-own-config",
+      "shape_title": "A grep hit on the listener's own expected_token configuration field",
+      "catalogue_ref": "methodology 3.1 FP#5; rule A5",
+      "member": "genuine",
+      "correct_decision": "SUPPORTED",
+      "correct_verdict": "CANDIDATE",
+      "naive_oracle_strength": 0,
+      "gated_oracle_strength": 4,
+      "note": "Byte-for-byte the same grep hit on the configuration field, plus a second occurrence in the parsed authorization header the listener actually received.",
+      "observation": {
+        "kind": "parsed_field",
+        "claim": "credential-forwarded",
+        "needle": "tkn_a19c4e",
+        "artifact": {
+          "listener_config": {
+            "expected_token": "tkn_a19c4e",
+            "port": 0
+          },
+          "received_headers": {
+            "authorization": "Bearer tkn_a19c4e",
+            "user-agent": "probe/1.0",
+            "accept": "*/*"
+          }
+        }
+      },
+      "asserts_absence": false,
+      "conclusion_in_fixture": false,
+      "label_rule": "A5"
+    },
+    {
+      "id": "fp06-false",
+      "shape": "fp06-nonce-inside-the-url-we-supplied",
+      "shape_title": "Nonce occurrences counted as redirect-hop hits, read as a confirmed allowlist bypass",
+      "catalogue_ref": "methodology 3.1 FP#6; rule A4. The catalogue records that this one nearly produced a reported 'confirmed bypass' that was not real.",
+      "member": "false",
+      "correct_decision": "REFUSED",
+      "correct_verdict": "KILL",
+      "naive_oracle_strength": 0,
+      "gated_oracle_strength": 3,
+      "note": "The nonce is in the log the expected number of times, because it is in the initial allowlisted URL path the tester himself supplied; no hop ever left the allowlist.",
+      "observation": {
+        "kind": "parsed_field",
+        "claim": "allowlist-bypass",
+        "needle": "n-4c1f8a",
+        "artifact": {
+          "echo_url": "https://allowed.example/n-4c1f8a/asset",
+          "final_host": "allowed.example",
+          "hop_log": [
+            {
+              "request_url": "https://allowed.example/n-4c1f8a/asset",
+              "status": 200
+            }
+          ]
+        }
+      },
+      "asserts_absence": false,
+      "conclusion_in_fixture": false,
+      "label_rule": "A4"
+    },
+    {
+      "id": "fp06-genuine",
+      "shape": "fp06-nonce-inside-the-url-we-supplied",
+      "shape_title": "Nonce occurrences counted as redirect-hop hits, read as a confirmed allowlist bypass",
+      "catalogue_ref": "methodology 3.1 FP#6; rules A4 and A5",
+      "member": "genuine",
+      "correct_decision": "SUPPORTED",
+      "correct_verdict": "CANDIDATE",
+      "naive_oracle_strength": 0,
+      "gated_oracle_strength": 4,
+      "note": "Same nonce in the same supplied URL, but a loopback listener outside the allowlist recorded the request path, so the distinguishing field -- who received it -- answers the question.",
+      "observation": {
+        "kind": "parsed_field",
+        "claim": "allowlist-bypass",
+        "needle": "n-4c1f8a",
+        "artifact": {
+          "echo_url": "https://allowed.example\\@listener.invalid/n-4c1f8a",
+          "final_host": "listener.invalid",
+          "hop_log": [
+            {
+              "request_url": "https://allowed.example\\@listener.invalid/n-4c1f8a",
+              "status": 200
+            }
+          ],
+          "received": {
+            "path": "/n-4c1f8a",
+            "peer": "127.0.0.1"
+          }
+        }
+      },
+      "asserts_absence": false,
+      "conclusion_in_fixture": false,
+      "label_rule": "A5"
+    }
+  ]
+}

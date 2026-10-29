@@ -1,0 +1,15 @@
+{
+  "provenance": "recorded",
+  "recorded_at": "2026-10-26T00:33:27.649828+00:00",
+  "request": {
+    "body": null,
+    "kind": "http",
+    "method": "GET",
+    "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-2901"
+  },
+  "rerun": "curl -s https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-2901",
+  "response": {
+    "body": "{\"resultsPerPage\":1,\"startIndex\":0,\"totalResults\":1,\"format\":\"NVD_CVE\",\"version\":\"2.0\",\"timestamp\":\"2026-10-26T00:33:27.808\",\"vulnerabilities\":[{\"cve\":{\"id\":\"CVE-2025-2901\",\"sourceIdentifier\":\"secalert@redhat.com\",\"published\":\"2025-03-28T14:15:22.020\",\"lastModified\":\"2025-06-20T12:15:21.010\",\"vulnStatus\":\"Rejected\",\"cveTags\":[],\"descriptions\":[{\"lang\":\"en\",\"value\":\"Rejected reason: This vulnerability is redundant to CVE-2025-23366 and CVE-2024-10234.\"}],\"metrics\":{},\"references\":[]}}]}",
+    "status": 200
+  }
+}

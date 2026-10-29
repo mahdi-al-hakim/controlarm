@@ -1,0 +1,3458 @@
+{
+  "c1": {
+    "denominator_audit": {
+      "all_uninterpretable": [
+        "void08-false",
+        "void09-false",
+        "ext17-false",
+        "fn10-false",
+        "fn11-false",
+        "fn12-false",
+        "scope13-false",
+        "self14-false",
+        "self15-false",
+        "hard18-false",
+        "hard19-false"
+      ],
+      "excluded_conclusion_in_fixture": [
+        "hard19-false"
+      ],
+      "excluded_not_a_negative": [
+        {
+          "claim": "finding",
+          "id": "ext17-false"
+        },
+        {
+          "claim": "finding",
+          "id": "scope13-false"
+        },
+        {
+          "claim": "linear-amplification",
+          "id": "self14-false"
+        },
+        {
+          "claim": "3-way-coverage-complete",
+          "id": "self15-false"
+        }
+      ],
+      "headline": [
+        "void08-false",
+        "void09-false",
+        "fn10-false",
+        "fn11-false",
+        "fn12-false",
+        "hard18-false"
+      ]
+    },
+    "excluded_conclusion_in_fixture": {
+      "fair": {
+        "called_no_bug": 1,
+        "cases": 1
+      },
+      "gated": {
+        "called_no_bug": 0,
+        "cases": 1
+      },
+      "naive": {
+        "called_no_bug": 1,
+        "cases": 1
+      }
+    },
+    "fair": {
+      "FINDING->FINDING": 12,
+      "FINDING->NO_BUG": 0,
+      "FINDING->UNINTERPRETABLE": 0,
+      "NO_BUG->FINDING": 7,
+      "NO_BUG->NO_BUG": 8,
+      "NO_BUG->UNINTERPRETABLE": 0,
+      "UNINTERPRETABLE->FINDING": 2,
+      "UNINTERPRETABLE->NO_BUG": 2,
+      "UNINTERPRETABLE->UNINTERPRETABLE": 7,
+      "accuracy": 0.7105263157894737,
+      "correct": 27,
+      "total": 38
+    },
+    "fisher": {
+      "gated_vs_fair": 1.0,
+      "gated_vs_naive": 0.0021645021645021645,
+      "note": "Two-sided Fisher exact on 'called no bug' versus 'did not', over the untrustworthy-negative set. The gated-versus-fair figure is the one that carries the claim; the gated-versus-naive figure is reported for completeness and is not a comparison, because the naive arm cannot emit a refusal verdict.",
+      "unit": "case"
+    },
+    "gated": {
+      "FINDING->FINDING": 12,
+      "FINDING->NO_BUG": 0,
+      "FINDING->UNINTERPRETABLE": 0,
+      "NO_BUG->FINDING": 0,
+      "NO_BUG->NO_BUG": 15,
+      "NO_BUG->UNINTERPRETABLE": 0,
+      "UNINTERPRETABLE->FINDING": 0,
+      "UNINTERPRETABLE->NO_BUG": 0,
+      "UNINTERPRETABLE->UNINTERPRETABLE": 11,
+      "accuracy": 1.0,
+      "correct": 38,
+      "total": 38
+    },
+    "naive": {
+      "FINDING->FINDING": 12,
+      "FINDING->NO_BUG": 0,
+      "FINDING->UNINTERPRETABLE": 0,
+      "NO_BUG->FINDING": 8,
+      "NO_BUG->NO_BUG": 7,
+      "NO_BUG->UNINTERPRETABLE": 0,
+      "UNINTERPRETABLE->FINDING": 4,
+      "UNINTERPRETABLE->NO_BUG": 7,
+      "UNINTERPRETABLE->UNINTERPRETABLE": 0,
+      "accuracy": 0.5,
+      "correct": 19,
+      "total": 38
+    },
+    "untrustworthy_negative_ids": [
+      "void08-false",
+      "void09-false",
+      "fn10-false",
+      "fn11-false",
+      "fn12-false",
+      "hard18-false"
+    ],
+    "untrustworthy_negatives": {
+      "fair": {
+        "called_finding": 0,
+        "called_no_bug": 1,
+        "called_uninterpretable": 5,
+        "cases": 6,
+        "false_negative_rate": 0.16666666666666666,
+        "refused_to_call_rate": 0.8333333333333334
+      },
+      "gated": {
+        "called_finding": 0,
+        "called_no_bug": 0,
+        "called_uninterpretable": 6,
+        "cases": 6,
+        "false_negative_rate": 0.0,
+        "refused_to_call_rate": 1.0
+      },
+      "naive": {
+        "called_finding": 0,
+        "called_no_bug": 6,
+        "called_uninterpretable": 0,
+        "cases": 6,
+        "false_negative_rate": 1.0,
+        "refused_to_call_rate": 0.0
+      }
+    }
+  },
+  "c2": {
+    "by_shape": {
+      "fair": {
+        "ext17-the-detector-was-pointed-at-the-poc": {
+          "accuracy": 0.5,
+          "f1": 0.6666666666666666,
+          "fn": 0,
+          "fp": 1,
+          "precision": 0.5,
+          "recall": 1.0,
+          "tn": 0,
+          "tp": 1
+        },
+        "fn10-the-field-under-test-was-never-rendered": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "tn": 1,
+          "tp": 1
+        },
+        "fn11-colour-escapes-defeated-the-oracle-string": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "tn": 1,
+          "tp": 1
+        },
+        "fn12-literal-control-bytes-written-into-the-oracle": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "tn": 1,
+          "tp": 1
+        },
+        "fp01-echo-in-4xx-read-as-disclosure": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "tn": 1,
+          "tp": 1
+        },
+        "fp02-differential-on-an-echoed-identifier": {
+          "accuracy": 0.5,
+          "f1": 0.6666666666666666,
+          "fn": 0,
+          "fp": 1,
+          "precision": 0.5,
+          "recall": 1.0,
+          "tn": 0,
+          "tp": 1
+        },
+        "fp03-secret-inside-a-refusal": {
+          "accuracy": 0.5,
+          "f1": 0.6666666666666666,
+          "fn": 0,
+          "fp": 1,
+          "precision": 0.5,
+          "recall": 1.0,
+          "tn": 0,
+          "tp": 1
+        },
+        "fp04-marker-in-the-source-we-submitted": {
+          "accuracy": 0.5,
+          "f1": 0.6666666666666666,
+          "fn": 0,
+          "fp": 1,
+          "precision": 0.5,
+          "recall": 1.0,
+          "tn": 0,
+          "tp": 1
+        },
+        "fp05-substring-hit-on-the-listeners-own-config": {
+          "accuracy": 0.5,
+          "f1": 0.6666666666666666,
+          "fn": 0,
+          "fp": 1,
+          "precision": 0.5,
+          "recall": 1.0,
+          "tn": 0,
+          "tp": 1
+        },
+        "fp06-nonce-inside-the-url-we-supplied": {
+          "accuracy": 0.5,
+          "f1": 0.6666666666666666,
+          "fn": 0,
+          "fp": 1,
+          "precision": 0.5,
+          "recall": 1.0,
+          "tn": 0,
+          "tp": 1
+        },
+        "fs07-line-novelty-mistaken-for-identifier-novelty": {
+          "accuracy": 0.5,
+          "f1": 0.6666666666666666,
+          "fn": 0,
+          "fp": 1,
+          "precision": 0.5,
+          "recall": 1.0,
+          "tn": 0,
+          "tp": 1
+        },
+        "hard18-a-true-finding-nearly-retracted-for-poc-unreachability": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "tn": 1,
+          "tp": 1
+        },
+        "hard19-a-second-code-path-wrongly-cleared": {
+          "accuracy": 0.5,
+          "f1": 0.6666666666666666,
+          "fn": 0,
+          "fp": 1,
+          "precision": 0.5,
+          "recall": 1.0,
+          "tn": 0,
+          "tp": 1
+        },
+        "scope13-a-fixture-pinned-a-field-the-target-branches-on": {
+          "accuracy": 0.5,
+          "f1": 0.6666666666666666,
+          "fn": 0,
+          "fp": 1,
+          "precision": 0.5,
+          "recall": 1.0,
+          "tn": 0,
+          "tp": 1
+        },
+        "self14-a-fit-worse-than-the-mean-reported-as-a-growth-law": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "tn": 1,
+          "tp": 1
+        },
+        "self15-a-covering-array-below-its-own-feasible-minimum": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "tn": 1,
+          "tp": 1
+        },
+        "self16-blank-lines-flagged-as-hard-wraps": {
+          "accuracy": 0.5,
+          "f1": 0.6666666666666666,
+          "fn": 0,
+          "fp": 1,
+          "precision": 0.5,
+          "recall": 1.0,
+          "tn": 0,
+          "tp": 1
+        },
+        "void08-negative-from-a-probe-that-never-reached-the-app": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "tn": 1,
+          "tp": 1
+        },
+        "void09-control-and-treatment-share-the-containment": {
+          "accuracy": 0.5,
+          "f1": 0.6666666666666666,
+          "fn": 0,
+          "fp": 1,
+          "precision": 0.5,
+          "recall": 1.0,
+          "tn": 0,
+          "tp": 1
+        }
+      },
+      "gated": {
+        "ext17-the-detector-was-pointed-at-the-poc": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "tn": 1,
+          "tp": 1
+        },
+        "fn10-the-field-under-test-was-never-rendered": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "tn": 1,
+          "tp": 1
+        },
+        "fn11-colour-escapes-defeated-the-oracle-string": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "tn": 1,
+          "tp": 1
+        },
+        "fn12-literal-control-bytes-written-into-the-oracle": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "tn": 1,
+          "tp": 1
+        },
+        "fp01-echo-in-4xx-read-as-disclosure": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "tn": 1,
+          "tp": 1
+        },
+        "fp02-differential-on-an-echoed-identifier": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "tn": 1,
+          "tp": 1
+        },
+        "fp03-secret-inside-a-refusal": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "tn": 1,
+          "tp": 1
+        },
+        "fp04-marker-in-the-source-we-submitted": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "tn": 1,
+          "tp": 1
+        },
+        "fp05-substring-hit-on-the-listeners-own-config": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "tn": 1,
+          "tp": 1
+        },
+        "fp06-nonce-inside-the-url-we-supplied": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "tn": 1,
+          "tp": 1
+        },
+        "fs07-line-novelty-mistaken-for-identifier-novelty": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "tn": 1,
+          "tp": 1
+        },
+        "hard18-a-true-finding-nearly-retracted-for-poc-unreachability": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "tn": 1,
+          "tp": 1
+        },
+        "hard19-a-second-code-path-wrongly-cleared": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "tn": 1,
+          "tp": 1
+        },
+        "scope13-a-fixture-pinned-a-field-the-target-branches-on": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "tn": 1,
+          "tp": 1
+        },
+        "self14-a-fit-worse-than-the-mean-reported-as-a-growth-law": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "tn": 1,
+          "tp": 1
+        },
+        "self15-a-covering-array-below-its-own-feasible-minimum": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "tn": 1,
+          "tp": 1
+        },
+        "self16-blank-lines-flagged-as-hard-wraps": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "tn": 1,
+          "tp": 1
+        },
+        "void08-negative-from-a-probe-that-never-reached-the-app": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "tn": 1,
+          "tp": 1
+        },
+        "void09-control-and-treatment-share-the-containment": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "tn": 1,
+          "tp": 1
+        }
+      },
+      "naive": {
+        "ext17-the-detector-was-pointed-at-the-poc": {
+          "accuracy": 0.5,
+          "f1": 0.6666666666666666,
+          "fn": 0,
+          "fp": 1,
+          "precision": 0.5,
+          "recall": 1.0,
+          "tn": 0,
+          "tp": 1
+        },
+        "fn10-the-field-under-test-was-never-rendered": {
+          "accuracy": 0.5,
+          "f1": 0.6666666666666666,
+          "fn": 0,
+          "fp": 1,
+          "precision": 0.5,
+          "recall": 1.0,
+          "tn": 0,
+          "tp": 1
+        },
+        "fn11-colour-escapes-defeated-the-oracle-string": {
+          "accuracy": 0.5,
+          "f1": 0.6666666666666666,
+          "fn": 0,
+          "fp": 1,
+          "precision": 0.5,
+          "recall": 1.0,
+          "tn": 0,
+          "tp": 1
+        },
+        "fn12-literal-control-bytes-written-into-the-oracle": {
+          "accuracy": 0.5,
+          "f1": 0.6666666666666666,
+          "fn": 0,
+          "fp": 1,
+          "precision": 0.5,
+          "recall": 1.0,
+          "tn": 0,
+          "tp": 1
+        },
+        "fp01-echo-in-4xx-read-as-disclosure": {
+          "accuracy": 0.5,
+          "f1": 0.6666666666666666,
+          "fn": 0,
+          "fp": 1,
+          "precision": 0.5,
+          "recall": 1.0,
+          "tn": 0,
+          "tp": 1
+        },
+        "fp02-differential-on-an-echoed-identifier": {
+          "accuracy": 0.5,
+          "f1": 0.6666666666666666,
+          "fn": 0,
+          "fp": 1,
+          "precision": 0.5,
+          "recall": 1.0,
+          "tn": 0,
+          "tp": 1
+        },
+        "fp03-secret-inside-a-refusal": {
+          "accuracy": 0.5,
+          "f1": 0.6666666666666666,
+          "fn": 0,
+          "fp": 1,
+          "precision": 0.5,
+          "recall": 1.0,
+          "tn": 0,
+          "tp": 1
+        },
+        "fp04-marker-in-the-source-we-submitted": {
+          "accuracy": 0.5,
+          "f1": 0.6666666666666666,
+          "fn": 0,
+          "fp": 1,
+          "precision": 0.5,
+          "recall": 1.0,
+          "tn": 0,
+          "tp": 1
+        },
+        "fp05-substring-hit-on-the-listeners-own-config": {
+          "accuracy": 0.5,
+          "f1": 0.6666666666666666,
+          "fn": 0,
+          "fp": 1,
+          "precision": 0.5,
+          "recall": 1.0,
+          "tn": 0,
+          "tp": 1
+        },
+        "fp06-nonce-inside-the-url-we-supplied": {
+          "accuracy": 0.5,
+          "f1": 0.6666666666666666,
+          "fn": 0,
+          "fp": 1,
+          "precision": 0.5,
+          "recall": 1.0,
+          "tn": 0,
+          "tp": 1
+        },
+        "fs07-line-novelty-mistaken-for-identifier-novelty": {
+          "accuracy": 0.5,
+          "f1": 0.6666666666666666,
+          "fn": 0,
+          "fp": 1,
+          "precision": 0.5,
+          "recall": 1.0,
+          "tn": 0,
+          "tp": 1
+        },
+        "hard18-a-true-finding-nearly-retracted-for-poc-unreachability": {
+          "accuracy": 0.5,
+          "f1": 0.6666666666666666,
+          "fn": 0,
+          "fp": 1,
+          "precision": 0.5,
+          "recall": 1.0,
+          "tn": 0,
+          "tp": 1
+        },
+        "hard19-a-second-code-path-wrongly-cleared": {
+          "accuracy": 0.5,
+          "f1": 0.6666666666666666,
+          "fn": 0,
+          "fp": 1,
+          "precision": 0.5,
+          "recall": 1.0,
+          "tn": 0,
+          "tp": 1
+        },
+        "scope13-a-fixture-pinned-a-field-the-target-branches-on": {
+          "accuracy": 0.5,
+          "f1": 0.6666666666666666,
+          "fn": 0,
+          "fp": 1,
+          "precision": 0.5,
+          "recall": 1.0,
+          "tn": 0,
+          "tp": 1
+        },
+        "self14-a-fit-worse-than-the-mean-reported-as-a-growth-law": {
+          "accuracy": 0.5,
+          "f1": 0.6666666666666666,
+          "fn": 0,
+          "fp": 1,
+          "precision": 0.5,
+          "recall": 1.0,
+          "tn": 0,
+          "tp": 1
+        },
+        "self15-a-covering-array-below-its-own-feasible-minimum": {
+          "accuracy": 0.5,
+          "f1": 0.6666666666666666,
+          "fn": 0,
+          "fp": 1,
+          "precision": 0.5,
+          "recall": 1.0,
+          "tn": 0,
+          "tp": 1
+        },
+        "self16-blank-lines-flagged-as-hard-wraps": {
+          "accuracy": 0.5,
+          "f1": 0.6666666666666666,
+          "fn": 0,
+          "fp": 1,
+          "precision": 0.5,
+          "recall": 1.0,
+          "tn": 0,
+          "tp": 1
+        },
+        "void08-negative-from-a-probe-that-never-reached-the-app": {
+          "accuracy": 0.5,
+          "f1": 0.6666666666666666,
+          "fn": 0,
+          "fp": 1,
+          "precision": 0.5,
+          "recall": 1.0,
+          "tn": 0,
+          "tp": 1
+        },
+        "void09-control-and-treatment-share-the-containment": {
+          "accuracy": 0.5,
+          "f1": 0.6666666666666666,
+          "fn": 0,
+          "fp": 1,
+          "precision": 0.5,
+          "recall": 1.0,
+          "tn": 0,
+          "tp": 1
+        }
+      }
+    },
+    "c3a_error_rate_by_declared_oracle_strength": {
+      "fair/strength-0": {
+        "cases": 12,
+        "error_rate": 0.4166666666666667,
+        "wrong": 5
+      },
+      "fair/strength-1": {
+        "cases": 16,
+        "error_rate": 0.25,
+        "wrong": 4
+      },
+      "fair/strength-2": {
+        "cases": 10,
+        "error_rate": 0.2,
+        "wrong": 2
+      },
+      "gated/strength-2": {
+        "cases": 2,
+        "error_rate": 0.0,
+        "wrong": 0
+      },
+      "gated/strength-3": {
+        "cases": 26,
+        "error_rate": 0.0,
+        "wrong": 0
+      },
+      "gated/strength-4": {
+        "cases": 10,
+        "error_rate": 0.0,
+        "wrong": 0
+      },
+      "naive/strength-0": {
+        "cases": 12,
+        "error_rate": 0.5,
+        "wrong": 6
+      },
+      "naive/strength-1": {
+        "cases": 16,
+        "error_rate": 0.5,
+        "wrong": 8
+      },
+      "naive/strength-2": {
+        "cases": 10,
+        "error_rate": 0.5,
+        "wrong": 5
+      }
+    },
+    "c3a_provenance": "OPERATOR_SUPPLIED",
+    "gated_fired_rule_census": {
+      "A2": 1,
+      "A3": 1,
+      "A4": 3,
+      "A6": 1,
+      "A7": 1,
+      "B-artifact": 1,
+      "B-independence": 1,
+      "B-reachability": 1,
+      "B-stale-control": 1,
+      "N-denominator": 1,
+      "N-fit": 1,
+      "O-coverage": 1,
+      "O-expressivity": 4,
+      "O-fixture": 1,
+      "O-target": 1,
+      "T-eol": 1
+    },
+    "overall": {
+      "fair": {
+        "accuracy": 0.7105263157894737,
+        "f1": 0.7755102040816326,
+        "fn": 0,
+        "fp": 11,
+        "precision": 0.6333333333333333,
+        "recall": 1.0,
+        "tn": 8,
+        "tp": 19
+      },
+      "gated": {
+        "accuracy": 1.0,
+        "f1": 1.0,
+        "fn": 0,
+        "fp": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "tn": 19,
+        "tp": 19
+      },
+      "naive": {
+        "accuracy": 0.5,
+        "f1": 0.6666666666666666,
+        "fn": 0,
+        "fp": 19,
+        "precision": 0.5,
+        "recall": 1.0,
+        "tn": 0,
+        "tp": 19
+      }
+    },
+    "per_case": {
+      "ext17-false": {
+        "asserts_absence": false,
+        "conclusion_in_fixture": false,
+        "correct_decision": "REFUSED",
+        "correct_verdict": "VOID",
+        "fair": {
+          "agrees": false,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "fair",
+          "verdict": "CANDIDATE"
+        },
+        "gated": {
+          "agrees": true,
+          "decision": "REFUSED",
+          "fired": [
+            "O-target"
+          ],
+          "rule": "O-target",
+          "verdict": "VOID"
+        },
+        "label_rule": "O-target",
+        "member": "false",
+        "naive": {
+          "agrees": false,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "naive",
+          "verdict": "CANDIDATE"
+        },
+        "shape": "ext17-the-detector-was-pointed-at-the-poc"
+      },
+      "ext17-genuine": {
+        "asserts_absence": false,
+        "conclusion_in_fixture": false,
+        "correct_decision": "SUPPORTED",
+        "correct_verdict": "CANDIDATE",
+        "fair": {
+          "agrees": true,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "fair",
+          "verdict": "CANDIDATE"
+        },
+        "gated": {
+          "agrees": true,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "O-expressivity",
+          "verdict": "CANDIDATE"
+        },
+        "label_rule": "O-expressivity",
+        "member": "genuine",
+        "naive": {
+          "agrees": true,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "naive",
+          "verdict": "CANDIDATE"
+        },
+        "shape": "ext17-the-detector-was-pointed-at-the-poc"
+      },
+      "fn10-false": {
+        "asserts_absence": true,
+        "conclusion_in_fixture": false,
+        "correct_decision": "REFUSED",
+        "correct_verdict": "VOID",
+        "fair": {
+          "agrees": true,
+          "decision": "REFUSED",
+          "fired": [],
+          "rule": "fair",
+          "verdict": "VOID"
+        },
+        "gated": {
+          "agrees": true,
+          "decision": "REFUSED",
+          "fired": [
+            "O-expressivity"
+          ],
+          "rule": "O-expressivity",
+          "verdict": "VOID"
+        },
+        "label_rule": "O-expressivity",
+        "member": "false",
+        "naive": {
+          "agrees": false,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "naive",
+          "verdict": "no-bug"
+        },
+        "shape": "fn10-the-field-under-test-was-never-rendered"
+      },
+      "fn10-genuine": {
+        "asserts_absence": true,
+        "conclusion_in_fixture": false,
+        "correct_decision": "SUPPORTED",
+        "correct_verdict": "KILL",
+        "fair": {
+          "agrees": true,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "fair",
+          "verdict": "KILL"
+        },
+        "gated": {
+          "agrees": true,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "O-expressivity",
+          "verdict": "KILL"
+        },
+        "label_rule": "O-expressivity",
+        "member": "genuine",
+        "naive": {
+          "agrees": true,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "naive",
+          "verdict": "no-bug"
+        },
+        "shape": "fn10-the-field-under-test-was-never-rendered"
+      },
+      "fn11-false": {
+        "asserts_absence": true,
+        "conclusion_in_fixture": false,
+        "correct_decision": "REFUSED",
+        "correct_verdict": "VOID",
+        "fair": {
+          "agrees": true,
+          "decision": "REFUSED",
+          "fired": [],
+          "rule": "fair",
+          "verdict": "VOID"
+        },
+        "gated": {
+          "agrees": true,
+          "decision": "REFUSED",
+          "fired": [
+            "O-expressivity"
+          ],
+          "rule": "O-expressivity",
+          "verdict": "VOID"
+        },
+        "label_rule": "O-expressivity",
+        "member": "false",
+        "naive": {
+          "agrees": false,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "naive",
+          "verdict": "no-bug"
+        },
+        "shape": "fn11-colour-escapes-defeated-the-oracle-string"
+      },
+      "fn11-genuine": {
+        "asserts_absence": true,
+        "conclusion_in_fixture": false,
+        "correct_decision": "SUPPORTED",
+        "correct_verdict": "KILL",
+        "fair": {
+          "agrees": true,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "fair",
+          "verdict": "KILL"
+        },
+        "gated": {
+          "agrees": true,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "O-expressivity",
+          "verdict": "KILL"
+        },
+        "label_rule": "O-expressivity",
+        "member": "genuine",
+        "naive": {
+          "agrees": true,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "naive",
+          "verdict": "no-bug"
+        },
+        "shape": "fn11-colour-escapes-defeated-the-oracle-string"
+      },
+      "fn12-false": {
+        "asserts_absence": true,
+        "conclusion_in_fixture": false,
+        "correct_decision": "REFUSED",
+        "correct_verdict": "VOID",
+        "fair": {
+          "agrees": true,
+          "decision": "REFUSED",
+          "fired": [],
+          "rule": "fair",
+          "verdict": "VOID"
+        },
+        "gated": {
+          "agrees": true,
+          "decision": "REFUSED",
+          "fired": [
+            "O-expressivity"
+          ],
+          "rule": "O-expressivity",
+          "verdict": "VOID"
+        },
+        "label_rule": "O-expressivity",
+        "member": "false",
+        "naive": {
+          "agrees": false,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "naive",
+          "verdict": "no-bug"
+        },
+        "shape": "fn12-literal-control-bytes-written-into-the-oracle"
+      },
+      "fn12-genuine": {
+        "asserts_absence": true,
+        "conclusion_in_fixture": false,
+        "correct_decision": "SUPPORTED",
+        "correct_verdict": "KILL",
+        "fair": {
+          "agrees": true,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "fair",
+          "verdict": "KILL"
+        },
+        "gated": {
+          "agrees": true,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "O-expressivity",
+          "verdict": "KILL"
+        },
+        "label_rule": "O-expressivity",
+        "member": "genuine",
+        "naive": {
+          "agrees": true,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "naive",
+          "verdict": "no-bug"
+        },
+        "shape": "fn12-literal-control-bytes-written-into-the-oracle"
+      },
+      "fp01-false": {
+        "asserts_absence": false,
+        "conclusion_in_fixture": false,
+        "correct_decision": "REFUSED",
+        "correct_verdict": "KILL",
+        "fair": {
+          "agrees": true,
+          "decision": "REFUSED",
+          "fired": [],
+          "rule": "fair",
+          "verdict": "KILL"
+        },
+        "gated": {
+          "agrees": true,
+          "decision": "REFUSED",
+          "fired": [
+            "A2"
+          ],
+          "rule": "A2",
+          "verdict": "KILL"
+        },
+        "label_rule": "A2",
+        "member": "false",
+        "naive": {
+          "agrees": false,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "naive",
+          "verdict": "CANDIDATE"
+        },
+        "shape": "fp01-echo-in-4xx-read-as-disclosure"
+      },
+      "fp01-genuine": {
+        "asserts_absence": false,
+        "conclusion_in_fixture": false,
+        "correct_decision": "SUPPORTED",
+        "correct_verdict": "CANDIDATE",
+        "fair": {
+          "agrees": true,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "fair",
+          "verdict": "CANDIDATE"
+        },
+        "gated": {
+          "agrees": true,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "A2+A3+A4",
+          "verdict": "CANDIDATE"
+        },
+        "label_rule": "A4",
+        "member": "genuine",
+        "naive": {
+          "agrees": true,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "naive",
+          "verdict": "CANDIDATE"
+        },
+        "shape": "fp01-echo-in-4xx-read-as-disclosure"
+      },
+      "fp02-false": {
+        "asserts_absence": false,
+        "conclusion_in_fixture": false,
+        "correct_decision": "REFUSED",
+        "correct_verdict": "KILL",
+        "fair": {
+          "agrees": false,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "fair",
+          "verdict": "CANDIDATE"
+        },
+        "gated": {
+          "agrees": true,
+          "decision": "REFUSED",
+          "fired": [
+            "A3"
+          ],
+          "rule": "A3",
+          "verdict": "KILL"
+        },
+        "label_rule": "A3",
+        "member": "false",
+        "naive": {
+          "agrees": false,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "naive",
+          "verdict": "CANDIDATE"
+        },
+        "shape": "fp02-differential-on-an-echoed-identifier"
+      },
+      "fp02-genuine": {
+        "asserts_absence": false,
+        "conclusion_in_fixture": false,
+        "correct_decision": "SUPPORTED",
+        "correct_verdict": "CANDIDATE",
+        "fair": {
+          "agrees": true,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "fair",
+          "verdict": "CANDIDATE"
+        },
+        "gated": {
+          "agrees": true,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "A3+A9",
+          "verdict": "CANDIDATE"
+        },
+        "label_rule": "A9",
+        "member": "genuine",
+        "naive": {
+          "agrees": true,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "naive",
+          "verdict": "CANDIDATE"
+        },
+        "shape": "fp02-differential-on-an-echoed-identifier"
+      },
+      "fp03-false": {
+        "asserts_absence": false,
+        "conclusion_in_fixture": false,
+        "correct_decision": "REFUSED",
+        "correct_verdict": "KILL",
+        "fair": {
+          "agrees": false,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "naive",
+          "verdict": "CANDIDATE"
+        },
+        "gated": {
+          "agrees": true,
+          "decision": "REFUSED",
+          "fired": [
+            "A6"
+          ],
+          "rule": "A6",
+          "verdict": "KILL"
+        },
+        "label_rule": "A6",
+        "member": "false",
+        "naive": {
+          "agrees": false,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "naive",
+          "verdict": "CANDIDATE"
+        },
+        "shape": "fp03-secret-inside-a-refusal"
+      },
+      "fp03-genuine": {
+        "asserts_absence": false,
+        "conclusion_in_fixture": false,
+        "correct_decision": "SUPPORTED",
+        "correct_verdict": "CANDIDATE",
+        "fair": {
+          "agrees": true,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "naive",
+          "verdict": "CANDIDATE"
+        },
+        "gated": {
+          "agrees": true,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "A6",
+          "verdict": "CANDIDATE"
+        },
+        "label_rule": "A6",
+        "member": "genuine",
+        "naive": {
+          "agrees": true,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "naive",
+          "verdict": "CANDIDATE"
+        },
+        "shape": "fp03-secret-inside-a-refusal"
+      },
+      "fp04-false": {
+        "asserts_absence": false,
+        "conclusion_in_fixture": false,
+        "correct_decision": "REFUSED",
+        "correct_verdict": "KILL",
+        "fair": {
+          "agrees": false,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "naive",
+          "verdict": "CANDIDATE"
+        },
+        "gated": {
+          "agrees": true,
+          "decision": "REFUSED",
+          "fired": [
+            "A4"
+          ],
+          "rule": "A4",
+          "verdict": "KILL"
+        },
+        "label_rule": "A4",
+        "member": "false",
+        "naive": {
+          "agrees": false,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "naive",
+          "verdict": "CANDIDATE"
+        },
+        "shape": "fp04-marker-in-the-source-we-submitted"
+      },
+      "fp04-genuine": {
+        "asserts_absence": false,
+        "conclusion_in_fixture": false,
+        "correct_decision": "SUPPORTED",
+        "correct_verdict": "CANDIDATE",
+        "fair": {
+          "agrees": true,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "naive",
+          "verdict": "CANDIDATE"
+        },
+        "gated": {
+          "agrees": true,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "A5",
+          "verdict": "CANDIDATE"
+        },
+        "label_rule": "A5",
+        "member": "genuine",
+        "naive": {
+          "agrees": true,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "naive",
+          "verdict": "CANDIDATE"
+        },
+        "shape": "fp04-marker-in-the-source-we-submitted"
+      },
+      "fp05-false": {
+        "asserts_absence": false,
+        "conclusion_in_fixture": false,
+        "correct_decision": "REFUSED",
+        "correct_verdict": "KILL",
+        "fair": {
+          "agrees": false,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "naive",
+          "verdict": "CANDIDATE"
+        },
+        "gated": {
+          "agrees": true,
+          "decision": "REFUSED",
+          "fired": [
+            "A4"
+          ],
+          "rule": "A4",
+          "verdict": "KILL"
+        },
+        "label_rule": "A4",
+        "member": "false",
+        "naive": {
+          "agrees": false,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "naive",
+          "verdict": "CANDIDATE"
+        },
+        "shape": "fp05-substring-hit-on-the-listeners-own-config"
+      },
+      "fp05-genuine": {
+        "asserts_absence": false,
+        "conclusion_in_fixture": false,
+        "correct_decision": "SUPPORTED",
+        "correct_verdict": "CANDIDATE",
+        "fair": {
+          "agrees": true,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "naive",
+          "verdict": "CANDIDATE"
+        },
+        "gated": {
+          "agrees": true,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "A5",
+          "verdict": "CANDIDATE"
+        },
+        "label_rule": "A5",
+        "member": "genuine",
+        "naive": {
+          "agrees": true,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "naive",
+          "verdict": "CANDIDATE"
+        },
+        "shape": "fp05-substring-hit-on-the-listeners-own-config"
+      },
+      "fp06-false": {
+        "asserts_absence": false,
+        "conclusion_in_fixture": false,
+        "correct_decision": "REFUSED",
+        "correct_verdict": "KILL",
+        "fair": {
+          "agrees": false,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "naive",
+          "verdict": "CANDIDATE"
+        },
+        "gated": {
+          "agrees": true,
+          "decision": "REFUSED",
+          "fired": [
+            "A4"
+          ],
+          "rule": "A4",
+          "verdict": "KILL"
+        },
+        "label_rule": "A4",
+        "member": "false",
+        "naive": {
+          "agrees": false,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "naive",
+          "verdict": "CANDIDATE"
+        },
+        "shape": "fp06-nonce-inside-the-url-we-supplied"
+      },
+      "fp06-genuine": {
+        "asserts_absence": false,
+        "conclusion_in_fixture": false,
+        "correct_decision": "SUPPORTED",
+        "correct_verdict": "CANDIDATE",
+        "fair": {
+          "agrees": true,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "naive",
+          "verdict": "CANDIDATE"
+        },
+        "gated": {
+          "agrees": true,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "A5",
+          "verdict": "CANDIDATE"
+        },
+        "label_rule": "A5",
+        "member": "genuine",
+        "naive": {
+          "agrees": true,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "naive",
+          "verdict": "CANDIDATE"
+        },
+        "shape": "fp06-nonce-inside-the-url-we-supplied"
+      },
+      "fs07-false": {
+        "asserts_absence": false,
+        "conclusion_in_fixture": false,
+        "correct_decision": "REFUSED",
+        "correct_verdict": "KILL",
+        "fair": {
+          "agrees": false,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "naive",
+          "verdict": "CANDIDATE"
+        },
+        "gated": {
+          "agrees": true,
+          "decision": "REFUSED",
+          "fired": [
+            "A7"
+          ],
+          "rule": "A7",
+          "verdict": "KILL"
+        },
+        "label_rule": "A7",
+        "member": "false",
+        "naive": {
+          "agrees": false,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "naive",
+          "verdict": "CANDIDATE"
+        },
+        "shape": "fs07-line-novelty-mistaken-for-identifier-novelty"
+      },
+      "fs07-genuine": {
+        "asserts_absence": false,
+        "conclusion_in_fixture": false,
+        "correct_decision": "SUPPORTED",
+        "correct_verdict": "CANDIDATE",
+        "fair": {
+          "agrees": true,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "naive",
+          "verdict": "CANDIDATE"
+        },
+        "gated": {
+          "agrees": true,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "A7",
+          "verdict": "CANDIDATE"
+        },
+        "label_rule": "A7",
+        "member": "genuine",
+        "naive": {
+          "agrees": true,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "naive",
+          "verdict": "CANDIDATE"
+        },
+        "shape": "fs07-line-novelty-mistaken-for-identifier-novelty"
+      },
+      "hard18-false": {
+        "asserts_absence": true,
+        "conclusion_in_fixture": false,
+        "correct_decision": "REFUSED",
+        "correct_verdict": "VOID",
+        "fair": {
+          "agrees": true,
+          "decision": "REFUSED",
+          "fired": [],
+          "rule": "fair",
+          "verdict": "VOID"
+        },
+        "gated": {
+          "agrees": true,
+          "decision": "REFUSED",
+          "fired": [
+            "O-expressivity"
+          ],
+          "rule": "O-expressivity",
+          "verdict": "VOID"
+        },
+        "label_rule": "O-expressivity",
+        "member": "false",
+        "naive": {
+          "agrees": false,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "naive",
+          "verdict": "no-bug"
+        },
+        "shape": "hard18-a-true-finding-nearly-retracted-for-poc-unreachability"
+      },
+      "hard18-genuine": {
+        "asserts_absence": true,
+        "conclusion_in_fixture": false,
+        "correct_decision": "SUPPORTED",
+        "correct_verdict": "KILL",
+        "fair": {
+          "agrees": true,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "fair",
+          "verdict": "KILL"
+        },
+        "gated": {
+          "agrees": true,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "O-expressivity",
+          "verdict": "KILL"
+        },
+        "label_rule": "O-expressivity",
+        "member": "genuine",
+        "naive": {
+          "agrees": true,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "naive",
+          "verdict": "no-bug"
+        },
+        "shape": "hard18-a-true-finding-nearly-retracted-for-poc-unreachability"
+      },
+      "hard19-false": {
+        "asserts_absence": true,
+        "conclusion_in_fixture": true,
+        "correct_decision": "REFUSED",
+        "correct_verdict": "INCONCLUSIVE",
+        "fair": {
+          "agrees": false,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "fair",
+          "verdict": "KILL"
+        },
+        "gated": {
+          "agrees": true,
+          "decision": "REFUSED",
+          "fired": [
+            "O-coverage"
+          ],
+          "rule": "O-coverage",
+          "verdict": "INCONCLUSIVE"
+        },
+        "label_rule": "O-coverage",
+        "member": "false",
+        "naive": {
+          "agrees": false,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "naive",
+          "verdict": "no-bug"
+        },
+        "shape": "hard19-a-second-code-path-wrongly-cleared"
+      },
+      "hard19-genuine": {
+        "asserts_absence": true,
+        "conclusion_in_fixture": true,
+        "correct_decision": "SUPPORTED",
+        "correct_verdict": "KILL",
+        "fair": {
+          "agrees": true,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "fair",
+          "verdict": "KILL"
+        },
+        "gated": {
+          "agrees": true,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "O-expressivity",
+          "verdict": "KILL"
+        },
+        "label_rule": "O-expressivity",
+        "member": "genuine",
+        "naive": {
+          "agrees": true,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "naive",
+          "verdict": "no-bug"
+        },
+        "shape": "hard19-a-second-code-path-wrongly-cleared"
+      },
+      "scope13-false": {
+        "asserts_absence": false,
+        "conclusion_in_fixture": false,
+        "correct_decision": "REFUSED",
+        "correct_verdict": "INCONCLUSIVE",
+        "fair": {
+          "agrees": false,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "fair",
+          "verdict": "CANDIDATE"
+        },
+        "gated": {
+          "agrees": true,
+          "decision": "REFUSED",
+          "fired": [
+            "O-fixture"
+          ],
+          "rule": "O-fixture",
+          "verdict": "INCONCLUSIVE"
+        },
+        "label_rule": "O-fixture",
+        "member": "false",
+        "naive": {
+          "agrees": false,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "naive",
+          "verdict": "CANDIDATE"
+        },
+        "shape": "scope13-a-fixture-pinned-a-field-the-target-branches-on"
+      },
+      "scope13-genuine": {
+        "asserts_absence": false,
+        "conclusion_in_fixture": false,
+        "correct_decision": "SUPPORTED",
+        "correct_verdict": "CANDIDATE",
+        "fair": {
+          "agrees": true,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "fair",
+          "verdict": "CANDIDATE"
+        },
+        "gated": {
+          "agrees": true,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "O-expressivity",
+          "verdict": "CANDIDATE"
+        },
+        "label_rule": "O-expressivity",
+        "member": "genuine",
+        "naive": {
+          "agrees": true,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "naive",
+          "verdict": "CANDIDATE"
+        },
+        "shape": "scope13-a-fixture-pinned-a-field-the-target-branches-on"
+      },
+      "self14-false": {
+        "asserts_absence": false,
+        "conclusion_in_fixture": false,
+        "correct_decision": "REFUSED",
+        "correct_verdict": "INCONCLUSIVE",
+        "fair": {
+          "agrees": true,
+          "decision": "REFUSED",
+          "fired": [],
+          "rule": "fair",
+          "verdict": "INCONCLUSIVE"
+        },
+        "gated": {
+          "agrees": true,
+          "decision": "REFUSED",
+          "fired": [
+            "N-fit"
+          ],
+          "rule": "N-fit",
+          "verdict": "INCONCLUSIVE"
+        },
+        "label_rule": "N-fit",
+        "member": "false",
+        "naive": {
+          "agrees": false,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "naive",
+          "verdict": "CANDIDATE"
+        },
+        "shape": "self14-a-fit-worse-than-the-mean-reported-as-a-growth-law"
+      },
+      "self14-genuine": {
+        "asserts_absence": false,
+        "conclusion_in_fixture": false,
+        "correct_decision": "SUPPORTED",
+        "correct_verdict": "CANDIDATE",
+        "fair": {
+          "agrees": true,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "fair",
+          "verdict": "CANDIDATE"
+        },
+        "gated": {
+          "agrees": true,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "N-fit",
+          "verdict": "CANDIDATE"
+        },
+        "label_rule": "N-fit",
+        "member": "genuine",
+        "naive": {
+          "agrees": true,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "naive",
+          "verdict": "CANDIDATE"
+        },
+        "shape": "self14-a-fit-worse-than-the-mean-reported-as-a-growth-law"
+      },
+      "self15-false": {
+        "asserts_absence": false,
+        "conclusion_in_fixture": false,
+        "correct_decision": "REFUSED",
+        "correct_verdict": "INCONCLUSIVE",
+        "fair": {
+          "agrees": true,
+          "decision": "REFUSED",
+          "fired": [],
+          "rule": "fair",
+          "verdict": "INCONCLUSIVE"
+        },
+        "gated": {
+          "agrees": true,
+          "decision": "REFUSED",
+          "fired": [
+            "N-denominator"
+          ],
+          "rule": "N-denominator",
+          "verdict": "INCONCLUSIVE"
+        },
+        "label_rule": "N-denominator",
+        "member": "false",
+        "naive": {
+          "agrees": false,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "naive",
+          "verdict": "CANDIDATE"
+        },
+        "shape": "self15-a-covering-array-below-its-own-feasible-minimum"
+      },
+      "self15-genuine": {
+        "asserts_absence": false,
+        "conclusion_in_fixture": false,
+        "correct_decision": "SUPPORTED",
+        "correct_verdict": "CANDIDATE",
+        "fair": {
+          "agrees": true,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "fair",
+          "verdict": "CANDIDATE"
+        },
+        "gated": {
+          "agrees": true,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "N-denominator",
+          "verdict": "CANDIDATE"
+        },
+        "label_rule": "N-denominator",
+        "member": "genuine",
+        "naive": {
+          "agrees": true,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "naive",
+          "verdict": "CANDIDATE"
+        },
+        "shape": "self15-a-covering-array-below-its-own-feasible-minimum"
+      },
+      "self16-false": {
+        "asserts_absence": false,
+        "conclusion_in_fixture": false,
+        "correct_decision": "REFUSED",
+        "correct_verdict": "KILL",
+        "fair": {
+          "agrees": false,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "naive",
+          "verdict": "CANDIDATE"
+        },
+        "gated": {
+          "agrees": true,
+          "decision": "REFUSED",
+          "fired": [
+            "T-eol"
+          ],
+          "rule": "T-eol",
+          "verdict": "KILL"
+        },
+        "label_rule": "T-eol",
+        "member": "false",
+        "naive": {
+          "agrees": false,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "naive",
+          "verdict": "CANDIDATE"
+        },
+        "shape": "self16-blank-lines-flagged-as-hard-wraps"
+      },
+      "self16-genuine": {
+        "asserts_absence": false,
+        "conclusion_in_fixture": false,
+        "correct_decision": "SUPPORTED",
+        "correct_verdict": "CANDIDATE",
+        "fair": {
+          "agrees": true,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "naive",
+          "verdict": "CANDIDATE"
+        },
+        "gated": {
+          "agrees": true,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "T-eol",
+          "verdict": "CANDIDATE"
+        },
+        "label_rule": "T-eol",
+        "member": "genuine",
+        "naive": {
+          "agrees": true,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "naive",
+          "verdict": "CANDIDATE"
+        },
+        "shape": "self16-blank-lines-flagged-as-hard-wraps"
+      },
+      "void08-false": {
+        "asserts_absence": true,
+        "conclusion_in_fixture": false,
+        "correct_decision": "REFUSED",
+        "correct_verdict": "VOID",
+        "fair": {
+          "agrees": true,
+          "decision": "REFUSED",
+          "fired": [],
+          "rule": "fair",
+          "verdict": "VOID"
+        },
+        "gated": {
+          "agrees": true,
+          "decision": "REFUSED",
+          "fired": [
+            "B-artifact",
+            "B-stale-control",
+            "B-reachability"
+          ],
+          "rule": "B-artifact",
+          "verdict": "VOID"
+        },
+        "label_rule": "B-artifact",
+        "member": "false",
+        "naive": {
+          "agrees": false,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "naive",
+          "verdict": "no-bug"
+        },
+        "shape": "void08-negative-from-a-probe-that-never-reached-the-app"
+      },
+      "void08-genuine": {
+        "asserts_absence": true,
+        "conclusion_in_fixture": false,
+        "correct_decision": "SUPPORTED",
+        "correct_verdict": "KILL",
+        "fair": {
+          "agrees": true,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "fair",
+          "verdict": "KILL"
+        },
+        "gated": {
+          "agrees": true,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "lattice",
+          "verdict": "KILL"
+        },
+        "label_rule": "lattice",
+        "member": "genuine",
+        "naive": {
+          "agrees": true,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "naive",
+          "verdict": "no-bug"
+        },
+        "shape": "void08-negative-from-a-probe-that-never-reached-the-app"
+      },
+      "void09-false": {
+        "asserts_absence": true,
+        "conclusion_in_fixture": false,
+        "correct_decision": "REFUSED",
+        "correct_verdict": "CONFOUNDED",
+        "fair": {
+          "agrees": false,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "fair",
+          "verdict": "KILL"
+        },
+        "gated": {
+          "agrees": true,
+          "decision": "REFUSED",
+          "fired": [
+            "B-independence"
+          ],
+          "rule": "B-independence",
+          "verdict": "CONFOUNDED"
+        },
+        "label_rule": "B-independence",
+        "member": "false",
+        "naive": {
+          "agrees": false,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "naive",
+          "verdict": "no-bug"
+        },
+        "shape": "void09-control-and-treatment-share-the-containment"
+      },
+      "void09-genuine": {
+        "asserts_absence": true,
+        "conclusion_in_fixture": false,
+        "correct_decision": "SUPPORTED",
+        "correct_verdict": "KILL",
+        "fair": {
+          "agrees": true,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "fair",
+          "verdict": "KILL"
+        },
+        "gated": {
+          "agrees": true,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "lattice",
+          "verdict": "KILL"
+        },
+        "label_rule": "lattice",
+        "member": "genuine",
+        "naive": {
+          "agrees": true,
+          "decision": "SUPPORTED",
+          "fired": [],
+          "rule": "naive",
+          "verdict": "no-bug"
+        },
+        "shape": "void09-control-and-treatment-share-the-containment"
+      }
+    }
+  },
+  "c2_external": {
+    "author": "an independent research critic",
+    "by_shape": {
+      "fair": {
+        "c01-the-echo-lands-in-a-key-name": {
+          "accuracy": 0.5,
+          "f1": 0.6666666666666666,
+          "fn": 0,
+          "fp": 1,
+          "precision": 0.5,
+          "recall": 1.0,
+          "tn": 0,
+          "tp": 1
+        },
+        "c02-the-shared-containment-is-spelled-two-ways": {
+          "accuracy": 0.5,
+          "f1": 0.6666666666666666,
+          "fn": 0,
+          "fp": 1,
+          "precision": 0.5,
+          "recall": 1.0,
+          "tn": 0,
+          "tp": 1
+        },
+        "c03-an-ordinary-log-word-claims-the-leak": {
+          "accuracy": 0.5,
+          "f1": 0.6666666666666666,
+          "fn": 0,
+          "fp": 1,
+          "precision": 0.5,
+          "recall": 1.0,
+          "tn": 0,
+          "tp": 1
+        },
+        "c04-a-config-field-named-like-an-observation": {
+          "accuracy": 0.5,
+          "f1": 0.6666666666666666,
+          "fn": 0,
+          "fp": 1,
+          "precision": 0.5,
+          "recall": 1.0,
+          "tn": 0,
+          "tp": 1
+        },
+        "c05-a-positive-control-that-declares-no-observable": {
+          "accuracy": 0.5,
+          "f1": 0.6666666666666666,
+          "fn": 0,
+          "fp": 1,
+          "precision": 0.5,
+          "recall": 1.0,
+          "tn": 0,
+          "tp": 1
+        },
+        "c06-a-bulleted-list-read-as-hard-wraps": {
+          "accuracy": 0.5,
+          "f1": 0.6666666666666666,
+          "fn": 0,
+          "fp": 1,
+          "precision": 0.5,
+          "recall": 1.0,
+          "tn": 0,
+          "tp": 1
+        }
+      },
+      "gated": {
+        "c01-the-echo-lands-in-a-key-name": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "tn": 1,
+          "tp": 1
+        },
+        "c02-the-shared-containment-is-spelled-two-ways": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "tn": 1,
+          "tp": 1
+        },
+        "c03-an-ordinary-log-word-claims-the-leak": {
+          "accuracy": 0.5,
+          "f1": null,
+          "fn": 1,
+          "fp": 0,
+          "precision": null,
+          "recall": 0.0,
+          "tn": 1,
+          "tp": 0
+        },
+        "c04-a-config-field-named-like-an-observation": {
+          "accuracy": 0.5,
+          "f1": 0.6666666666666666,
+          "fn": 0,
+          "fp": 1,
+          "precision": 0.5,
+          "recall": 1.0,
+          "tn": 0,
+          "tp": 1
+        },
+        "c05-a-positive-control-that-declares-no-observable": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "tn": 1,
+          "tp": 1
+        },
+        "c06-a-bulleted-list-read-as-hard-wraps": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "tn": 1,
+          "tp": 1
+        }
+      },
+      "naive": {
+        "c01-the-echo-lands-in-a-key-name": {
+          "accuracy": 0.5,
+          "f1": 0.6666666666666666,
+          "fn": 0,
+          "fp": 1,
+          "precision": 0.5,
+          "recall": 1.0,
+          "tn": 0,
+          "tp": 1
+        },
+        "c02-the-shared-containment-is-spelled-two-ways": {
+          "accuracy": 0.5,
+          "f1": 0.6666666666666666,
+          "fn": 0,
+          "fp": 1,
+          "precision": 0.5,
+          "recall": 1.0,
+          "tn": 0,
+          "tp": 1
+        },
+        "c03-an-ordinary-log-word-claims-the-leak": {
+          "accuracy": 0.5,
+          "f1": 0.6666666666666666,
+          "fn": 0,
+          "fp": 1,
+          "precision": 0.5,
+          "recall": 1.0,
+          "tn": 0,
+          "tp": 1
+        },
+        "c04-a-config-field-named-like-an-observation": {
+          "accuracy": 0.5,
+          "f1": 0.6666666666666666,
+          "fn": 0,
+          "fp": 1,
+          "precision": 0.5,
+          "recall": 1.0,
+          "tn": 0,
+          "tp": 1
+        },
+        "c05-a-positive-control-that-declares-no-observable": {
+          "accuracy": 0.5,
+          "f1": 0.6666666666666666,
+          "fn": 0,
+          "fp": 1,
+          "precision": 0.5,
+          "recall": 1.0,
+          "tn": 0,
+          "tp": 1
+        },
+        "c06-a-bulleted-list-read-as-hard-wraps": {
+          "accuracy": 0.5,
+          "f1": 0.6666666666666666,
+          "fn": 0,
+          "fp": 1,
+          "precision": 0.5,
+          "recall": 1.0,
+          "tn": 0,
+          "tp": 1
+        }
+      }
+    },
+    "cases": 12,
+    "failures": [
+      {
+        "error_kind": "false-negative (a genuine case the gate rejected)",
+        "expected": "SUPPORTED",
+        "got": "REFUSED",
+        "id": "c03-genuine",
+        "rule": "A6",
+        "shape": "c03-an-ordinary-log-word-claims-the-leak",
+        "verdict": "KILL",
+        "why_the_gate_was_wrong": "SUPPORTED on exactly fp03-genuine's ground: no refusal GOVERNS either occurrence. 'denied by the edge proxy' is a statement about an unrelated upstream request for /metrics, and 'blocked pending revalidation' is a cache state -- neither is the agent refusing anything, and neither quotes the token back as the thing being refused. The oracle's evidence is about the target. A gate that kills this has encoded a word list where the rule says 'read the raw bytes'."
+      },
+      {
+        "error_kind": "false-positive (a false signal the gate accepted)",
+        "expected": "REFUSED",
+        "got": "SUPPORTED",
+        "id": "c04-false",
+        "rule": "A5",
+        "shape": "c04-a-config-field-named-like-an-observation",
+        "verdict": "CANDIDATE",
+        "why_the_gate_was_wrong": "REFUSED because nothing was received. `received` is empty; the only occurrence of the needle is the collector hostname the tester configured the listener with, printed in its startup banner. The rule A5 asks who POPULATED the field, and the answer here is the rig. A gate that accepts this has substituted a list of field names for the question."
+      }
+    ],
+    "overall": {
+      "fair": {
+        "accuracy": 0.5,
+        "f1": 0.6666666666666666,
+        "fn": 0,
+        "fp": 6,
+        "precision": 0.5,
+        "recall": 1.0,
+        "tn": 0,
+        "tp": 6
+      },
+      "gated": {
+        "accuracy": 0.8333333333333334,
+        "f1": 0.8333333333333334,
+        "fn": 1,
+        "fp": 1,
+        "precision": 0.8333333333333334,
+        "recall": 0.8333333333333334,
+        "tn": 5,
+        "tp": 5
+      },
+      "naive": {
+        "accuracy": 0.5,
+        "f1": 0.6666666666666666,
+        "fn": 0,
+        "fp": 6,
+        "precision": 0.5,
+        "recall": 1.0,
+        "tn": 0,
+        "tp": 6
+      }
+    },
+    "pairs": 6,
+    "pre_fix": {
+      "accuracy": 0.5,
+      "cases": 12,
+      "failures": [
+        "c01-false",
+        "c02-false",
+        "c03-genuine",
+        "c04-false",
+        "c05-false",
+        "c06-false"
+      ],
+      "fn": 1,
+      "fp": 5,
+      "precision": 0.5,
+      "recall": 0.8333333333333334,
+      "tn": 1,
+      "tp": 5
+    },
+    "published_unfixed": [
+      "c03-genuine",
+      "c04-false"
+    ],
+    "repaired": [
+      "c01-false",
+      "c02-false",
+      "c05-false",
+      "c06-false"
+    ]
+  },
+  "c2_holdout": {
+    "by_shape": {
+      "fair": {
+        "h01-the-echo-is-transformed-before-it-is-reflected": {
+          "accuracy": 0.5,
+          "f1": 0.6666666666666666,
+          "fn": 0,
+          "fp": 1,
+          "precision": 0.5,
+          "recall": 1.0,
+          "tn": 0,
+          "tp": 1
+        },
+        "h02-a-receiving-field-the-policy-list-has-never-seen": {
+          "accuracy": 0.5,
+          "f1": 0.6666666666666666,
+          "fn": 0,
+          "fp": 1,
+          "precision": 0.5,
+          "recall": 1.0,
+          "tn": 0,
+          "tp": 1
+        },
+        "h03-a-liveness-arm-that-proves-a-different-route": {
+          "accuracy": 0.5,
+          "f1": 0.6666666666666666,
+          "fn": 0,
+          "fp": 1,
+          "precision": 0.5,
+          "recall": 1.0,
+          "tn": 0,
+          "tp": 1
+        }
+      },
+      "gated": {
+        "h01-the-echo-is-transformed-before-it-is-reflected": {
+          "accuracy": 1.0,
+          "f1": 1.0,
+          "fn": 0,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "tn": 1,
+          "tp": 1
+        },
+        "h02-a-receiving-field-the-policy-list-has-never-seen": {
+          "accuracy": 0.5,
+          "f1": null,
+          "fn": 1,
+          "fp": 0,
+          "precision": null,
+          "recall": 0.0,
+          "tn": 1,
+          "tp": 0
+        },
+        "h03-a-liveness-arm-that-proves-a-different-route": {
+          "accuracy": 0.5,
+          "f1": 0.6666666666666666,
+          "fn": 0,
+          "fp": 1,
+          "precision": 0.5,
+          "recall": 1.0,
+          "tn": 0,
+          "tp": 1
+        }
+      },
+      "naive": {
+        "h01-the-echo-is-transformed-before-it-is-reflected": {
+          "accuracy": 0.5,
+          "f1": 0.6666666666666666,
+          "fn": 0,
+          "fp": 1,
+          "precision": 0.5,
+          "recall": 1.0,
+          "tn": 0,
+          "tp": 1
+        },
+        "h02-a-receiving-field-the-policy-list-has-never-seen": {
+          "accuracy": 0.5,
+          "f1": 0.6666666666666666,
+          "fn": 0,
+          "fp": 1,
+          "precision": 0.5,
+          "recall": 1.0,
+          "tn": 0,
+          "tp": 1
+        },
+        "h03-a-liveness-arm-that-proves-a-different-route": {
+          "accuracy": 0.5,
+          "f1": 0.6666666666666666,
+          "fn": 0,
+          "fp": 1,
+          "precision": 0.5,
+          "recall": 1.0,
+          "tn": 0,
+          "tp": 1
+        }
+      }
+    },
+    "cases": 6,
+    "failures": [
+      {
+        "error_kind": "false-negative (a genuine case the gate rejected)",
+        "expected": "SUPPORTED",
+        "got": "REFUSED",
+        "id": "h02-genuine",
+        "rule": "A4",
+        "shape": "h02-a-receiving-field-the-policy-list-has-never-seen",
+        "verdict": "KILL",
+        "why_the_gate_was_wrong": "SUPPORTED because the field is a record of what a third party observed arriving, which is exactly what A5 asks for. The label is about provenance, not vocabulary: 'proxy_access_log/request_line' is populated by the proxy, not by the tester. A gate that refuses this has learned the word list and not the rule."
+      },
+      {
+        "error_kind": "false-positive (a false signal the gate accepted)",
+        "expected": "REFUSED",
+        "got": "SUPPORTED",
+        "id": "h03-false",
+        "rule": "lattice",
+        "shape": "h03-a-liveness-arm-that-proves-a-different-route",
+        "verdict": "KILL",
+        "why_the_gate_was_wrong": "VOID on the same ground as VOID-1's third strike: a control that exercised a different route is not a control for this one. The case is in the holdout because every check a lattice normally performs passes, so an implementation that reads the arm table and not the route fields accepts it. label_rule is B-route, which is a rule the implementation DOES NOT HAVE -- no gate compares liveness_route against treatment_route -- and that absence is the finding. This case is published unfixed."
+      }
+    ],
+    "overall": {
+      "fair": {
+        "accuracy": 0.5,
+        "f1": 0.6666666666666666,
+        "fn": 0,
+        "fp": 3,
+        "precision": 0.5,
+        "recall": 1.0,
+        "tn": 0,
+        "tp": 3
+      },
+      "gated": {
+        "accuracy": 0.6666666666666666,
+        "f1": 0.6666666666666666,
+        "fn": 1,
+        "fp": 1,
+        "precision": 0.6666666666666666,
+        "recall": 0.6666666666666666,
+        "tn": 2,
+        "tp": 2
+      },
+      "naive": {
+        "accuracy": 0.5,
+        "f1": 0.6666666666666666,
+        "fn": 0,
+        "fp": 3,
+        "precision": 0.5,
+        "recall": 1.0,
+        "tn": 0,
+        "tp": 3
+      }
+    },
+    "pairs": 3
+  },
+  "corpus": {
+    "case_ids": [
+      "fp01-false",
+      "fp01-genuine",
+      "fp02-false",
+      "fp02-genuine",
+      "fp04-false",
+      "fp04-genuine",
+      "fp05-false",
+      "fp05-genuine",
+      "fp06-false",
+      "fp06-genuine",
+      "fp03-false",
+      "fp03-genuine",
+      "fs07-false",
+      "fs07-genuine",
+      "void08-false",
+      "void08-genuine",
+      "void09-false",
+      "void09-genuine",
+      "ext17-false",
+      "ext17-genuine",
+      "fn10-false",
+      "fn10-genuine",
+      "fn11-false",
+      "fn11-genuine",
+      "fn12-false",
+      "fn12-genuine",
+      "scope13-false",
+      "scope13-genuine",
+      "self14-false",
+      "self14-genuine",
+      "self15-false",
+      "self15-genuine",
+      "self16-false",
+      "self16-genuine",
+      "hard18-false",
+      "hard18-genuine",
+      "hard19-false",
+      "hard19-genuine"
+    ],
+    "cases": 38,
+    "pairs": 19
+  },
+  "generated": "2026-10-25T20:09:21Z",
+  "implementation": "benchmarks/gates.py (reference implementation of the catalogue)",
+  "oracle_experiment": {
+    "all_modes": {
+      "interpretive": {
+        "by_direction": {
+          "NO_BUG->FINDING": 10,
+          "UNINTERPRETABLE->FINDING": 1,
+          "UNINTERPRETABLE->NO_BUG": 1
+        },
+        "false_verdict_rate": 0.25,
+        "false_verdicts": 12,
+        "probe_results": 48,
+        "wrong_probes": [
+          "flawed/allowlist-blocked",
+          "flawed/echo-disclosure",
+          "flawed/placeholder-credential",
+          "flawed/tool-benign-imperative",
+          "flawed/tool-injection-behaviour",
+          "patched/allowlist-blocked",
+          "patched/allowlist-differential",
+          "patched/echo-disclosure",
+          "patched/existence-oracle",
+          "patched/placeholder-credential",
+          "patched/tool-benign-imperative",
+          "patched/tool-injection-behaviour"
+        ]
+      },
+      "mechanical": {
+        "by_direction": {
+          "FINDING->NO_BUG": 1
+        },
+        "false_verdict_rate": 0.020833333333333332,
+        "false_verdicts": 1,
+        "probe_results": 48,
+        "wrong_probes": [
+          "flawed/authz-ack"
+        ]
+      }
+    },
+    "degenerate": {
+      "interpretive": {
+        "by_direction": {},
+        "false_verdict_rate": 0.0,
+        "false_verdicts": 0,
+        "probe_results": 24,
+        "wrong_probes": []
+      },
+      "mechanical": {
+        "by_direction": {},
+        "false_verdict_rate": 0.0,
+        "false_verdicts": 0,
+        "probe_results": 24,
+        "wrong_probes": []
+      }
+    },
+    "determinate": {
+      "interpretive": {
+        "by_direction": {
+          "NO_BUG->FINDING": 10,
+          "UNINTERPRETABLE->FINDING": 1,
+          "UNINTERPRETABLE->NO_BUG": 1
+        },
+        "false_verdict_rate": 0.5,
+        "false_verdicts": 12,
+        "probe_results": 24,
+        "wrong_probes": [
+          "flawed/allowlist-blocked",
+          "flawed/echo-disclosure",
+          "flawed/placeholder-credential",
+          "flawed/tool-benign-imperative",
+          "flawed/tool-injection-behaviour",
+          "patched/allowlist-blocked",
+          "patched/allowlist-differential",
+          "patched/echo-disclosure",
+          "patched/existence-oracle",
+          "patched/placeholder-credential",
+          "patched/tool-benign-imperative",
+          "patched/tool-injection-behaviour"
+        ]
+      },
+      "mechanical": {
+        "by_direction": {
+          "FINDING->NO_BUG": 1
+        },
+        "false_verdict_rate": 0.041666666666666664,
+        "false_verdicts": 1,
+        "probe_results": 24,
+        "wrong_probes": [
+          "flawed/authz-ack"
+        ]
+      }
+    },
+    "modes": [
+      "flawed",
+      "patched",
+      "refuse-all",
+      "unauthorized-all"
+    ],
+    "probe_notes": {
+      "allowlist-blocked": "the catalogue's FP#6, live: the host is in the response because we sent it.",
+      "authz-ack": "a real flaw whose only observable is the status code. The foreign-data rule is blind to it on purpose.",
+      "authz-invoice-control": "the correctly-enforced sibling. An oracle that fires here is wrong.",
+      "echo-disclosure": "the catalogue's FP#1, live.",
+      "session-credential": "the genuine member of the placeholder pair; identical shape, it authenticates.",
+      "tool-benign-imperative": "an approved description that legitimately starts with an imperative.",
+      "tool-injection-behaviour": "a question this rig cannot answer. The correct output is a refusal to answer it."
+    },
+    "probes": 12,
+    "rows": [
+      {
+        "correct": true,
+        "lattice_verdict": "NO-TESTS",
+        "mode": "flawed",
+        "oracle": "mechanical",
+        "predicted": "FINDING",
+        "probe": "authz-document",
+        "truth": "FINDING"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "NO-TESTS",
+        "mode": "flawed",
+        "oracle": "interpretive",
+        "predicted": "FINDING",
+        "probe": "authz-document",
+        "truth": "FINDING"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "NO-TESTS",
+        "mode": "flawed",
+        "oracle": "mechanical",
+        "predicted": "NO_BUG",
+        "probe": "authz-invoice-control",
+        "truth": "NO_BUG"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "NO-TESTS",
+        "mode": "flawed",
+        "oracle": "interpretive",
+        "predicted": "NO_BUG",
+        "probe": "authz-invoice-control",
+        "truth": "NO_BUG"
+      },
+      {
+        "correct": false,
+        "lattice_verdict": "NO-TESTS",
+        "mode": "flawed",
+        "oracle": "mechanical",
+        "predicted": "NO_BUG",
+        "probe": "authz-ack",
+        "truth": "FINDING"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "NO-TESTS",
+        "mode": "flawed",
+        "oracle": "interpretive",
+        "predicted": "FINDING",
+        "probe": "authz-ack",
+        "truth": "FINDING"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "NO-TESTS",
+        "mode": "flawed",
+        "oracle": "mechanical",
+        "predicted": "FINDING",
+        "probe": "existence-oracle",
+        "truth": "FINDING"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "NO-TESTS",
+        "mode": "flawed",
+        "oracle": "interpretive",
+        "predicted": "FINDING",
+        "probe": "existence-oracle",
+        "truth": "FINDING"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "NO-TESTS",
+        "mode": "flawed",
+        "oracle": "mechanical",
+        "predicted": "NO_BUG",
+        "probe": "echo-disclosure",
+        "truth": "NO_BUG"
+      },
+      {
+        "correct": false,
+        "lattice_verdict": "NO-TESTS",
+        "mode": "flawed",
+        "oracle": "interpretive",
+        "predicted": "FINDING",
+        "probe": "echo-disclosure",
+        "truth": "NO_BUG"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "NO-TESTS",
+        "mode": "flawed",
+        "oracle": "mechanical",
+        "predicted": "FINDING",
+        "probe": "allowlist-differential",
+        "truth": "FINDING"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "NO-TESTS",
+        "mode": "flawed",
+        "oracle": "interpretive",
+        "predicted": "FINDING",
+        "probe": "allowlist-differential",
+        "truth": "FINDING"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "NO-TESTS",
+        "mode": "flawed",
+        "oracle": "mechanical",
+        "predicted": "NO_BUG",
+        "probe": "allowlist-blocked",
+        "truth": "NO_BUG"
+      },
+      {
+        "correct": false,
+        "lattice_verdict": "NO-TESTS",
+        "mode": "flawed",
+        "oracle": "interpretive",
+        "predicted": "FINDING",
+        "probe": "allowlist-blocked",
+        "truth": "NO_BUG"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "NO-TESTS",
+        "mode": "flawed",
+        "oracle": "mechanical",
+        "predicted": "NO_BUG",
+        "probe": "placeholder-credential",
+        "truth": "NO_BUG"
+      },
+      {
+        "correct": false,
+        "lattice_verdict": "NO-TESTS",
+        "mode": "flawed",
+        "oracle": "interpretive",
+        "predicted": "FINDING",
+        "probe": "placeholder-credential",
+        "truth": "NO_BUG"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "NO-TESTS",
+        "mode": "flawed",
+        "oracle": "mechanical",
+        "predicted": "FINDING",
+        "probe": "session-credential",
+        "truth": "FINDING"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "NO-TESTS",
+        "mode": "flawed",
+        "oracle": "interpretive",
+        "predicted": "FINDING",
+        "probe": "session-credential",
+        "truth": "FINDING"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "NO-TESTS",
+        "mode": "flawed",
+        "oracle": "mechanical",
+        "predicted": "FINDING",
+        "probe": "tool-injection",
+        "truth": "FINDING"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "NO-TESTS",
+        "mode": "flawed",
+        "oracle": "interpretive",
+        "predicted": "FINDING",
+        "probe": "tool-injection",
+        "truth": "FINDING"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "NO-TESTS",
+        "mode": "flawed",
+        "oracle": "mechanical",
+        "predicted": "NO_BUG",
+        "probe": "tool-benign-imperative",
+        "truth": "NO_BUG"
+      },
+      {
+        "correct": false,
+        "lattice_verdict": "NO-TESTS",
+        "mode": "flawed",
+        "oracle": "interpretive",
+        "predicted": "FINDING",
+        "probe": "tool-benign-imperative",
+        "truth": "NO_BUG"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "NO-TESTS",
+        "mode": "flawed",
+        "oracle": "mechanical",
+        "predicted": "UNINTERPRETABLE",
+        "probe": "tool-injection-behaviour",
+        "truth": "UNINTERPRETABLE"
+      },
+      {
+        "correct": false,
+        "lattice_verdict": "NO-TESTS",
+        "mode": "flawed",
+        "oracle": "interpretive",
+        "predicted": "FINDING",
+        "probe": "tool-injection-behaviour",
+        "truth": "UNINTERPRETABLE"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "NO-TESTS",
+        "mode": "patched",
+        "oracle": "mechanical",
+        "predicted": "NO_BUG",
+        "probe": "authz-document",
+        "truth": "NO_BUG"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "NO-TESTS",
+        "mode": "patched",
+        "oracle": "interpretive",
+        "predicted": "NO_BUG",
+        "probe": "authz-document",
+        "truth": "NO_BUG"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "NO-TESTS",
+        "mode": "patched",
+        "oracle": "mechanical",
+        "predicted": "NO_BUG",
+        "probe": "authz-invoice-control",
+        "truth": "NO_BUG"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "NO-TESTS",
+        "mode": "patched",
+        "oracle": "interpretive",
+        "predicted": "NO_BUG",
+        "probe": "authz-invoice-control",
+        "truth": "NO_BUG"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "NO-TESTS",
+        "mode": "patched",
+        "oracle": "mechanical",
+        "predicted": "NO_BUG",
+        "probe": "authz-ack",
+        "truth": "NO_BUG"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "NO-TESTS",
+        "mode": "patched",
+        "oracle": "interpretive",
+        "predicted": "NO_BUG",
+        "probe": "authz-ack",
+        "truth": "NO_BUG"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "NO-TESTS",
+        "mode": "patched",
+        "oracle": "mechanical",
+        "predicted": "NO_BUG",
+        "probe": "existence-oracle",
+        "truth": "NO_BUG"
+      },
+      {
+        "correct": false,
+        "lattice_verdict": "NO-TESTS",
+        "mode": "patched",
+        "oracle": "interpretive",
+        "predicted": "FINDING",
+        "probe": "existence-oracle",
+        "truth": "NO_BUG"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "NO-TESTS",
+        "mode": "patched",
+        "oracle": "mechanical",
+        "predicted": "NO_BUG",
+        "probe": "echo-disclosure",
+        "truth": "NO_BUG"
+      },
+      {
+        "correct": false,
+        "lattice_verdict": "NO-TESTS",
+        "mode": "patched",
+        "oracle": "interpretive",
+        "predicted": "FINDING",
+        "probe": "echo-disclosure",
+        "truth": "NO_BUG"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "NO-TESTS",
+        "mode": "patched",
+        "oracle": "mechanical",
+        "predicted": "NO_BUG",
+        "probe": "allowlist-differential",
+        "truth": "NO_BUG"
+      },
+      {
+        "correct": false,
+        "lattice_verdict": "NO-TESTS",
+        "mode": "patched",
+        "oracle": "interpretive",
+        "predicted": "FINDING",
+        "probe": "allowlist-differential",
+        "truth": "NO_BUG"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "NO-TESTS",
+        "mode": "patched",
+        "oracle": "mechanical",
+        "predicted": "NO_BUG",
+        "probe": "allowlist-blocked",
+        "truth": "NO_BUG"
+      },
+      {
+        "correct": false,
+        "lattice_verdict": "NO-TESTS",
+        "mode": "patched",
+        "oracle": "interpretive",
+        "predicted": "FINDING",
+        "probe": "allowlist-blocked",
+        "truth": "NO_BUG"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "NO-TESTS",
+        "mode": "patched",
+        "oracle": "mechanical",
+        "predicted": "NO_BUG",
+        "probe": "placeholder-credential",
+        "truth": "NO_BUG"
+      },
+      {
+        "correct": false,
+        "lattice_verdict": "NO-TESTS",
+        "mode": "patched",
+        "oracle": "interpretive",
+        "predicted": "FINDING",
+        "probe": "placeholder-credential",
+        "truth": "NO_BUG"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "NO-TESTS",
+        "mode": "patched",
+        "oracle": "mechanical",
+        "predicted": "FINDING",
+        "probe": "session-credential",
+        "truth": "FINDING"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "NO-TESTS",
+        "mode": "patched",
+        "oracle": "interpretive",
+        "predicted": "FINDING",
+        "probe": "session-credential",
+        "truth": "FINDING"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "NO-TESTS",
+        "mode": "patched",
+        "oracle": "mechanical",
+        "predicted": "NO_BUG",
+        "probe": "tool-injection",
+        "truth": "NO_BUG"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "NO-TESTS",
+        "mode": "patched",
+        "oracle": "interpretive",
+        "predicted": "NO_BUG",
+        "probe": "tool-injection",
+        "truth": "NO_BUG"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "NO-TESTS",
+        "mode": "patched",
+        "oracle": "mechanical",
+        "predicted": "NO_BUG",
+        "probe": "tool-benign-imperative",
+        "truth": "NO_BUG"
+      },
+      {
+        "correct": false,
+        "lattice_verdict": "NO-TESTS",
+        "mode": "patched",
+        "oracle": "interpretive",
+        "predicted": "FINDING",
+        "probe": "tool-benign-imperative",
+        "truth": "NO_BUG"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "NO-TESTS",
+        "mode": "patched",
+        "oracle": "mechanical",
+        "predicted": "UNINTERPRETABLE",
+        "probe": "tool-injection-behaviour",
+        "truth": "UNINTERPRETABLE"
+      },
+      {
+        "correct": false,
+        "lattice_verdict": "NO-TESTS",
+        "mode": "patched",
+        "oracle": "interpretive",
+        "predicted": "NO_BUG",
+        "probe": "tool-injection-behaviour",
+        "truth": "UNINTERPRETABLE"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "VOID",
+        "mode": "refuse-all",
+        "oracle": "mechanical",
+        "predicted": "UNINTERPRETABLE",
+        "probe": "authz-document",
+        "truth": "UNINTERPRETABLE"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "VOID",
+        "mode": "refuse-all",
+        "oracle": "interpretive",
+        "predicted": "UNINTERPRETABLE",
+        "probe": "authz-document",
+        "truth": "UNINTERPRETABLE"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "VOID",
+        "mode": "refuse-all",
+        "oracle": "mechanical",
+        "predicted": "UNINTERPRETABLE",
+        "probe": "authz-invoice-control",
+        "truth": "UNINTERPRETABLE"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "VOID",
+        "mode": "refuse-all",
+        "oracle": "interpretive",
+        "predicted": "UNINTERPRETABLE",
+        "probe": "authz-invoice-control",
+        "truth": "UNINTERPRETABLE"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "VOID",
+        "mode": "refuse-all",
+        "oracle": "mechanical",
+        "predicted": "UNINTERPRETABLE",
+        "probe": "authz-ack",
+        "truth": "UNINTERPRETABLE"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "VOID",
+        "mode": "refuse-all",
+        "oracle": "interpretive",
+        "predicted": "UNINTERPRETABLE",
+        "probe": "authz-ack",
+        "truth": "UNINTERPRETABLE"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "VOID",
+        "mode": "refuse-all",
+        "oracle": "mechanical",
+        "predicted": "UNINTERPRETABLE",
+        "probe": "existence-oracle",
+        "truth": "UNINTERPRETABLE"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "VOID",
+        "mode": "refuse-all",
+        "oracle": "interpretive",
+        "predicted": "UNINTERPRETABLE",
+        "probe": "existence-oracle",
+        "truth": "UNINTERPRETABLE"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "VOID",
+        "mode": "refuse-all",
+        "oracle": "mechanical",
+        "predicted": "UNINTERPRETABLE",
+        "probe": "echo-disclosure",
+        "truth": "UNINTERPRETABLE"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "VOID",
+        "mode": "refuse-all",
+        "oracle": "interpretive",
+        "predicted": "UNINTERPRETABLE",
+        "probe": "echo-disclosure",
+        "truth": "UNINTERPRETABLE"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "VOID",
+        "mode": "refuse-all",
+        "oracle": "mechanical",
+        "predicted": "UNINTERPRETABLE",
+        "probe": "allowlist-differential",
+        "truth": "UNINTERPRETABLE"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "VOID",
+        "mode": "refuse-all",
+        "oracle": "interpretive",
+        "predicted": "UNINTERPRETABLE",
+        "probe": "allowlist-differential",
+        "truth": "UNINTERPRETABLE"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "VOID",
+        "mode": "refuse-all",
+        "oracle": "mechanical",
+        "predicted": "UNINTERPRETABLE",
+        "probe": "allowlist-blocked",
+        "truth": "UNINTERPRETABLE"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "VOID",
+        "mode": "refuse-all",
+        "oracle": "interpretive",
+        "predicted": "UNINTERPRETABLE",
+        "probe": "allowlist-blocked",
+        "truth": "UNINTERPRETABLE"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "VOID",
+        "mode": "refuse-all",
+        "oracle": "mechanical",
+        "predicted": "UNINTERPRETABLE",
+        "probe": "placeholder-credential",
+        "truth": "UNINTERPRETABLE"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "VOID",
+        "mode": "refuse-all",
+        "oracle": "interpretive",
+        "predicted": "UNINTERPRETABLE",
+        "probe": "placeholder-credential",
+        "truth": "UNINTERPRETABLE"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "VOID",
+        "mode": "refuse-all",
+        "oracle": "mechanical",
+        "predicted": "UNINTERPRETABLE",
+        "probe": "session-credential",
+        "truth": "UNINTERPRETABLE"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "VOID",
+        "mode": "refuse-all",
+        "oracle": "interpretive",
+        "predicted": "UNINTERPRETABLE",
+        "probe": "session-credential",
+        "truth": "UNINTERPRETABLE"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "VOID",
+        "mode": "refuse-all",
+        "oracle": "mechanical",
+        "predicted": "UNINTERPRETABLE",
+        "probe": "tool-injection",
+        "truth": "UNINTERPRETABLE"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "VOID",
+        "mode": "refuse-all",
+        "oracle": "interpretive",
+        "predicted": "UNINTERPRETABLE",
+        "probe": "tool-injection",
+        "truth": "UNINTERPRETABLE"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "VOID",
+        "mode": "refuse-all",
+        "oracle": "mechanical",
+        "predicted": "UNINTERPRETABLE",
+        "probe": "tool-benign-imperative",
+        "truth": "UNINTERPRETABLE"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "VOID",
+        "mode": "refuse-all",
+        "oracle": "interpretive",
+        "predicted": "UNINTERPRETABLE",
+        "probe": "tool-benign-imperative",
+        "truth": "UNINTERPRETABLE"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "VOID",
+        "mode": "refuse-all",
+        "oracle": "mechanical",
+        "predicted": "UNINTERPRETABLE",
+        "probe": "tool-injection-behaviour",
+        "truth": "UNINTERPRETABLE"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "VOID",
+        "mode": "refuse-all",
+        "oracle": "interpretive",
+        "predicted": "UNINTERPRETABLE",
+        "probe": "tool-injection-behaviour",
+        "truth": "UNINTERPRETABLE"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "VOID",
+        "mode": "unauthorized-all",
+        "oracle": "mechanical",
+        "predicted": "UNINTERPRETABLE",
+        "probe": "authz-document",
+        "truth": "UNINTERPRETABLE"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "VOID",
+        "mode": "unauthorized-all",
+        "oracle": "interpretive",
+        "predicted": "UNINTERPRETABLE",
+        "probe": "authz-document",
+        "truth": "UNINTERPRETABLE"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "VOID",
+        "mode": "unauthorized-all",
+        "oracle": "mechanical",
+        "predicted": "UNINTERPRETABLE",
+        "probe": "authz-invoice-control",
+        "truth": "UNINTERPRETABLE"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "VOID",
+        "mode": "unauthorized-all",
+        "oracle": "interpretive",
+        "predicted": "UNINTERPRETABLE",
+        "probe": "authz-invoice-control",
+        "truth": "UNINTERPRETABLE"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "VOID",
+        "mode": "unauthorized-all",
+        "oracle": "mechanical",
+        "predicted": "UNINTERPRETABLE",
+        "probe": "authz-ack",
+        "truth": "UNINTERPRETABLE"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "VOID",
+        "mode": "unauthorized-all",
+        "oracle": "interpretive",
+        "predicted": "UNINTERPRETABLE",
+        "probe": "authz-ack",
+        "truth": "UNINTERPRETABLE"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "VOID",
+        "mode": "unauthorized-all",
+        "oracle": "mechanical",
+        "predicted": "UNINTERPRETABLE",
+        "probe": "existence-oracle",
+        "truth": "UNINTERPRETABLE"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "VOID",
+        "mode": "unauthorized-all",
+        "oracle": "interpretive",
+        "predicted": "UNINTERPRETABLE",
+        "probe": "existence-oracle",
+        "truth": "UNINTERPRETABLE"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "VOID",
+        "mode": "unauthorized-all",
+        "oracle": "mechanical",
+        "predicted": "UNINTERPRETABLE",
+        "probe": "echo-disclosure",
+        "truth": "UNINTERPRETABLE"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "VOID",
+        "mode": "unauthorized-all",
+        "oracle": "interpretive",
+        "predicted": "UNINTERPRETABLE",
+        "probe": "echo-disclosure",
+        "truth": "UNINTERPRETABLE"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "VOID",
+        "mode": "unauthorized-all",
+        "oracle": "mechanical",
+        "predicted": "UNINTERPRETABLE",
+        "probe": "allowlist-differential",
+        "truth": "UNINTERPRETABLE"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "VOID",
+        "mode": "unauthorized-all",
+        "oracle": "interpretive",
+        "predicted": "UNINTERPRETABLE",
+        "probe": "allowlist-differential",
+        "truth": "UNINTERPRETABLE"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "VOID",
+        "mode": "unauthorized-all",
+        "oracle": "mechanical",
+        "predicted": "UNINTERPRETABLE",
+        "probe": "allowlist-blocked",
+        "truth": "UNINTERPRETABLE"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "VOID",
+        "mode": "unauthorized-all",
+        "oracle": "interpretive",
+        "predicted": "UNINTERPRETABLE",
+        "probe": "allowlist-blocked",
+        "truth": "UNINTERPRETABLE"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "VOID",
+        "mode": "unauthorized-all",
+        "oracle": "mechanical",
+        "predicted": "UNINTERPRETABLE",
+        "probe": "placeholder-credential",
+        "truth": "UNINTERPRETABLE"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "VOID",
+        "mode": "unauthorized-all",
+        "oracle": "interpretive",
+        "predicted": "UNINTERPRETABLE",
+        "probe": "placeholder-credential",
+        "truth": "UNINTERPRETABLE"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "VOID",
+        "mode": "unauthorized-all",
+        "oracle": "mechanical",
+        "predicted": "UNINTERPRETABLE",
+        "probe": "session-credential",
+        "truth": "UNINTERPRETABLE"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "VOID",
+        "mode": "unauthorized-all",
+        "oracle": "interpretive",
+        "predicted": "UNINTERPRETABLE",
+        "probe": "session-credential",
+        "truth": "UNINTERPRETABLE"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "VOID",
+        "mode": "unauthorized-all",
+        "oracle": "mechanical",
+        "predicted": "UNINTERPRETABLE",
+        "probe": "tool-injection",
+        "truth": "UNINTERPRETABLE"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "VOID",
+        "mode": "unauthorized-all",
+        "oracle": "interpretive",
+        "predicted": "UNINTERPRETABLE",
+        "probe": "tool-injection",
+        "truth": "UNINTERPRETABLE"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "VOID",
+        "mode": "unauthorized-all",
+        "oracle": "mechanical",
+        "predicted": "UNINTERPRETABLE",
+        "probe": "tool-benign-imperative",
+        "truth": "UNINTERPRETABLE"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "VOID",
+        "mode": "unauthorized-all",
+        "oracle": "interpretive",
+        "predicted": "UNINTERPRETABLE",
+        "probe": "tool-benign-imperative",
+        "truth": "UNINTERPRETABLE"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "VOID",
+        "mode": "unauthorized-all",
+        "oracle": "mechanical",
+        "predicted": "UNINTERPRETABLE",
+        "probe": "tool-injection-behaviour",
+        "truth": "UNINTERPRETABLE"
+      },
+      {
+        "correct": true,
+        "lattice_verdict": "VOID",
+        "mode": "unauthorized-all",
+        "oracle": "interpretive",
+        "predicted": "UNINTERPRETABLE",
+        "probe": "tool-injection-behaviour",
+        "truth": "UNINTERPRETABLE"
+      }
+    ],
+    "transport": [
+      "http"
+    ]
+  }
+}

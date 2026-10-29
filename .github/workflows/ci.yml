@@ -1,0 +1,151 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+# A workflow in a security repository should not hand a token to every step that
+# runs. Read-only by default; nothing here needs more.
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: py${{ matrix.python }} on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        # The README claims >=3.10 and the package is installed on Windows during
+        # development, so both are tested rather than asserted.
+        os: [ubuntu-latest, windows-latest]
+        python: ["3.10", "3.11", "3.12", "3.13"]
+    steps:
+      # Actions are pinned to a commit SHA, not a tag. A tag can be moved.
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          # The default leaves a credential in .git/config for later steps to find.
+          persist-credentials: false
+
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: ${{ matrix.python }}
+
+      - name: Install
+        run: python -m pip install --upgrade pip && python -m pip install -e ".[dev]"
+
+      - name: Lint
+        run: python -m ruff check .
+
+      - name: Format
+        run: python -m ruff format --check .
+
+      - name: Tests
+        run: python -m pytest
+
+  guards:
+    # The claim "every guard is pinned by a test" is checked, not asserted. If a
+    # guard can be removed without breaking a test, this job fails the build.
+    name: guards are pinned
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.12"
+      - run: python -m pip install --upgrade pip && python -m pip install -e ".[dev]"
+      - name: Mutate every guard
+        run: python tools/mutate_guards.py
+
+  benchmark:
+    # Two separate things, because conflating them is how a false claim about CI
+    # got into this file once already. `--check` regenerates the measurement and
+    # fails if the committed results moved. `pytest tests/test_readme_figures.py`
+    # is what pins the README's own figures to those results: it extracts each
+    # number from the README by pattern and asserts it against the results JSON.
+    # `tests/test_readme.py` is a different file and contains no figure
+    # assertion at all, which is what this comment claimed twice before.
+    name: published numbers reproduce, and the README matches them
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.12"
+      - run: python -m pip install --upgrade pip && python -m pip install -e ".[dev]"
+      - name: Reproduce the committed results
+        run: python benchmarks/run_benchmark.py --check
+      # Three studies are published and this job used to regenerate one of them.
+      # The other two were bound to the README without being reproduced, so a
+      # change in either study's behaviour would have left the committed results
+      # and the README consistent with each other and both wrong. The two steps
+      # below close that for the dedup study and for everything the CVE study
+      # derives; `GAPS.md` G14 records the one part that stays uncheckable here
+      # (the CVE probes need the 187MB gitignored fixture cache) and why.
+      - name: The dedup study must reproduce from its committed recordings
+        run: |
+          python benchmarks/dedup/run_dedup.py --check
+          python -m pytest tests/test_priorart_benchmark.py -q
+      - name: The CVE study's published numbers must come out of its committed runs
+        run: python -m pytest tests/test_cve_study.py -q
+      - name: The README's figures must match the results it cites
+        run: python -m pytest tests/test_readme_figures.py -q
+
+  scan:
+    # The tree was published once with a results file carrying the operator's
+    # home directory, because the previous scanner had been deleted and nothing
+    # took over its job. This runs on every push rather than once at release:
+    # a check that runs only when someone remembers is not a control.
+    name: no local paths, keys or addresses
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.12"
+      - name: Pre-publication scan
+        run: python tools/prepublish_scan.py
+      - name: The scan must be able to fail
+        # Exit 0 from the scan means nothing unless the rules can fire, so the
+        # planted-finding tests run in the same job.
+        run: python -m pip install -e ".[dev]" && python -m pytest tests/test_prepublish_scan.py -q
+
+  release:
+    # The release gate, and the reason it exists as its own job.
+    #
+    # `addopts` in pyproject.toml carries `-m 'not release'`, so the bare
+    # `pytest` every other job runs deselects this test. For a while nothing
+    # ran it with `-m release` either: the README said this test "fails the
+    # build if the declared URL is unreachable", the test's own docstring said
+    # "which is what the release job does", and there was no release job. Both
+    # statements described a check that could not fire, which is the defect
+    # this repository is named after, sitting inside its own release gate.
+    #
+    # It runs on every push, not at tag time. A gate that fires only when
+    # someone remembers to invoke it is the same defect wearing a schedule.
+    name: the declared repository URL resolves
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.12"
+      - run: python -m pip install --upgrade pip && python -m pip install -e ".[dev]"
+      - name: Run the release-marked gate
+        # Skips on no network and on 401/403/429, which cannot distinguish an
+        # absent repository from a restricted one. Fails on a 404.
+        run: python -m pytest -m release -q

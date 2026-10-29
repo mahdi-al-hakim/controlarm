@@ -1,0 +1,229 @@
+{
+  "file_note": "The scoping false positive caught by amendment (3.5) and the three false positives the harness produced against itself (3.6 a-c). The self-inflicted three are in the corpus because they are the ones a public tool will reproduce if it is not careful: a classifier, a generator and a linter each reported a confident wrong answer and none of them errored. RE-EXPRESSED after an external critique: scope13's fields_branched_on mapped each branched field straight to the values the fixture used, which is the rule's antecedent written down as a literal. It is now two separately sourced records -- target_branch_fields, read off the target's own dispatch, and fixture_values, read off the PoC's recorded runs -- and the gate derives the intersection. self15 supplied independent_minimum: 384 and the gate merely compared against it; the fixture now records the factor model and the gate computes the bound as the product of the three largest cardinalities (8 x 8 x 6 = 384). The declared minimum is retained as an auditable cross-check and a test proves the gate does not read it.",
+  "cases": [
+    {
+      "id": "scope13-false",
+      "shape": "scope13-a-fixture-pinned-a-field-the-target-branches-on",
+      "shape_title": "A PoC fixture whose convenience value silently bypassed an independent detection path",
+      "catalogue_ref": "methodology 3.5",
+      "member": "false",
+      "correct_decision": "REFUSED",
+      "correct_verdict": "INCONCLUSIVE",
+      "naive_oracle_strength": 2,
+      "gated_oracle_strength": 3,
+      "note": "The finding is real and the PoC works; it is scoped far more narrowly than the write-up claims, because one pinned field drives a detection path the fixture never exercised.",
+      "label_basis": "REFUSED is the decision under test, not 'this is not a bug'. The recorded outcome was a proactive amendment with a four-arm scope-boundary PoC, i.e. the original claim was refused at its stated scope and re-filed at a narrower one. A gate that passes this case is a gate that would have let the over-broad scope ship. RE-EXPRESSED: the gate is given the target's branch fields and the PoC's recorded fixture values as two separate records and must intersect them; it is no longer handed 'this field was pinned'.",
+      "observation": {
+        "kind": "oracle_expressivity",
+        "claim": "finding",
+        "positive_control": {
+          "ran": true,
+          "expected_observable": "foreign record in the response",
+          "observed": "foreign record in the response\n"
+        },
+        "treatment_observed": "foreign record in the response",
+        "target_branch_fields": [
+          "delivery_mode",
+          "signature_present"
+        ],
+        "fixture_values": {
+          "delivery_mode": [
+            "inline"
+          ],
+          "signature_present": [
+            "false"
+          ]
+        }
+      },
+      "asserts_absence": false,
+      "conclusion_in_fixture": false,
+      "label_rule": "O-fixture"
+    },
+    {
+      "id": "scope13-genuine",
+      "shape": "scope13-a-fixture-pinned-a-field-the-target-branches-on",
+      "shape_title": "A PoC fixture whose convenience value silently bypassed an independent detection path",
+      "catalogue_ref": "methodology 3.5; the recorded four-arm amendment",
+      "member": "genuine",
+      "correct_decision": "SUPPORTED",
+      "correct_verdict": "CANDIDATE",
+      "naive_oracle_strength": 2,
+      "gated_oracle_strength": 4,
+      "note": "The same finding with every branched field tested on both values, so the scope in the write-up is the scope that was measured.",
+      "observation": {
+        "kind": "oracle_expressivity",
+        "claim": "finding",
+        "positive_control": {
+          "ran": true,
+          "expected_observable": "foreign record in the response",
+          "observed": "foreign record in the response\n"
+        },
+        "treatment_observed": "foreign record in the response",
+        "target_branch_fields": [
+          "delivery_mode",
+          "signature_present"
+        ],
+        "fixture_values": {
+          "delivery_mode": [
+            "inline",
+            "attachment"
+          ],
+          "signature_present": [
+            "true",
+            "false"
+          ]
+        }
+      },
+      "asserts_absence": false,
+      "conclusion_in_fixture": false,
+      "label_rule": "O-expressivity"
+    },
+    {
+      "id": "self14-false",
+      "shape": "self14-a-fit-worse-than-the-mean-reported-as-a-growth-law",
+      "shape_title": "An amplification classifier that returned LINEAR_AMPLIFICATION on an R-squared of -2.63",
+      "catalogue_ref": "methodology 3.6(a)",
+      "member": "false",
+      "correct_decision": "REFUSED",
+      "correct_verdict": "INCONCLUSIVE",
+      "naive_oracle_strength": 2,
+      "gated_oracle_strength": 3,
+      "note": "A negative R-squared on a through-origin fit is worse than predicting the mean, and the classifier reported it as a confident growth law with no error.",
+      "observation": {
+        "kind": "numeric_claim",
+        "claim": "linear-amplification",
+        "metric": "r2",
+        "value": -2.63
+      },
+      "asserts_absence": false,
+      "conclusion_in_fixture": false,
+      "label_rule": "N-fit"
+    },
+    {
+      "id": "self14-genuine",
+      "shape": "self14-a-fit-worse-than-the-mean-reported-as-a-growth-law",
+      "shape_title": "An amplification classifier that returned LINEAR_AMPLIFICATION on an R-squared of -2.63",
+      "catalogue_ref": "methodology 3.6(a); the recorded INCONCLUSIVE band",
+      "member": "genuine",
+      "correct_decision": "SUPPORTED",
+      "correct_verdict": "CANDIDATE",
+      "naive_oracle_strength": 2,
+      "gated_oracle_strength": 3,
+      "note": "The same classifier on data that actually fits, which is the case the guard must not destroy.",
+      "observation": {
+        "kind": "numeric_claim",
+        "claim": "linear-amplification",
+        "metric": "r2",
+        "value": 0.994
+      },
+      "asserts_absence": false,
+      "conclusion_in_fixture": false,
+      "label_rule": "N-fit"
+    },
+    {
+      "id": "self15-false",
+      "shape": "self15-a-covering-array-below-its-own-feasible-minimum",
+      "shape_title": "105 rows reported as a 3-way covering array whose independently computed minimum was 384",
+      "catalogue_ref": "methodology 3.6(b)",
+      "member": "false",
+      "correct_decision": "REFUSED",
+      "correct_verdict": "INCONCLUSIVE",
+      "naive_oracle_strength": 2,
+      "gated_oracle_strength": 4,
+      "note": "A standard library emitted 105 rows, reported no error, and the self-inflicted twin -- a constraint predicate reading an unbound variable -- made the denominator wrong as well, so coverage was 100% of the wrong thing.",
+      "observation": {
+        "kind": "numeric_claim",
+        "claim": "3-way-coverage-complete",
+        "metric": "coverage",
+        "rows": 105,
+        "independent_minimum": 384,
+        "constraint_eval_errors": 1,
+        "factors": {
+          "delivery_mode": 8,
+          "signature_present": 8,
+          "tenant_tier": 6,
+          "region": 4,
+          "encoding": 3
+        },
+        "strength": 3
+      },
+      "label_basis": "INCONCLUSIVE because 105 rows cannot be a 3-way covering array over this factor model. The gate is given the factor model, not the answer: a t-way array must contain every combination of values for every choice of t factors, so it needs at least the product of the t largest cardinalities, here 8 x 8 x 6 = 384. The self-inflicted twin -- a constraint predicate reading an unbound variable -- also made the denominator wrong, so coverage was 100% of the wrong thing.",
+      "asserts_absence": false,
+      "conclusion_in_fixture": false,
+      "label_rule": "N-denominator"
+    },
+    {
+      "id": "self15-genuine",
+      "shape": "self15-a-covering-array-below-its-own-feasible-minimum",
+      "shape_title": "105 rows reported as a 3-way covering array whose independently computed minimum was 384",
+      "catalogue_ref": "methodology 3.6(b)",
+      "member": "genuine",
+      "correct_decision": "SUPPORTED",
+      "correct_verdict": "CANDIDATE",
+      "naive_oracle_strength": 2,
+      "gated_oracle_strength": 4,
+      "note": "A generated array that meets the independent minimum with every constraint evaluating cleanly.",
+      "observation": {
+        "kind": "numeric_claim",
+        "claim": "3-way-coverage-complete",
+        "metric": "coverage",
+        "rows": 392,
+        "independent_minimum": 384,
+        "constraint_eval_errors": 0,
+        "factors": {
+          "delivery_mode": 8,
+          "signature_present": 8,
+          "tenant_tier": 6,
+          "region": 4,
+          "encoding": 3
+        },
+        "strength": 3
+      },
+      "asserts_absence": false,
+      "conclusion_in_fixture": false,
+      "label_rule": "N-denominator"
+    },
+    {
+      "id": "self16-false",
+      "shape": "self16-blank-lines-flagged-as-hard-wraps",
+      "shape_title": "A wording linter that flagged every paragraph break, because email line endings leave a bare carriage return on blank lines",
+      "catalogue_ref": "methodology 3.6(c)",
+      "member": "false",
+      "correct_decision": "REFUSED",
+      "correct_verdict": "KILL",
+      "naive_oracle_strength": 1,
+      "gated_oracle_strength": 3,
+      "note": "Every hit is a blank line carrying a lone carriage return, and the artifact produced this false positive on first use.",
+      "observation": {
+        "kind": "text_measurement",
+        "claim": "mid-paragraph-hard-wraps-present",
+        "max_width": 72,
+        "raw": "First paragraph line one.\n\r\nSecond paragraph line one.\n\r\nThird paragraph line one.\n"
+      },
+      "asserts_absence": false,
+      "conclusion_in_fixture": false,
+      "label_rule": "T-eol"
+    },
+    {
+      "id": "self16-genuine",
+      "shape": "self16-blank-lines-flagged-as-hard-wraps",
+      "shape_title": "A wording linter that flagged every paragraph break, because email line endings leave a bare carriage return on blank lines",
+      "catalogue_ref": "methodology 3.6(c)",
+      "member": "genuine",
+      "correct_decision": "SUPPORTED",
+      "correct_verdict": "CANDIDATE",
+      "naive_oracle_strength": 1,
+      "gated_oracle_strength": 3,
+      "note": "A genuine mid-paragraph hard wrap, which survives line-ending normalisation and is the case the fix must not suppress.",
+      "observation": {
+        "kind": "text_measurement",
+        "claim": "mid-paragraph-hard-wraps-present",
+        "max_width": 72,
+        "raw": "This sentence was hard\nwrapped in the middle of a paragraph by an editor.\n\r\nA new paragraph begins here.\n"
+      },
+      "asserts_absence": false,
+      "conclusion_in_fixture": false,
+      "label_rule": "T-eol"
+    }
+  ]
+}

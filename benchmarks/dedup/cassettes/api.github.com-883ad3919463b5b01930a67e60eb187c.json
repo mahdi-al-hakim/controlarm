@@ -1,0 +1,17 @@
+{
+  "provenance": "recorded",
+  "recorded_at": "2026-10-26T00:33:28.647693+00:00",
+  "request": {
+    "body": {
+      "query": "query{securityVulnerabilities(first:100, ecosystem:MAVEN, package:\"org.jboss.hal:hal-console\"){totalCount pageInfo{hasNextPage endCursor} nodes{advisory{ghsaId publishedAt withdrawnAt}}}}"
+    },
+    "kind": "gh-graphql",
+    "method": "POST",
+    "url": "https://api.github.com/graphql"
+  },
+  "rerun": "gh api graphql -f query=\"query{securityVulnerabilities(first:100, ecosystem:MAVEN, package:\\\"org.jboss.hal:hal-console\\\"){totalCount pageInfo{hasNextPage endCursor} nodes{advisory{ghsaId publishedAt withdrawnAt}}}}\"",
+  "response": {
+    "body": "{\"data\":{\"securityVulnerabilities\":{\"totalCount\":5,\"pageInfo\":{\"hasNextPage\":false,\"endCursor\":\"Y3Vyc29yOnYyOpK0MjAyNC0xMi0yM1QyMDoxNToxN1rOAAEB6g==\"},\"nodes\":[{\"advisory\":{\"ghsaId\":\"GHSA-f7jh-m6wp-jm7f\",\"publishedAt\":\"2025-05-06T18:51:27Z\",\"withdrawnAt\":null}},{\"advisory\":{\"ghsaId\":\"GHSA-hp88-hfjw-2hg4\",\"publishedAt\":\"2025-03-28T15:31:56Z\",\"withdrawnAt\":\"2025-05-06T18:51:17Z\"}},{\"advisory\":{\"ghsaId\":\"GHSA-jhvj-f397-8w6q\",\"publishedAt\":\"2025-01-16T19:05:39Z\",\"withdrawnAt\":null}},{\"advisory\":{\"ghsaId\":\"GHSA-5wjw-h8x5-v65m\",\"publishedAt\":\"2025-01-14T18:32:06Z\",\"withdrawnAt\":\"2025-01-16T19:05:32Z\"}},{\"advisory\":{\"ghsaId\":\"GHSA-64gp-r758-8pfm\",\"publishedAt\":\"2024-12-23T20:15:16Z\",\"withdrawnAt\":null}}]}}}",
+    "status": 200
+  }
+}

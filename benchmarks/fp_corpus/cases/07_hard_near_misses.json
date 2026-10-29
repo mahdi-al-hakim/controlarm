@@ -1,0 +1,124 @@
+{
+  "file_note": "The two hardest cases in the corpus, and the reason the benchmark exists at all. Both are documented near-misses: a true finding that was nearly retracted, and a second code path that was wrongly cleared -- both because the PoC could not express the positive. They matter because they are evidence that the gates' false-negative rate is NOT zero, which is the gap (GAP-6) the private corpus could not close: nothing in it ever recorded how many true claims the gates rejected. A benchmark that omitted these would be measuring only the tool's catches, which is exactly the instrument the method forbids.",
+  "cases": [
+    {
+      "id": "hard18-false",
+      "shape": "hard18-a-true-finding-nearly-retracted-for-poc-unreachability",
+      "shape_title": "A 'tested, does not happen' verdict produced by a fixture in which the branch was unreachable by construction",
+      "catalogue_ref": "methodology 4.6; GAP-6 (the first of the two recorded near-misses)",
+      "member": "false",
+      "correct_decision": "REFUSED",
+      "correct_verdict": "VOID",
+      "naive_oracle_strength": 2,
+      "gated_oracle_strength": 3,
+      "note": "The run is clean, the control is green, and the oracle is silent -- and the silence is a property of the fixture, not of the target, because the chosen field value makes the branch unreachable.",
+      "label_basis": "The hardest label in the corpus. The correct verdict is VOID and NOT 'no bug' and NOT 'finding'. The recorded history is that the original verdict was an information-disclosure negative; a different fixture value then put adjacent data into the output and verified 60 of 60. So a gate that outputs CANDIDATE here is wrong (it has no evidence yet) and a gate that outputs KILL here is wrong in the way that nearly cost a real finding. Only a refusal that names the rig as the problem is correct. This is the single case that most discriminates between the harness and an unguarded run, and it is scored as REFUSED precisely so that a tool which merely catches false positives cannot pass it.",
+      "observation": {
+        "kind": "oracle_expressivity",
+        "claim": "clean-negative",
+        "positive_control": {
+          "ran": true,
+          "expected_observable": "ADJACENT-RECORD-MARKER",
+          "observed": "field accepted, 0 bytes returned beyond the requested extent\n"
+        },
+        "treatment_observed": ""
+      },
+      "asserts_absence": true,
+      "conclusion_in_fixture": false,
+      "label_rule": "O-expressivity"
+    },
+    {
+      "id": "hard18-genuine",
+      "shape": "hard18-a-true-finding-nearly-retracted-for-poc-unreachability",
+      "shape_title": "A 'tested, does not happen' verdict produced by a fixture in which the branch was unreachable by construction",
+      "catalogue_ref": "methodology 4.6",
+      "member": "genuine",
+      "correct_decision": "SUPPORTED",
+      "correct_verdict": "KILL",
+      "naive_oracle_strength": 2,
+      "gated_oracle_strength": 3,
+      "note": "Indistinguishable from the false member on the treatment arm -- the oracle is silent in both -- and separated only by whether a planted positive was observed on the control arm.",
+      "label_basis": "The genuine member uses the fixture value that DOES reach the branch, the control shows the marker, and the treatment is still silent. That is a negative which is a claim about the target. The pair is deliberately constructed so that the treatment arm carries no information at all: anything that scores this pair correctly must be reading the control.",
+      "observation": {
+        "kind": "oracle_expressivity",
+        "claim": "clean-negative",
+        "positive_control": {
+          "ran": true,
+          "expected_observable": "ADJACENT-RECORD-MARKER",
+          "observed": "ADJACENT-RECORD-MARKER present in 60 of 60 reads\n"
+        },
+        "treatment_observed": ""
+      },
+      "asserts_absence": true,
+      "conclusion_in_fixture": false,
+      "label_rule": "O-expressivity"
+    },
+    {
+      "id": "hard19-false",
+      "shape": "hard19-a-second-code-path-wrongly-cleared",
+      "shape_title": "A second code path cleared by a PoC that could only drive the first",
+      "catalogue_ref": "methodology 4.6; GAP-6 (the second of the two recorded near-misses)",
+      "member": "false",
+      "correct_decision": "REFUSED",
+      "correct_verdict": "INCONCLUSIVE",
+      "naive_oracle_strength": 2,
+      "gated_oracle_strength": 3,
+      "note": "The control is green and the oracle can express the positive, so every expressivity check passes; the negative is still wrong, because it was never driven down the second path.",
+      "label_basis": "INCONCLUSIVE rather than VOID: the rig works and the result is trustworthy for the path it exercised, so voiding the whole run would overstate the problem. What is not supported is the scope of the claim. This case is in the corpus specifically because it defeats every check in the catalogue except coverage -- it is the one that tests whether the gate reads the denominator rather than the verdict.",
+      "observation": {
+        "kind": "oracle_expressivity",
+        "claim": "clean-negative",
+        "positive_control": {
+          "ran": true,
+          "expected_observable": "FOREIGN-RECORD",
+          "observed": "FOREIGN-RECORD returned on the single-read path\n"
+        },
+        "treatment_observed": "",
+        "paths_under_test": [
+          "handler.read_one"
+        ],
+        "paths_in_target": [
+          "handler.read_one",
+          "handler.read_batch"
+        ]
+      },
+      "asserts_absence": true,
+      "conclusion_in_fixture": true,
+      "label_rule": "O-coverage"
+    },
+    {
+      "id": "hard19-genuine",
+      "shape": "hard19-a-second-code-path-wrongly-cleared",
+      "shape_title": "A second code path cleared by a PoC that could only drive the first",
+      "catalogue_ref": "methodology 4.6",
+      "member": "genuine",
+      "correct_decision": "SUPPORTED",
+      "correct_verdict": "KILL",
+      "naive_oracle_strength": 2,
+      "gated_oracle_strength": 4,
+      "note": "The same silence from the same oracle, with both reachable paths driven, so the negative covers the claim's whole stated scope.",
+      "label_basis": "SUPPORTED, and KILL rather than CANDIDATE, because the only thing that changed from the false member is the denominator: the set of paths the PoC drove now equals the set the target reaches. The pair is deliberately identical on every other field, so a gate can only separate them by reading the coverage data, and a gate that happens to pass the false member for some other reason will fail here.",
+      "observation": {
+        "kind": "oracle_expressivity",
+        "claim": "clean-negative",
+        "positive_control": {
+          "ran": true,
+          "expected_observable": "FOREIGN-RECORD",
+          "observed": "FOREIGN-RECORD returned on the single-read path\n"
+        },
+        "treatment_observed": "",
+        "paths_under_test": [
+          "handler.read_one",
+          "handler.read_batch"
+        ],
+        "paths_in_target": [
+          "handler.read_one",
+          "handler.read_batch"
+        ]
+      },
+      "asserts_absence": true,
+      "conclusion_in_fixture": true,
+      "label_rule": "O-expressivity"
+    }
+  ]
+}

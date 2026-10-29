@@ -1,0 +1,203 @@
+{
+  "file_note": "FP#1 and FP#2 from the catalogue: the two shapes where a response that reflects the caller's own identifier was read as evidence about the target. Both are exercisable live against examples/local_target (/v1/echo for the false member, /v1/documents and /v1/exists for the genuine ones).",
+  "cases": [
+    {
+      "id": "fp01-false",
+      "shape": "fp01-echo-in-4xx-read-as-disclosure",
+      "shape_title": "A 4xx that echoes a foreign identifier, read as cross-tenant disclosure",
+      "catalogue_ref": "methodology 3.1 FP#1; rule A2",
+      "member": "false",
+      "correct_decision": "REFUSED",
+      "correct_verdict": "KILL",
+      "naive_oracle_strength": 0,
+      "gated_oracle_strength": 3,
+      "note": "A naive 'does the response contain the victim's identifier' detector fires, because it genuinely does -- as an echo inside a rejection.",
+      "observation": {
+        "kind": "http_differential",
+        "claim": "disclosure",
+        "arms": [
+          {
+            "label": "cross-tenant",
+            "request": {
+              "path": "/v1/echo",
+              "query": {
+                "value": "doc_2002"
+              },
+              "headers": {
+                "x-tenant": "t_alpha"
+              }
+            },
+            "response": {
+              "status": 400,
+              "body": {
+                "error": "invalid_request",
+                "echo": "doc_2002",
+                "detail": "value could not be parsed"
+              }
+            }
+          }
+        ]
+      },
+      "asserts_absence": false,
+      "conclusion_in_fixture": false,
+      "label_rule": "A2"
+    },
+    {
+      "id": "fp01-genuine",
+      "shape": "fp01-echo-in-4xx-read-as-disclosure",
+      "shape_title": "A 4xx that echoes a foreign identifier, read as cross-tenant disclosure",
+      "catalogue_ref": "methodology 3.1 FP#1; rule A2",
+      "member": "genuine",
+      "correct_decision": "SUPPORTED",
+      "correct_verdict": "CANDIDATE",
+      "naive_oracle_strength": 0,
+      "gated_oracle_strength": 3,
+      "note": "The same signal -- a foreign identifier in the body -- but now in a 200 that also carries record contents the caller never supplied and the sibling arm did not return.",
+      "observation": {
+        "kind": "http_differential",
+        "claim": "disclosure",
+        "arms": [
+          {
+            "label": "cross-tenant",
+            "request": {
+              "path": "/v1/documents/doc_2002",
+              "headers": {
+                "x-tenant": "t_alpha"
+              }
+            },
+            "response": {
+              "status": 200,
+              "body": {
+                "id": "doc_2002",
+                "owner_tenant": "t_beta",
+                "body_text": "beta quarterly narrative"
+              }
+            }
+          },
+          {
+            "label": "own-tenant-baseline",
+            "request": {
+              "path": "/v1/documents/doc_1001",
+              "headers": {
+                "x-tenant": "t_alpha"
+              }
+            },
+            "response": {
+              "status": 200,
+              "body": {
+                "id": "doc_1001",
+                "owner_tenant": "t_alpha",
+                "body_text": "alpha quarterly narrative"
+              }
+            }
+          }
+        ]
+      },
+      "asserts_absence": false,
+      "conclusion_in_fixture": false,
+      "label_rule": "A4"
+    },
+    {
+      "id": "fp02-false",
+      "shape": "fp02-differential-on-an-echoed-identifier",
+      "shape_title": "Two rejections differing only by the echoed identifier, read as an existence oracle",
+      "catalogue_ref": "methodology 3.1 FP#2; rule A3",
+      "member": "false",
+      "correct_decision": "REFUSED",
+      "correct_verdict": "KILL",
+      "naive_oracle_strength": 0,
+      "gated_oracle_strength": 3,
+      "note": "A genuine byte difference between two arms is exactly what a working existence oracle looks like; here the only differing bytes are the ones the tester typed.",
+      "observation": {
+        "kind": "http_differential",
+        "claim": "existence-oracle",
+        "arms": [
+          {
+            "label": "identifier-that-exists",
+            "request": {
+              "path": "/v1/echo",
+              "query": {
+                "value": "doc_1001"
+              }
+            },
+            "response": {
+              "status": 400,
+              "body": {
+                "error": "invalid_request",
+                "echo": "doc_1001",
+                "detail": "value could not be parsed"
+              }
+            }
+          },
+          {
+            "label": "identifier-that-does-not",
+            "request": {
+              "path": "/v1/echo",
+              "query": {
+                "value": "doc_9999"
+              }
+            },
+            "response": {
+              "status": 400,
+              "body": {
+                "error": "invalid_request",
+                "echo": "doc_9999",
+                "detail": "value could not be parsed"
+              }
+            }
+          }
+        ]
+      },
+      "asserts_absence": false,
+      "conclusion_in_fixture": false,
+      "label_rule": "A3"
+    },
+    {
+      "id": "fp02-genuine",
+      "shape": "fp02-differential-on-an-echoed-identifier",
+      "shape_title": "Two rejections differing only by the echoed identifier, read as an existence oracle",
+      "catalogue_ref": "methodology 3.1 FP#2; rules A3 and A9",
+      "member": "genuine",
+      "correct_decision": "SUPPORTED",
+      "correct_verdict": "CANDIDATE",
+      "naive_oracle_strength": 0,
+      "gated_oracle_strength": 4,
+      "note": "Same echoed-identifier noise, but the status class and the error key still differ after normalisation, which no amount of echo can explain.",
+      "observation": {
+        "kind": "http_differential",
+        "claim": "existence-oracle",
+        "arms": [
+          {
+            "label": "identifier-that-exists",
+            "request": {
+              "path": "/v1/exists/doc_1001"
+            },
+            "response": {
+              "status": 400,
+              "body": {
+                "error": "invalid_request",
+                "detail": "identifier doc_1001 is not addressable on this route"
+              }
+            }
+          },
+          {
+            "label": "identifier-that-does-not",
+            "request": {
+              "path": "/v1/exists/doc_9999"
+            },
+            "response": {
+              "status": 404,
+              "body": {
+                "error": "not_found",
+                "detail": "identifier doc_9999 is not addressable on this route"
+              }
+            }
+          }
+        ]
+      },
+      "asserts_absence": false,
+      "conclusion_in_fixture": false,
+      "label_rule": "A9"
+    }
+  ]
+}

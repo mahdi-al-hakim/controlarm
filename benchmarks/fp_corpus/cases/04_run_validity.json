@@ -1,0 +1,233 @@
+{
+  "file_note": "VOID-1 and VOID-2/CONFOUNDED: the two run catches. These are false NEGATIVES, so the 'false signal' being tested is a clean negative that was not one. The false member must be REFUSED into VOID or CONFOUNDED -- not into a finding, and not into 'no bug'. The genuine member is the re-run that produced an actual trustworthy negative. RE-EXPRESSED after an external critique, which observed that these fixtures stated the gate's conclusion as literal fields (reached_application_layer, control_recorded_in_run, and two target labels compared with ==). They now also carry the raw records those conclusions were drawn from: each probe's own transport result, the run's start and end stamps against the control record's stamp, and the egress allowlist in force against each arm's target host. The gate derives from the raw records and ignores the summary fields; tests/test_benchmark.py proves it by poisoning each summary field with the wrong value and asserting the verdict does not move. void09's two targets are now DIFFERENT hosts, so no equality test can decide that case at all: deleting the allowlist derivation flips it to 'no bug' and fails the build.",
+  "cases": [
+    {
+      "id": "void08-false",
+      "shape": "void08-negative-from-a-probe-that-never-reached-the-app",
+      "shape_title": "A clean negative on a server-side auto-fetch, voided on three independent grounds",
+      "catalogue_ref": "methodology 3.3 VOID-1; rules 4.4(a), 4.4(d)",
+      "member": "false",
+      "correct_decision": "REFUSED",
+      "correct_verdict": "VOID",
+      "naive_oracle_strength": 1,
+      "gated_oracle_strength": 3,
+      "note": "All arms silent is consistent with 'the feature does not fetch' and also with 'the probe was refused before the application layer', and nothing in the run distinguishes them.",
+      "label_basis": "Three grounds are present in the fixture at once, matching the record: the probe's own transport record shows the connection refused with no application-layer status, so there were zero app-layer hits to be absent; no results artifact was written although every sibling probe wrote one; and the asserted positive control is stamped five days before this run's window. Any one of them is sufficient, which is why the gate names only the first it reaches -- but it now records every rule that fired, so B-stale-control and B-reachability are exercised by this case rather than being dead code.",
+      "observation": {
+        "kind": "run_lattice",
+        "claim": "clean-negative",
+        "title": "server-side auto-fetch does not occur",
+        "arms": [
+          {
+            "name": "LIVENESS",
+            "role": "liveness",
+            "outcome": "executed",
+            "detail": "probe process started",
+            "recorded_at": "2026-01-09T09:04:40Z"
+          },
+          {
+            "name": "HONEST-CONTROL",
+            "role": "honest-control",
+            "outcome": "refused",
+            "detail": "403 forbidden",
+            "recorded_at": "2026-01-04T22:41:03Z",
+            "target": "loopback-collector-a.invalid"
+          },
+          {
+            "name": "auto-fetch canary",
+            "role": "test",
+            "outcome": "refused",
+            "detail": "no application-layer hit recorded",
+            "target": "loopback-collector-b.invalid",
+            "probe_record": {
+              "transport": "refused",
+              "transport_detail": "ECONNREFUSED on tcp/8081 before any HTTP exchange",
+              "app_layer_status": null
+            }
+          }
+        ],
+        "results_artifact": false,
+        "run_window": {
+          "started": "2026-01-09T09:04:11Z",
+          "ended": "2026-01-09T09:16:52Z"
+        },
+        "declared_cross_check": {
+          "reached_application_layer": false,
+          "control_recorded_in_run": false
+        },
+        "reached_application_layer": false,
+        "control_recorded_in_run": false,
+        "control_target": "loopback-collector-a.invalid",
+        "treatment_target": "loopback-collector-b.invalid"
+      },
+      "asserts_absence": true,
+      "conclusion_in_fixture": false,
+      "label_rule": "B-artifact"
+    },
+    {
+      "id": "void08-genuine",
+      "shape": "void08-negative-from-a-probe-that-never-reached-the-app",
+      "shape_title": "A clean negative on a server-side auto-fetch, voided on three independent grounds",
+      "catalogue_ref": "methodology 3.3 VOID-1; the recorded re-run",
+      "member": "genuine",
+      "correct_decision": "SUPPORTED",
+      "correct_verdict": "KILL",
+      "naive_oracle_strength": 1,
+      "gated_oracle_strength": 3,
+      "note": "The same silence, from a re-run with an in-run passing control, an application-layer round trip, and a written results artifact. Now the silence is about the target.",
+      "observation": {
+        "kind": "run_lattice",
+        "claim": "clean-negative",
+        "title": "server-side auto-fetch does not occur (re-run)",
+        "arms": [
+          {
+            "name": "LIVENESS",
+            "role": "liveness",
+            "outcome": "executed",
+            "detail": "collector received the in-run control request",
+            "recorded_at": "2026-01-11T14:02:48Z"
+          },
+          {
+            "name": "HONEST-CONTROL",
+            "role": "honest-control",
+            "outcome": "refused",
+            "detail": "403 forbidden",
+            "recorded_at": "2026-01-11T14:03:09Z",
+            "target": "loopback-collector-a.invalid"
+          },
+          {
+            "name": "auto-fetch canary",
+            "role": "test",
+            "outcome": "refused",
+            "detail": "200 from the feature, canary absent from the collector log",
+            "target": "loopback-collector-b.invalid",
+            "probe_record": {
+              "transport": "established",
+              "transport_detail": "HTTP/1.1 exchange completed on tcp/8080",
+              "app_layer_status": 200
+            }
+          }
+        ],
+        "results_artifact": true,
+        "run_window": {
+          "started": "2026-01-11T14:02:00Z",
+          "ended": "2026-01-11T14:19:30Z"
+        },
+        "declared_cross_check": {
+          "reached_application_layer": true,
+          "control_recorded_in_run": true
+        },
+        "reached_application_layer": true,
+        "control_recorded_in_run": true,
+        "control_target": "loopback-collector-a.invalid",
+        "treatment_target": "loopback-collector-b.invalid"
+      },
+      "asserts_absence": true,
+      "conclusion_in_fixture": false,
+      "label_rule": "lattice"
+    },
+    {
+      "id": "void09-false",
+      "shape": "void09-control-and-treatment-share-the-containment",
+      "shape_title": "A positive control pointed at a host that was itself outside the allowlist",
+      "catalogue_ref": "methodology 3.3 VOID-2/CONFOUNDED; rule 4.4(b)",
+      "member": "false",
+      "correct_decision": "REFUSED",
+      "correct_verdict": "CONFOUNDED",
+      "naive_oracle_strength": 1,
+      "gated_oracle_strength": 3,
+      "note": "Silence in both arms looks like a working control plus a clean treatment, but control and treatment tested the same containment, so a silent control cannot distinguish 'never fetches' from 'egress blocked'.",
+      "label_basis": "CONFOUNDED rather than VOID, following the record: the rig ran and produced data, but the two arms differ in no dimension relevant to the hypothesis. The recorded remedy was a 2x2 redesign, not a re-run of the same design. RE-EXPRESSED: the two arms target two DIFFERENT hosts, so no equality test can decide this case. The gate has to read the egress allowlist that was in force and establish that it covers neither host -- which is what 'the control tested the same containment' actually means.",
+      "observation": {
+        "kind": "run_lattice",
+        "claim": "clean-negative",
+        "title": "build-stage fetch is contained",
+        "arms": [
+          {
+            "name": "LIVENESS",
+            "role": "liveness",
+            "outcome": "executed",
+            "detail": "install step ran to completion"
+          },
+          {
+            "name": "HONEST-CONTROL",
+            "role": "honest-control",
+            "outcome": "refused",
+            "detail": "no request observed",
+            "target": "control-probe.invalid"
+          },
+          {
+            "name": "build-stage fetch",
+            "role": "test",
+            "outcome": "refused",
+            "detail": "no request observed",
+            "target": "LISTENER.invalid"
+          }
+        ],
+        "results_artifact": true,
+        "reached_application_layer": true,
+        "control_recorded_in_run": true,
+        "egress_allowlist": [
+          "registry.internal",
+          "*.allowed.example"
+        ],
+        "control_target": "control-probe.invalid",
+        "treatment_target": "listener.invalid"
+      },
+      "asserts_absence": true,
+      "conclusion_in_fixture": false,
+      "label_rule": "B-independence"
+    },
+    {
+      "id": "void09-genuine",
+      "shape": "void09-control-and-treatment-share-the-containment",
+      "shape_title": "A positive control pointed at a host that was itself outside the allowlist",
+      "catalogue_ref": "methodology 3.3 VOID-2; the recorded 2x2 redesign",
+      "member": "genuine",
+      "correct_decision": "SUPPORTED",
+      "correct_verdict": "KILL",
+      "naive_oracle_strength": 1,
+      "gated_oracle_strength": 3,
+      "note": "Same silence on the treatment arm, but the control now points inside the allowlist, so its success proves the fetcher fetches and the treatment's silence is about containment.",
+      "observation": {
+        "kind": "run_lattice",
+        "claim": "clean-negative",
+        "title": "build-stage fetch is contained (2x2 redesign)",
+        "arms": [
+          {
+            "name": "LIVENESS",
+            "role": "liveness",
+            "outcome": "executed",
+            "detail": "declared collector inside the allowlist received the control request"
+          },
+          {
+            "name": "HONEST-CONTROL",
+            "role": "honest-control",
+            "outcome": "refused",
+            "detail": "no request observed",
+            "target": "collector.allowed.example"
+          },
+          {
+            "name": "build-stage fetch",
+            "role": "test",
+            "outcome": "refused",
+            "detail": "no request observed",
+            "target": "LISTENER.invalid"
+          }
+        ],
+        "results_artifact": true,
+        "reached_application_layer": true,
+        "control_recorded_in_run": true,
+        "egress_allowlist": [
+          "registry.internal",
+          "*.allowed.example"
+        ],
+        "control_target": "collector.allowed.example",
+        "treatment_target": "listener.invalid"
+      },
+      "asserts_absence": true,
+      "conclusion_in_fixture": false,
+      "label_rule": "lattice"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "provenance": "recorded",
+  "recorded_at": "2026-10-26T00:35:01.918030+00:00",
+  "request": {
+    "body": null,
+    "kind": "http",
+    "method": "GET",
+    "url": "https://api.osv.dev/v1/vulns/GHSA-6VX8-PCWV-XHF4"
+  },
+  "rerun": "curl -s https://api.osv.dev/v1/vulns/GHSA-6VX8-PCWV-XHF4",
+  "response": {
+    "body": "{\"code\":5,\"message\":\"Vulnerability not found\"}",
+    "status": 404
+  }
+}

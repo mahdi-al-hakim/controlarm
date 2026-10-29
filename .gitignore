@@ -1,0 +1,34 @@
+# Build and packaging
+build/
+dist/
+*.egg-info/
+*.egg
+
+# Caches. The CVE study's fixture cache is ~190 MB of third-party distributions
+# acquired at run time and verified against the sha256 digests committed in
+# benchmarks/cve_study/fixtures.lock.json. It is regenerable by design and must
+# never be committed: a repository whose claim is that a reviewer can read it in
+# twenty minutes cannot ship two Django trees.
+.cache/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Virtualenvs
+.venv/
+venv/
+env/
+
+# Transient tool output. mutate_guards.py writes a .orig.bak only when it
+# detects that the file it was restoring changed underneath it, which is a
+# condition to investigate rather than to commit.
+*.log
+*.orig.bak
+*.bak
+
+# Editor and OS
+.DS_Store
+.idea/
+.vscode/

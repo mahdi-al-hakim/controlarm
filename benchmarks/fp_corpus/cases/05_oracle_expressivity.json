@@ -1,0 +1,228 @@
+{
+  "file_note": "The three false negatives from one session (3.4) plus the detector that was pointed at the wrong artifact (3.6d). One rule governs all four: a negative is only as strong as the oracle's ability to express the positive, so the oracle must be shown to see a planted positive before its silence counts. Every false member here is a false NEGATIVE, which is the half of the discipline the private corpus never measured. RE-EXPRESSED after an external critique: ext17 previously compared two declared labels, artifact_scanned against artifact_claimed, both written by the same author. The scanned path is now derived from the detector's own recorded invocation -- its argv and the files it opened -- so only the claim side is a declaration and the two halves of the comparison have different provenance.",
+  "cases": [
+    {
+      "id": "fn10-false",
+      "shape": "fn10-the-field-under-test-was-never-rendered",
+      "shape_title": "A listing command that did not render the field under test, so the field's absence read as the feature's absence",
+      "catalogue_ref": "methodology 3.4(a); rule 4.6",
+      "member": "false",
+      "correct_decision": "REFUSED",
+      "correct_verdict": "VOID",
+      "naive_oracle_strength": 1,
+      "gated_oracle_strength": 3,
+      "note": "The oracle string never matched, so the run read as 'the feature is absent'; the listing simply has no column for it, and a planted positive is equally invisible.",
+      "observation": {
+        "kind": "oracle_expressivity",
+        "claim": "clean-negative",
+        "positive_control": {
+          "ran": true,
+          "expected_observable": "scope=all",
+          "observed": "NAME         CREATED      STATUS\nshipment-1   2026-01-02   ready\n"
+        },
+        "treatment_observed": ""
+      },
+      "asserts_absence": true,
+      "conclusion_in_fixture": false,
+      "label_rule": "O-expressivity"
+    },
+    {
+      "id": "fn10-genuine",
+      "shape": "fn10-the-field-under-test-was-never-rendered",
+      "shape_title": "A listing command that did not render the field under test, so the field's absence read as the feature's absence",
+      "catalogue_ref": "methodology 3.4(a); rule 4.6",
+      "member": "genuine",
+      "correct_decision": "SUPPORTED",
+      "correct_verdict": "KILL",
+      "naive_oracle_strength": 1,
+      "gated_oracle_strength": 3,
+      "note": "The same silence on the treatment arm, but with a wide listing that does render the field and did show the planted value.",
+      "observation": {
+        "kind": "oracle_expressivity",
+        "claim": "clean-negative",
+        "positive_control": {
+          "ran": true,
+          "expected_observable": "scope=all",
+          "observed": "NAME         SCOPE      STATUS\nshipment-1   scope=all  ready\n"
+        },
+        "treatment_observed": ""
+      },
+      "asserts_absence": true,
+      "conclusion_in_fixture": false,
+      "label_rule": "O-expressivity"
+    },
+    {
+      "id": "fn11-false",
+      "shape": "fn11-colour-escapes-defeated-the-oracle-string",
+      "shape_title": "A colour-suppression variable that failed to suppress the tool's own escape sequences",
+      "catalogue_ref": "methodology 3.4(b); rule 4.6",
+      "member": "false",
+      "correct_decision": "REFUSED",
+      "correct_verdict": "VOID",
+      "naive_oracle_strength": 1,
+      "gated_oracle_strength": 3,
+      "note": "The marker is on screen and a human reads it instantly; the bytes carry escape sequences inside the token, so the literal match can never fire.",
+      "observation": {
+        "kind": "oracle_expressivity",
+        "claim": "clean-negative",
+        "positive_control": {
+          "ran": true,
+          "expected_observable": "DENIED",
+          "observed": "\u001b[1;31mDEN\u001b[0m\u001b[1;31mIED\u001b[0m: tenant mismatch\n"
+        },
+        "treatment_observed": ""
+      },
+      "asserts_absence": true,
+      "conclusion_in_fixture": false,
+      "label_rule": "O-expressivity"
+    },
+    {
+      "id": "fn11-genuine",
+      "shape": "fn11-colour-escapes-defeated-the-oracle-string",
+      "shape_title": "A colour-suppression variable that failed to suppress the tool's own escape sequences",
+      "catalogue_ref": "methodology 3.4(b); rule 4.6",
+      "member": "genuine",
+      "correct_decision": "SUPPORTED",
+      "correct_verdict": "KILL",
+      "naive_oracle_strength": 1,
+      "gated_oracle_strength": 3,
+      "note": "The same silence, after the renderer was actually forced to plain text and the planted refusal matched byte for byte.",
+      "observation": {
+        "kind": "oracle_expressivity",
+        "claim": "clean-negative",
+        "positive_control": {
+          "ran": true,
+          "expected_observable": "DENIED",
+          "observed": "DENIED: tenant mismatch\n"
+        },
+        "treatment_observed": ""
+      },
+      "asserts_absence": true,
+      "conclusion_in_fixture": false,
+      "label_rule": "O-expressivity"
+    },
+    {
+      "id": "fn12-false",
+      "shape": "fn12-literal-control-bytes-written-into-the-oracle",
+      "shape_title": "String surgery that wrote literal control bytes into a regex, producing a false 'no bypass' verdict",
+      "catalogue_ref": "methodology 3.4(c); rule 4.6",
+      "member": "false",
+      "correct_decision": "REFUSED",
+      "correct_verdict": "VOID",
+      "naive_oracle_strength": 1,
+      "gated_oracle_strength": 3,
+      "note": "The pattern carries a real carriage return where an escape was intended, and the sink normalises line endings, so the oracle cannot match anything the sink can emit.",
+      "observation": {
+        "kind": "oracle_expressivity",
+        "claim": "clean-negative",
+        "positive_control": {
+          "ran": true,
+          "expected_observable": "GET /n-4c1f8a\r\nHost: listener.invalid",
+          "observed": "GET /n-4c1f8a\nHost: listener.invalid\nUser-Agent: probe/1.0\n"
+        },
+        "treatment_observed": ""
+      },
+      "asserts_absence": true,
+      "conclusion_in_fixture": false,
+      "label_rule": "O-expressivity"
+    },
+    {
+      "id": "fn12-genuine",
+      "shape": "fn12-literal-control-bytes-written-into-the-oracle",
+      "shape_title": "String surgery that wrote literal control bytes into a regex, producing a false 'no bypass' verdict",
+      "catalogue_ref": "methodology 3.4(c); rule 4.6",
+      "member": "genuine",
+      "correct_decision": "SUPPORTED",
+      "correct_verdict": "KILL",
+      "naive_oracle_strength": 1,
+      "gated_oracle_strength": 3,
+      "note": "The same silence on the treatment arm, with a pattern built against the sink's actual line endings, which the planted request matched.",
+      "observation": {
+        "kind": "oracle_expressivity",
+        "claim": "clean-negative",
+        "positive_control": {
+          "ran": true,
+          "expected_observable": "GET /n-4c1f8a\nHost: listener.invalid",
+          "observed": "GET /n-4c1f8a\nHost: listener.invalid\nUser-Agent: probe/1.0\n"
+        },
+        "treatment_observed": ""
+      },
+      "asserts_absence": true,
+      "conclusion_in_fixture": false,
+      "label_rule": "O-expressivity"
+    },
+    {
+      "id": "ext17-false",
+      "shape": "ext17-the-detector-was-pointed-at-the-poc",
+      "shape_title": "A detector that measured an 81.7% fire rate because it was run against the PoC file instead of the source under test",
+      "catalogue_ref": "methodology 3.6(d)",
+      "member": "false",
+      "correct_decision": "REFUSED",
+      "correct_verdict": "VOID",
+      "naive_oracle_strength": 1,
+      "gated_oracle_strength": 4,
+      "note": "The rate is real and reproducible; it is a measurement of the PoC, which calls the accessor for its own assertions, not of the source the claim is about.",
+      "observation": {
+        "kind": "oracle_expressivity",
+        "claim": "finding",
+        "artifact_claimed": "lib/accessor.py",
+        "positive_control": {
+          "ran": true,
+          "expected_observable": "unchecked_accessor(",
+          "observed": "unchecked_accessor(record)\nunchecked_accessor(other)\n"
+        },
+        "treatment_observed": "81.7% of call sites reach the unchecked accessor",
+        "scanner_invocation": {
+          "argv": [
+            "detect-unchecked",
+            "--json",
+            "poc/repro_case.py"
+          ],
+          "files_opened": [
+            "poc/repro_case.py"
+          ]
+        }
+      },
+      "label_basis": "VOID because the rate is a measurement of the wrong artifact. The claim names lib/accessor.py; the detector's recorded invocation opened poc/repro_case.py, and a PoC calls the accessor for its own assertions. The two sides of that comparison have different provenance -- one is the claim, one is an instrument record -- which is what makes it a measurement rather than a restatement.",
+      "asserts_absence": false,
+      "conclusion_in_fixture": false,
+      "label_rule": "O-target"
+    },
+    {
+      "id": "ext17-genuine",
+      "shape": "ext17-the-detector-was-pointed-at-the-poc",
+      "shape_title": "A detector that measured an 81.7% fire rate because it was run against the PoC file instead of the source under test",
+      "catalogue_ref": "methodology 3.6(d)",
+      "member": "genuine",
+      "correct_decision": "SUPPORTED",
+      "correct_verdict": "CANDIDATE",
+      "naive_oracle_strength": 1,
+      "gated_oracle_strength": 4,
+      "note": "The same detector, the same fire rate, measured against the artifact the claim is actually about.",
+      "observation": {
+        "kind": "oracle_expressivity",
+        "claim": "finding",
+        "artifact_claimed": "lib/accessor.py",
+        "positive_control": {
+          "ran": true,
+          "expected_observable": "unchecked_accessor(",
+          "observed": "unchecked_accessor(record)\nunchecked_accessor(other)\n"
+        },
+        "treatment_observed": "31.2% of call sites reach the unchecked accessor",
+        "scanner_invocation": {
+          "argv": [
+            "detect-unchecked",
+            "--json",
+            "lib/accessor.py"
+          ],
+          "files_opened": [
+            "lib/accessor.py"
+          ]
+        }
+      },
+      "asserts_absence": false,
+      "conclusion_in_fixture": false,
+      "label_rule": "O-expressivity"
+    }
+  ]
+}

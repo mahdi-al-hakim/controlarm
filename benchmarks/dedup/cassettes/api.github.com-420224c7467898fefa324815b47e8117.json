@@ -1,0 +1,17 @@
+{
+  "provenance": "recorded",
+  "recorded_at": "2026-10-26T00:31:06.999950+00:00",
+  "request": {
+    "body": {
+      "query": "query{securityVulnerabilities(first:100, ecosystem:COMPOSER, package:\"adodb/adodb-php\"){totalCount pageInfo{hasNextPage endCursor} nodes{advisory{ghsaId publishedAt withdrawnAt}}}}"
+    },
+    "kind": "gh-graphql",
+    "method": "POST",
+    "url": "https://api.github.com/graphql"
+  },
+  "rerun": "gh api graphql -f query=\"query{securityVulnerabilities(first:100, ecosystem:COMPOSER, package:\\\"adodb/adodb-php\\\"){totalCount pageInfo{hasNextPage endCursor} nodes{advisory{ghsaId publishedAt withdrawnAt}}}}\"",
+  "response": {
+    "body": "{\"data\":{\"securityVulnerabilities\":{\"totalCount\":7,\"pageInfo\":{\"hasNextPage\":false,\"endCursor\":\"Y3Vyc29yOnYyOpK0MjAyMi0wMS0yNFQyMjozOTozMFrNU4I=\"},\"nodes\":[{\"advisory\":{\"ghsaId\":\"GHSA-vf2r-cxg9-p7rf\",\"publishedAt\":\"2025-08-04T15:12:03Z\",\"withdrawnAt\":null}},{\"advisory\":{\"ghsaId\":\"GHSA-8x27-jwjr-8545\",\"publishedAt\":\"2025-05-01T13:59:51Z\",\"withdrawnAt\":null}},{\"advisory\":{\"ghsaId\":\"GHSA-h63c-xvpf-264j\",\"publishedAt\":\"2024-05-15T17:44:48Z\",\"withdrawnAt\":null}},{\"advisory\":{\"ghsaId\":\"GHSA-hhfw-xxhm-pf32\",\"publishedAt\":\"2022-05-17T02:37:30Z\",\"withdrawnAt\":null}},{\"advisory\":{\"ghsaId\":\"GHSA-3fj4-q72x-x2g9\",\"publishedAt\":\"2022-05-17T02:37:05Z\",\"withdrawnAt\":null}},{\"advisory\":{\"ghsaId\":\"GHSA-65mj-7c86-79jf\",\"publishedAt\":\"2022-01-27T15:23:19Z\",\"withdrawnAt\":null}},{\"advisory\":{\"ghsaId\":\"GHSA-65mj-7c86-79jf\",\"publishedAt\":\"2022-01-27T15:23:19Z\",\"withdrawnAt\":null}}]}}}",
+    "status": 200
+  }
+}

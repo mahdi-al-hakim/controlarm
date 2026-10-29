@@ -1,0 +1,82 @@
+[build-system]
+requires = ["hatchling>=1.21"]
+build-backend = "hatchling.build"
+
+[project]
+name = "controlarm"
+version = "0.1.0.dev0"
+description = "A red-team evidence harness: it refuses to let an unaccompanied claim become a result."
+readme = "README.md"
+license = { text = "Apache-2.0" }
+requires-python = ">=3.10"
+keywords = ["security", "red-team", "evaluation", "evidence", "false-positive"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: Apache Software License",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Security",
+]
+# The core is deliberately stdlib-only. A harness whose job is to refuse
+# unsupported claims should not ask you to trust a dependency tree to do it.
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0", "ruff>=0.6"]
+# The network prior-art sources (controlarm.gates.sources). This extra installs
+# nothing, and that is the honest state of it: the sources are stdlib-only too
+# -- urllib for OSV and NVD, the already-installed `gh` CLI as a subprocess for
+# the GitHub Advisory Database. It exists to name the boundary rather than to
+# fetch anything: `controlarm.gates.priorart` never imports the package, so the
+# core gate cannot acquire network behaviour by accident, and a future source
+# that does need a dependency has somewhere to go that is not the core. See
+# docs/prior-art.md.
+dedup = []
+
+# The one entry point. `python -m controlarm.cli` reaches the same `main` for a
+# checkout with nothing installed, but the console script is what is supported,
+# and `tests/test_cli.py` asserts the two agree on every exit code rather than
+# assuming they do.
+[project.scripts]
+controlarm = "controlarm.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/mahdi-al-hakim/controlarm"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/controlarm"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+addopts = "-q --strict-markers --strict-config -m 'not release'"
+# A test marked ``pristine`` asserts something about the source tree as
+# committed. tools/mutate_guards.py deselects these: with a mutation applied
+# the tree is deliberately wrong, and such a test would then go red for every
+# mutation and mask whichever guard actually caught it -- reporting a guard as
+# pinned when nothing pins it.
+markers = [
+  "pristine: asserts a property of the unmutated source tree",
+  # Deselected by default, and run by the release job via `-m release`. These
+  # assert properties of the published world rather than of this tree, so they
+  # are red until the thing is published. Keeping them in the default run would
+  # mean a reader's first `pytest` is red for a reason that has nothing to do
+  # with whether the code works, and a reviewer who sees a red suite stops
+  # reading. Hiding them would be worse: `release` is named in the README and
+  # CI fails the release on them.
+  "release: asserts a property of the published repository, not of this tree",
+]
+
+[tool.ruff]
+line-length = 100
+src = ["src", "tests"]
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "SIM", "RUF"]
+ignore = [
+  "E731",  # the test helpers are deliberately lambdas, one per outcome
+]

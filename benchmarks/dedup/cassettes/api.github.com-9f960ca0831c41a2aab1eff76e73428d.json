@@ -1,0 +1,17 @@
+{
+  "provenance": "recorded",
+  "recorded_at": "2026-10-26T00:33:36.048587+00:00",
+  "request": {
+    "body": {
+      "query": "query{securityVulnerabilities(first:100, ecosystem:MAVEN, package:\"org.apache.activemq:activemq-openwire-legacy\"){totalCount pageInfo{hasNextPage endCursor} nodes{advisory{ghsaId publishedAt withdrawnAt}}}}"
+    },
+    "kind": "gh-graphql",
+    "method": "POST",
+    "url": "https://api.github.com/graphql"
+  },
+  "rerun": "gh api graphql -f query=\"query{securityVulnerabilities(first:100, ecosystem:MAVEN, package:\\\"org.apache.activemq:activemq-openwire-legacy\\\"){totalCount pageInfo{hasNextPage endCursor} nodes{advisory{ghsaId publishedAt withdrawnAt}}}}\"",
+  "response": {
+    "body": "{\"data\":{\"securityVulnerabilities\":{\"totalCount\":8,\"pageInfo\":{\"hasNextPage\":false,\"endCursor\":\"Y3Vyc29yOnYyOpK0MjAyMy0xMC0zMFQyMDowODo0M1rNu4c=\"},\"nodes\":[{\"advisory\":{\"ghsaId\":\"GHSA-whxr-3p84-rf3c\",\"publishedAt\":\"2025-05-07T09:31:19Z\",\"withdrawnAt\":null}},{\"advisory\":{\"ghsaId\":\"GHSA-whxr-3p84-rf3c\",\"publishedAt\":\"2025-05-07T09:31:19Z\",\"withdrawnAt\":null}},{\"advisory\":{\"ghsaId\":\"GHSA-whxr-3p84-rf3c\",\"publishedAt\":\"2025-05-07T09:31:19Z\",\"withdrawnAt\":null}},{\"advisory\":{\"ghsaId\":\"GHSA-whxr-3p84-rf3c\",\"publishedAt\":\"2025-05-07T09:31:19Z\",\"withdrawnAt\":null}},{\"advisory\":{\"ghsaId\":\"GHSA-crg9-44h2-xw35\",\"publishedAt\":\"2023-10-27T15:30:20Z\",\"withdrawnAt\":null}},{\"advisory\":{\"ghsaId\":\"GHSA-crg9-44h2-xw35\",\"publishedAt\":\"2023-10-27T15:30:20Z\",\"withdrawnAt\":null}},{\"advisory\":{\"ghsaId\":\"GHSA-crg9-44h2-xw35\",\"publishedAt\":\"2023-10-27T15:30:20Z\",\"withdrawnAt\":null}},{\"advisory\":{\"ghsaId\":\"GHSA-crg9-44h2-xw35\",\"publishedAt\":\"2023-10-27T15:30:20Z\",\"withdrawnAt\":null}}]}}}",
+    "status": 200
+  }
+}

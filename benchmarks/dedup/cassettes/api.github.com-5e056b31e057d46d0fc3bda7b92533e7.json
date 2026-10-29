@@ -1,0 +1,17 @@
+{
+  "provenance": "recorded",
+  "recorded_at": "2026-10-26T00:33:44.236932+00:00",
+  "request": {
+    "body": {
+      "query": "query{securityVulnerabilities(first:100, ecosystem:COMPOSER, package:\"juzaweb/cms\"){totalCount pageInfo{hasNextPage endCursor} nodes{advisory{ghsaId publishedAt withdrawnAt}}}}"
+    },
+    "kind": "gh-graphql",
+    "method": "POST",
+    "url": "https://api.github.com/graphql"
+  },
+  "rerun": "gh api graphql -f query=\"query{securityVulnerabilities(first:100, ecosystem:COMPOSER, package:\\\"juzaweb/cms\\\"){totalCount pageInfo{hasNextPage endCursor} nodes{advisory{ghsaId publishedAt withdrawnAt}}}}\"",
+  "response": {
+    "body": "{\"data\":{\"securityVulnerabilities\":{\"totalCount\":5,\"pageInfo\":{\"hasNextPage\":false,\"endCursor\":\"Y3Vyc29yOnYyOpK0MjAyNC0wMS0wOVQxNzoyMTo1OVrNwkE=\"},\"nodes\":[{\"advisory\":{\"ghsaId\":\"GHSA-rq7x-cfmc-rq3w\",\"publishedAt\":\"2025-06-27T00:31:14Z\",\"withdrawnAt\":null}},{\"advisory\":{\"ghsaId\":\"GHSA-mrph-pjv2-34f4\",\"publishedAt\":\"2025-06-27T00:31:14Z\",\"withdrawnAt\":null}},{\"advisory\":{\"ghsaId\":\"GHSA-49rr-34j5-r8mw\",\"publishedAt\":\"2025-06-02T00:30:28Z\",\"withdrawnAt\":null}},{\"advisory\":{\"ghsaId\":\"GHSA-93p6-9cxv-5rpq\",\"publishedAt\":\"2024-01-09T03:30:22Z\",\"withdrawnAt\":null}},{\"advisory\":{\"ghsaId\":\"GHSA-h92m-4g9m-72vr\",\"publishedAt\":\"2023-10-28T03:30:23Z\",\"withdrawnAt\":null}}]}}}",
+    "status": 200
+  }
+}

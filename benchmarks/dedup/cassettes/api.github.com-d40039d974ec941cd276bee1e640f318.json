@@ -1,0 +1,17 @@
+{
+  "provenance": "recorded",
+  "recorded_at": "2026-10-26T00:32:32.544622+00:00",
+  "request": {
+    "body": {
+      "query": "query{securityVulnerabilities(first:100, ecosystem:PIP, package:\"langroid\"){totalCount pageInfo{hasNextPage endCursor} nodes{advisory{ghsaId publishedAt withdrawnAt}}}}"
+    },
+    "kind": "gh-graphql",
+    "method": "POST",
+    "url": "https://api.github.com/graphql"
+  },
+  "rerun": "gh api graphql -f query=\"query{securityVulnerabilities(first:100, ecosystem:PIP, package:\\\"langroid\\\"){totalCount pageInfo{hasNextPage endCursor} nodes{advisory{ghsaId publishedAt withdrawnAt}}}}\"",
+  "response": {
+    "body": "{\"data\":{\"securityVulnerabilities\":{\"totalCount\":11,\"pageInfo\":{\"hasNextPage\":false,\"endCursor\":\"Y3Vyc29yOnYyOpK0MjAyNS0wNS0wNVQyMDo0MDo0NlrOAAEYOg==\"},\"nodes\":[{\"advisory\":{\"ghsaId\":\"GHSA-2pq5-3q89-j7cc\",\"publishedAt\":\"2026-07-06T21:22:43Z\",\"withdrawnAt\":null}},{\"advisory\":{\"ghsaId\":\"GHSA-gjgq-w2m6-wr5q\",\"publishedAt\":\"2026-07-06T20:42:18Z\",\"withdrawnAt\":null}},{\"advisory\":{\"ghsaId\":\"GHSA-q9p7-wqxg-mrhc\",\"publishedAt\":\"2026-07-06T20:42:00Z\",\"withdrawnAt\":null}},{\"advisory\":{\"ghsaId\":\"GHSA-6xc5-4r68-67fc\",\"publishedAt\":\"2026-07-06T20:39:02Z\",\"withdrawnAt\":null}},{\"advisory\":{\"ghsaId\":\"GHSA-pmch-g965-grmr\",\"publishedAt\":\"2026-07-02T17:42:09Z\",\"withdrawnAt\":null}},{\"advisory\":{\"ghsaId\":\"GHSA-fg23-3346-88f5\",\"publishedAt\":\"2026-07-02T17:38:03Z\",\"withdrawnAt\":null}},{\"advisory\":{\"ghsaId\":\"GHSA-mxfr-6hcw-j9rq\",\"publishedAt\":\"2026-05-27T19:38:58Z\",\"withdrawnAt\":null}},{\"advisory\":{\"ghsaId\":\"GHSA-x34r-63hx-w57f\",\"publishedAt\":\"2026-02-02T20:42:28Z\",\"withdrawnAt\":null}},{\"advisory\":{\"ghsaId\":\"GHSA-22c2-9gwg-mj59\",\"publishedAt\":\"2025-05-20T18:01:52Z\",\"withdrawnAt\":null}},{\"advisory\":{\"ghsaId\":\"GHSA-jqq5-wc57-f8hj\",\"publishedAt\":\"2025-05-20T18:00:27Z\",\"withdrawnAt\":null}},{\"advisory\":{\"ghsaId\":\"GHSA-pw95-88fg-3j6f\",\"publishedAt\":\"2025-05-05T20:40:44Z\",\"withdrawnAt\":null}}]}}}",
+    "status": 200
+  }
+}

@@ -1,0 +1,271 @@
+{
+  "file_note": "A HELD-OUT subcorpus, written AFTER benchmarks/gates.py was implemented and specifically to attack the implementation rather than the rule. Its purpose is to de-circularise C2: the main corpus and the gates were derived from the same catalogue, so a high score there shows only that the gates encode the catalogue. Each pair below is faithful to a catalogued rule and constructed so that an implementation which learned the *fixture* rather than the *rule* fails it. Honest caveat: these cases are authored by the same person as the gates, so they are a weaker instrument than a third-party contribution and they are not a sample from any distribution. The failures they produce are deliberately LEFT UNFIXED and recorded as named gaps -- fixing them would rebuild the circularity the holdout exists to break. CORRECTED after an external critique: h01-false's label_basis used to claim the arms were identical in body after canonicalisation and that the case therefore passed via A3. They are not identical in body -- _normalise is a literal str.replace, so DOC_1001 and DOC_9999 survive it -- and the case passes via A9 instead, i.e. for a different reason than the mechanism it was written to test. The basis below now says so, and every case in every subcorpus carries a label_rule field that tests/test_benchmark.py asserts against the rule that actually decided it, so a pass through the wrong gate cannot recur unnoticed.",
+  "cases": [
+    {
+      "id": "h01-false",
+      "shape": "h01-the-echo-is-transformed-before-it-is-reflected",
+      "shape_title": "An echoed identifier that the server case-folds on the way out, so a literal normaliser does not strip it",
+      "catalogue_ref": "rule A9 in practice; written against rule A3, attacked at the implementation. The rule says 'normalise or canonicalise every prefixed id'; a literal string replace only does the first half, and this case proves the gap is there -- but the refusal it produces comes from A9, not from A3.",
+      "member": "false",
+      "correct_decision": "REFUSED",
+      "correct_verdict": "KILL",
+      "naive_oracle_strength": 0,
+      "gated_oracle_strength": 3,
+      "note": "Still nothing but the tester's own input coming back, but upper-cased, so a normaliser built on str.replace leaves it in place and the A3 differential survives. A9 catches it anyway, which is why this case reads as a pass while the defect it targets is untouched.",
+      "label_basis": "REFUSED on exactly the ground that decided FP#2. The mechanism this case was written to test is that case folding defeats a literal normaliser, and it does: _normalise replaces the caller's 'doc_1001' but the server returned 'DOC_1001', so the bodies do NOT match after canonicalisation and the A3 branch is never reached. The gate refuses it through A9 instead -- the two arms differ only in error text, not in status class or key-set -- which is a correct refusal for a different reason. So this pass is evidence about A9 and NOT evidence that A3 canonicalises; the A3 defect the case was built to expose is real and remains unfixed. label_rule is A9, which is the truth, rather than A3, which was the intention.",
+      "observation": {
+        "kind": "http_differential",
+        "claim": "existence-oracle",
+        "arms": [
+          {
+            "label": "identifier-that-exists",
+            "request": {
+              "path": "/v1/echo",
+              "query": {
+                "value": "doc_1001"
+              }
+            },
+            "response": {
+              "status": 400,
+              "body": {
+                "error": "invalid_request",
+                "echo": "DOC_1001",
+                "detail": "value could not be parsed"
+              }
+            }
+          },
+          {
+            "label": "identifier-that-does-not",
+            "request": {
+              "path": "/v1/echo",
+              "query": {
+                "value": "doc_9999"
+              }
+            },
+            "response": {
+              "status": 400,
+              "body": {
+                "error": "invalid_request",
+                "echo": "DOC_9999",
+                "detail": "value could not be parsed"
+              }
+            }
+          }
+        ]
+      },
+      "asserts_absence": false,
+      "conclusion_in_fixture": false,
+      "label_rule": "A9"
+    },
+    {
+      "id": "h01-genuine",
+      "shape": "h01-the-echo-is-transformed-before-it-is-reflected",
+      "shape_title": "An echoed identifier that the server case-folds on the way out, so a literal normaliser does not strip it",
+      "catalogue_ref": "rule A9",
+      "member": "genuine",
+      "correct_decision": "SUPPORTED",
+      "correct_verdict": "CANDIDATE",
+      "naive_oracle_strength": 0,
+      "gated_oracle_strength": 4,
+      "note": "The same case-folded echo, but the status class also differs, which no echo can explain.",
+      "observation": {
+        "kind": "http_differential",
+        "claim": "existence-oracle",
+        "arms": [
+          {
+            "label": "identifier-that-exists",
+            "request": {
+              "path": "/v1/exists/doc_1001"
+            },
+            "response": {
+              "status": 400,
+              "body": {
+                "error": "invalid_request",
+                "detail": "identifier DOC_1001 is not addressable on this route"
+              }
+            }
+          },
+          {
+            "label": "identifier-that-does-not",
+            "request": {
+              "path": "/v1/exists/doc_9999"
+            },
+            "response": {
+              "status": 404,
+              "body": {
+                "error": "not_found",
+                "detail": "identifier DOC_9999 is not addressable on this route"
+              }
+            }
+          }
+        ]
+      },
+      "asserts_absence": false,
+      "conclusion_in_fixture": false,
+      "label_rule": "A9"
+    },
+    {
+      "id": "h02-false",
+      "shape": "h02-a-receiving-field-the-policy-list-has-never-seen",
+      "shape_title": "A parsed field that is genuinely a receive, under a key name no allowlist of field names contains",
+      "catalogue_ref": "rules A4 and A5, attacked at the implementation. The rule is about who populated the field; an implementation that keys on a list of field *names* has substituted a vocabulary for the question.",
+      "member": "false",
+      "correct_decision": "REFUSED",
+      "correct_verdict": "KILL",
+      "naive_oracle_strength": 0,
+      "gated_oracle_strength": 3,
+      "note": "The needle sits in a queue the rig itself filled before the request was ever sent, under a field name that sounds like an observation.",
+      "observation": {
+        "kind": "parsed_field",
+        "claim": "credential-forwarded",
+        "needle": "tkn_a19c4e",
+        "artifact": {
+          "outbound_queue": [
+            {
+              "pending_header": "Authorization: Bearer tkn_a19c4e"
+            }
+          ],
+          "proxy_access_log": [
+            {
+              "request_line": "GET /health HTTP/1.1",
+              "peer": "127.0.0.1"
+            }
+          ]
+        }
+      },
+      "asserts_absence": false,
+      "conclusion_in_fixture": false,
+      "label_rule": "A4"
+    },
+    {
+      "id": "h02-genuine",
+      "shape": "h02-a-receiving-field-the-policy-list-has-never-seen",
+      "shape_title": "A parsed field that is genuinely a receive, under a key name no allowlist of field names contains",
+      "catalogue_ref": "rules A4 and A5",
+      "member": "genuine",
+      "correct_decision": "SUPPORTED",
+      "correct_verdict": "CANDIDATE",
+      "naive_oracle_strength": 0,
+      "gated_oracle_strength": 4,
+      "note": "The needle is in a proxy's record of the request line it received, which is as strong an oracle as a received header and is spelled differently.",
+      "label_basis": "SUPPORTED because the field is a record of what a third party observed arriving, which is exactly what A5 asks for. The label is about provenance, not vocabulary: 'proxy_access_log/request_line' is populated by the proxy, not by the tester. A gate that refuses this has learned the word list and not the rule.",
+      "observation": {
+        "kind": "parsed_field",
+        "claim": "credential-forwarded",
+        "needle": "tkn_a19c4e",
+        "artifact": {
+          "outbound_queue": [
+            {
+              "pending_header": "Authorization: Bearer tkn_a19c4e"
+            }
+          ],
+          "proxy_access_log": [
+            {
+              "request_line": "GET /collect HTTP/1.1",
+              "inbound_header": "Authorization: Bearer tkn_a19c4e",
+              "peer": "127.0.0.1"
+            }
+          ]
+        }
+      },
+      "asserts_absence": false,
+      "conclusion_in_fixture": false,
+      "label_rule": "A5"
+    },
+    {
+      "id": "h03-false",
+      "shape": "h03-a-liveness-arm-that-proves-a-different-route",
+      "shape_title": "A passing liveness arm on one route, used to license a negative on another",
+      "catalogue_ref": "rules 4.4(a) and 4.4(c): the control must prove the boundary *under test* was reachable. VOID-1's stale control was a self-test against a different port.",
+      "member": "false",
+      "correct_decision": "REFUSED",
+      "correct_verdict": "VOID",
+      "naive_oracle_strength": 1,
+      "gated_oracle_strength": 3,
+      "note": "Every lattice requirement is satisfied -- liveness executed, honest control refused by the boundary, results artifact written, control independent of treatment -- and the liveness arm still proves nothing about the route the treatment used.",
+      "label_basis": "VOID on the same ground as VOID-1's third strike: a control that exercised a different route is not a control for this one. The case is in the holdout because every check a lattice normally performs passes, so an implementation that reads the arm table and not the route fields accepts it. label_rule is B-route, which is a rule the implementation DOES NOT HAVE -- no gate compares liveness_route against treatment_route -- and that absence is the finding. This case is published unfixed.",
+      "observation": {
+        "kind": "run_lattice",
+        "claim": "clean-negative",
+        "title": "the batch route does not disclose foreign records",
+        "arms": [
+          {
+            "name": "LIVENESS",
+            "role": "liveness",
+            "outcome": "executed",
+            "detail": "200 from /v1/health"
+          },
+          {
+            "name": "HONEST-CONTROL",
+            "role": "honest-control",
+            "outcome": "refused",
+            "detail": "403 forbidden"
+          },
+          {
+            "name": "batch read",
+            "role": "test",
+            "outcome": "refused",
+            "detail": "no foreign record returned"
+          }
+        ],
+        "results_artifact": true,
+        "reached_application_layer": true,
+        "control_recorded_in_run": true,
+        "control_target": "tenant-alpha",
+        "treatment_target": "tenant-beta",
+        "liveness_route": "/v1/health",
+        "treatment_route": "/v1/documents/batch"
+      },
+      "asserts_absence": true,
+      "conclusion_in_fixture": false,
+      "label_rule": "B-route"
+    },
+    {
+      "id": "h03-genuine",
+      "shape": "h03-a-liveness-arm-that-proves-a-different-route",
+      "shape_title": "A passing liveness arm on one route, used to license a negative on another",
+      "catalogue_ref": "rules 4.4(a) and 4.4(c)",
+      "member": "genuine",
+      "correct_decision": "SUPPORTED",
+      "correct_verdict": "KILL",
+      "naive_oracle_strength": 1,
+      "gated_oracle_strength": 3,
+      "note": "The same silence, with the liveness arm driving the very route the treatment used, so the route is known to answer.",
+      "observation": {
+        "kind": "run_lattice",
+        "claim": "clean-negative",
+        "title": "the batch route does not disclose foreign records (re-run)",
+        "arms": [
+          {
+            "name": "LIVENESS",
+            "role": "liveness",
+            "outcome": "executed",
+            "detail": "200 with own-tenant records from /v1/documents/batch"
+          },
+          {
+            "name": "HONEST-CONTROL",
+            "role": "honest-control",
+            "outcome": "refused",
+            "detail": "403 forbidden"
+          },
+          {
+            "name": "batch read",
+            "role": "test",
+            "outcome": "refused",
+            "detail": "no foreign record returned"
+          }
+        ],
+        "results_artifact": true,
+        "reached_application_layer": true,
+        "control_recorded_in_run": true,
+        "control_target": "tenant-alpha",
+        "treatment_target": "tenant-beta",
+        "liveness_route": "/v1/documents/batch",
+        "treatment_route": "/v1/documents/batch"
+      },
+      "asserts_absence": true,
+      "conclusion_in_fixture": false,
+      "label_rule": "lattice"
+    }
+  ]
+}

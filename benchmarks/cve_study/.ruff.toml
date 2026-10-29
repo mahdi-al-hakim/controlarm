@@ -1,0 +1,10 @@
+# Inherit every project setting, then exclude the fixture cache.
+#
+# The cache holds third-party source acquired at study time. It is gitignored,
+# and inside a real clone ruff would skip it for that reason alone -- but
+# `respect-gitignore` only applies within a git repository, so a tarball or a
+# worktree without .git would otherwise hand ruff twenty thousand findings in
+# other people's code. Excluding it explicitly makes the lint result the same
+# everywhere, which is the only kind of lint result worth having.
+extend = "../../pyproject.toml"
+extend-exclude = [".cache"]
