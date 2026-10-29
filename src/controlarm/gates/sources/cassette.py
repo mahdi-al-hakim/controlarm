@@ -350,8 +350,19 @@ class CassetteStore:
             recorded_at=recording.recorded_at,
             provenance=recording.provenance,
         )
+        # newline="\n" is load-bearing, not style. A recording's bytes are
+        # hashed into cassettes.index.json and `--check` compares that hash,
+        # so the file has to be byte-identical no matter who recorded it.
+        # Without this, Python's default newline translation writes CRLF on
+        # Windows, git normalises it back to LF on commit, and every hash in
+        # the index mismatches on a machine that is not the one that recorded
+        # them. That is a measurement whose result depends on the operating
+        # system of whoever ran it, which is the thing this repository exists
+        # to refuse.
         path.write_text(
-            json.dumps(scrubbed.as_dict(), indent=2, sort_keys=True) + "\n", encoding="utf-8"
+            json.dumps(scrubbed.as_dict(), indent=2, sort_keys=True) + "\n",
+            encoding="utf-8",
+            newline="\n",
         )
         return path
 

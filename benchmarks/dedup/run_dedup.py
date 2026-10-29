@@ -419,8 +419,11 @@ def main(argv: list[str] | None = None) -> int:
 
     text = report(manifest, rows, sources, recorded_calls, now)
     RESULTS.parent.mkdir(parents=True, exist_ok=True)
-    RESULTS.write_text(text + "\n", encoding="utf-8")
-    INDEX.write_text(json.dumps(digest_index(), indent=2) + "\n", encoding="utf-8")
+    # newline="\n" on every committed artefact. The index hashes cassette
+    # bytes, so a file written with CRLF on Windows and normalised to LF by
+    # git hashes differently on the next machine to check it.
+    RESULTS.write_text(text + "\n", encoding="utf-8", newline="\n")
+    INDEX.write_text(json.dumps(digest_index(), indent=2) + "\n", encoding="utf-8", newline="\n")
     if args.json:
         args.json.write_text(json.dumps(rows, indent=2) + "\n", encoding="utf-8")
 

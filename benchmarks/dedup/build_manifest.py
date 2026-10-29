@@ -229,7 +229,7 @@ def main(argv: list[str] | None = None) -> int:
         mode=FetchMode.RECORD if args.record else FetchMode.REPLAY,
     )
     manifest = build(fetcher)
-    MANIFEST.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
+    MANIFEST.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8", newline="\n")
 
     counts: dict[str, int] = {}
     for item in manifest["items"]:
