@@ -51,27 +51,36 @@ from examples.local_target.app import ALLOWLIST, Target
 
 target = Target(mode="flawed")
 
+
 def ask(url):
     r = target.respond("POST", "/v1/fetch", body=json.dumps({"url": url}).encode())
     return r, r.body.get("final_host")
+
 
 def reached_off_list(url):
     # The oracle is the host the fetcher actually reached, not the echoed URL.
     # The response echoes the submitted URL, so a substring check for the
     # off-list host would fire on the correctly-blocked requests too.
     r, host = ask(url)
-    return r.status == 200 and host is not None and host not in ALLOWLIST,         f"{r.status} final_host={host!r}"
+    return (
+        r.status == 200 and host is not None and host not in ALLOWLIST,
+        f"{r.status} final_host={host!r}",
+    )
+
 
 def route_works(url):
     # Liveness asks a different question: does the route function at all.
     r, host = ask(url)
     return r.status == 200, f"{r.status} final_host={host!r}"
 
+
 run = Run("the fetch allowlist cannot be reached past")
-run.liveness(lambda: route_works("https://allowed.example/ok"))        # must work
+run.liveness(lambda: route_works("https://allowed.example/ok"))  # must work
 run.honest_control(lambda: reached_off_list("https://listener.invalid/c"))  # must be refused
-run.arm("off-list host behind a backslash authority",
-        lambda: reached_off_list(r"https://allowed.example\@listener.invalid/c"))
+run.arm(
+    "off-list host behind a backslash authority",
+    lambda: reached_off_list(r"https://allowed.example\@listener.invalid/c"),
+)
 
 verdict, why = run.decide()
 print(verdict.value, "-", why)

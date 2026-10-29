@@ -25,7 +25,11 @@ classifiers = [
 dependencies = []
 
 [project.optional-dependencies]
-dev = ["pytest>=8.0", "ruff>=0.6"]
+# ruff is pinned, not floored. With `ruff>=0.6` CI installed whatever was
+# newest and 0.17 began formatting Python inside Markdown code blocks, so a
+# tree that was clean locally failed CI on a tool release nobody chose. A
+# formatter that can change under you is not a check.
+dev = ["pytest>=8.0", "ruff==0.17.3"]
 # The network prior-art sources (controlarm.gates.sources). This extra installs
 # nothing, and that is the honest state of it: the sources are stdlib-only too
 # -- urllib for OSV and NVD, the already-installed `gh` CLI as a subprocess for
