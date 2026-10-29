@@ -25,10 +25,6 @@ It shows the instrument could have detected one.
 
 ## Install
 
-> **Not published yet.** The repository URL below does not resolve: this tree has not been pushed, so the
-> clone command will fail until it is. That is tracked as a release precondition, not as an oversight, and
-> `tests/test_repository.py` fails the build if the declared URL is unreachable while a network is.
-
 Nothing outside the standard library is needed to use it. The `dev` extra adds `pytest` and `ruff` for the
 tests and the benchmarks.
 

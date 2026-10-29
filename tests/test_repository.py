@@ -64,21 +64,23 @@ def test_the_version_in_citation_matches_the_package():
     )
 
 
-def test_the_readme_does_not_present_an_unpublished_clone_as_working():
-    """Until the repository is pushed, the clone command fails for every reader.
+def test_the_readme_does_not_claim_to_be_unpublished():
+    """The mirror image of the check this used to be.
 
-    The README may still show it, because it is the command that will be correct,
-    but it must say so adjacent to the command rather than letting a reader
-    discover it by running it.
+    While the repository was unpublished, this asserted that a warning sat
+    above the clone command, because the command failed for every reader and
+    a cold reviewer hit that first. The repository is published now, so the
+    warning became the false statement. Both directions are the same rule:
+    the README must not describe a world that is not the one the reader is in.
+
+    The live check that the URL actually resolves is the ``release``-marked
+    test below, which the ``release`` job in CI runs on every push.
     """
-    if "git clone" not in README:
-        pytest.skip("the README no longer shows a clone command")
-    before = README[: README.index("git clone")]
-    assert "Not published yet" in before, (
-        "the README shows a clone command without stating, above it, that the "
-        "repository is not published. That was the first thing a cold reviewer "
-        "checked, and it was the first thing that was false."
-    )
+    for stale in ("Not published yet", "does not resolve", "has not been pushed"):
+        assert stale not in README, (
+            f"the README still says {stale!r}, which was true before the repository "
+            f"was published and is false now"
+        )
 
 
 @pytest.mark.release
