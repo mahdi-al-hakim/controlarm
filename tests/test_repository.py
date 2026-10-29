@@ -19,11 +19,21 @@ from __future__ import annotations
 
 import pathlib
 import re
+import sys
 import urllib.error
 import urllib.request
 
 import pytest
-import tomllib
+
+if sys.version_info >= (3, 11):
+    import tomllib
+else:  # pragma: no cover - exercised by the 3.10 leg of the CI matrix
+    # tomllib landed in 3.11. This package declares requires-python = ">=3.10"
+    # and CI tests 3.10, so importing tomllib unconditionally made the whole
+    # test module unimportable on the oldest version the package claims to
+    # support. The claim was in the metadata and in the CI matrix, and nothing
+    # checked it until the matrix was first run against a published repository.
+    import tomli as tomllib
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 PYPROJECT = tomllib.loads((ROOT / "pyproject.toml").read_text(encoding="utf-8"))
@@ -88,11 +98,14 @@ def test_the_declared_repository_url_resolves():
     """The release gate. SKIPS offline; FAILS on a 404.
 
     This is the test whose absence a cold reviewer identified. It is marked
-    ``release`` and therefore deselected from the default run: it asserts a
-    property of the published world, so it is red until the repository is
-    pushed. Run it with ``pytest -m release``, which is what the release job
-    does. It is not hidden -- the README says the repository is unpublished and
-    names this test as the gate.
+    ``release`` and therefore deselected from the default run, because it
+    asserts a property of the published world rather than of this tree. Run it
+    with ``pytest -m release``, which is what the ``release`` job in
+    ``.github/workflows/ci.yml`` does on every push.
+
+    For a while that job did not exist, so nothing ran this test at all while
+    two documents said something did. The job is the fix; this sentence is the
+    record of why it is there.
     """
     url = _declared_urls().get("pyproject.toml [project.urls] Homepage")
     assert url, "pyproject.toml declares no Homepage"
