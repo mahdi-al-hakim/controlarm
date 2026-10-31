@@ -8,6 +8,11 @@ and when it cannot, it says so instead of reporting a clean result. If you have 
 control arm, this is that idea applied to adversarial testing. A control arm does not look for the effect.
 It shows the instrument could have detected one.
 
+This is the public, self-contained core of a larger harness I run privately for vulnerability research.
+That private harness is where the discipline came from; this repository is the part of it that can stand
+on its own with no target, no credentials, and nothing embargoed, so the method is inspectable even though
+the hunts are not.
+
 - **Six verdicts instead of two.** `VOID`, `CONFOUNDED`, `INCONCLUSIVE`, `NO-TESTS`, `KILL`, `CANDIDATE`.
   A run whose instrument failed is `VOID`. A run whose test never reached the check is `CONFOUNDED`.
   Neither one means "no bug", and the three refusal states call for three different next actions. The
