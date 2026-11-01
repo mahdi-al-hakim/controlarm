@@ -5,8 +5,8 @@
 An autonomous security agent that reports "no vulnerability found" is making two claims at once: that it
 looked, and that looking would have worked. The second is almost never checked. `controlarm` checks it,
 and when it cannot, it says so instead of reporting a clean result. If you have used a clinical trial's
-control arm, this is that idea applied to adversarial testing. A control arm does not look for the effect.
-It shows the instrument could have detected one.
+control arm, this is that idea applied to adversarial testing: the control arm's job is to confirm the
+instrument could have detected the effect, which is what lets a negative result carry weight.
 
 This is the public, self-contained core of a larger harness I run privately for vulnerability research.
 That private harness is where the discipline came from; this repository is the part of it that can stand
@@ -16,7 +16,9 @@ the hunts are not.
 The failure it is built around is not hypothetical. I found and fixed exactly it in Microsoft's RAMPART,
 where a safety test passed against an agent built to exfiltrate because the evaluator could not observe the
 exfiltration (PR #141, merged). controlarm did not find that bug; I did, by hand, applying the discipline
-this repository encodes. The before and after, and why the same blindness appears in other frameworks'
+this repository encodes. In a pre-registered study of the same gap, a safety judge cleared 20 of 64
+harmful agent transcripts (0.31) when shown only the model's text, against 2 of 64 when it could see the
+tool calls. The before and after, the study, and why the same blindness appears in other frameworks'
 text-only scorers, are in [`docs/observability-gap-in-the-wild.md`](docs/observability-gap-in-the-wild.md).
 
 - **Six verdicts instead of two.** `VOID`, `CONFOUNDED`, `INCONCLUSIVE`, `NO-TESTS`, `KILL`, `CANDIDATE`.
