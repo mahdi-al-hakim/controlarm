@@ -13,6 +13,12 @@ That private harness is where the discipline came from; this repository is the p
 on its own with no target, no credentials, and nothing embargoed, so the method is inspectable even though
 the hunts are not.
 
+The failure it is built around is not hypothetical. I found and fixed exactly it in Microsoft's RAMPART,
+where a safety test passed against an agent built to exfiltrate because the evaluator could not observe the
+exfiltration (PR #141, merged). controlarm did not find that bug; I did, by hand, applying the discipline
+this repository encodes. The before and after, and why the same blindness appears in other frameworks'
+text-only scorers, are in [`docs/observability-gap-in-the-wild.md`](docs/observability-gap-in-the-wild.md).
+
 - **Six verdicts instead of two.** `VOID`, `CONFOUNDED`, `INCONCLUSIVE`, `NO-TESTS`, `KILL`, `CANDIDATE`.
   A run whose instrument failed is `VOID`. A run whose test never reached the check is `CONFOUNDED`.
   Neither one means "no bug", and the three refusal states call for three different next actions. The
@@ -102,7 +108,27 @@ python benchmarks/run_benchmark.py --check   # exits non-zero if any number move
 python tools/mutate_guards.py                # neuters each guard; all must break a test
 ```
 
-## The one finding: keep the record of whether your test reached the target
+## The failure this prevents, found in a shipped eval
+
+The clearest evidence that an unobservable check is a real failure, and not a thesis, is that it shipped
+in a maintained agent-safety framework and had to be fixed. In `microsoft/RAMPART`, Microsoft's
+open-source agentic red-teaming harness, a safety test passed against an agent that exfiltrated to an
+external host on every turn, because the adapter it ran under could not observe side effects and the
+evaluator reported that absence as a clean result. The fix, which makes such an evaluator return
+`UNDETERMINED` instead of a false `SAFE`, is merged as PR #141. That is the same rule this repository
+enforces as `VOID`: a negative is trustworthy only once the instrument is shown to work.
+
+Quantified, in a pre-registered study of that gap: shown the tool calls, a safety judge wrongly cleared
+only 2 of 64 harmful agent transcripts; shown only the model's text it cleared 20 of 64 (0.31, 95% Wilson
+[0.21, 0.43]), and all 16 of the ones where the harm was entirely off-channel, while clearing all 8 benign
+runs correctly. The reproduction, the before and after, the matrix and the full study are in
+[`docs/observability-gap-in-the-wild.md`](docs/observability-gap-in-the-wild.md).
+
+The rest of this README is how the discipline is enforced here, the one gate with a measured rate
+(prior-art dedup), and the head-to-head comparisons that came back null, all kept in full and in
+[`GAPS.md`](GAPS.md).
+
+## A localisation on real CVEs: keep the record of whether your test reached the target
 
 Measured against **11 real public CVEs**, each at a pre-fix and a post-fix pinned version, where the
 vendor's patch is the ground truth and nothing in this repository gets a vote. Eight vulnerability
