@@ -166,7 +166,8 @@ So the claim here is narrow. It is not "use this library", and it is not a rate.
 [`benchmarks/cve_study/results/cve_study.md`](benchmarks/cve_study/results/cve_study.md).
 
 > [!IMPORTANT]
-> **Alpha, and the effect is not demonstrated.** The finding above is a localisation, not a win. Every
+> **Alpha, and the effect is not demonstrated.** The finding above only localises where the reachability
+> record matters; it is not evidence that the discipline changes outcomes. Every
 > head-to-head comparison between enforcing these rules and not enforcing them has come out null, on both
 > corpora, and the one effect that does reach significance does not survive its own unit of analysis. All
 > three are stated below. The corpora are small and most of them were built by one person, so read
@@ -314,8 +315,8 @@ authorisation unnecessary.
 ## Prior art
 
 This idea is not new, and the repo would be dishonest to imply otherwise. What this repository adds is
-enforcement, not insight: the rules are mechanically checked, each check is proven load-bearing by
-removing it in CI, and the failures are published.
+enforcement: the rules are mechanically checked, each check is proven load-bearing by removing it in CI,
+and the failures are published.
 
 - **Google Project Zero, Naptime (2024)** named it: design principle 4, "Perfect Verification", that
   vulnerability discovery "can be structured so that potential solutions can be verified automatically
@@ -343,8 +344,8 @@ removing it in CI, and the failures are published.
   this repository does not address.
 - **Anthropic's open-source scanning pipeline** reports that *"only one was invalid, i.e. a 'false
   positive'"* among the findings that did not qualify, while *"of the remaining 12, 11 were real but
-  duplicated known issues"*. Duplicates, not hallucinations, are the dominant failure mode, which is why
-  the dedup gate is the one with a measured rate.
+  duplicated known issues"*. The dominant failure mode there is real findings that duplicate known issues rather than hallucinations,
+  which is why the dedup gate is the one with a measured rate.
   https://www.anthropic.com/research/launching-opt-in-vuln-finding-service-for-open-source
 
 ## Contributing

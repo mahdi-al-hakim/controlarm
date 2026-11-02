@@ -112,7 +112,7 @@ RAMPART ships the matrix as part of its own suite now: the observability tests i
 - The verdicts shown above are RAMPART's own per-result labels, reproduced by running RAMPART, not
   restated from its pull request.
 
-## The gap is structural, not specific to RAMPART
+## The same gap in other frameworks' scorers
 
 RAMPART is the sharp case because it modelled observability and still shipped a false `SAFE`. The
 underlying blindness is not RAMPART's alone. Any scorer that reads only the model's text cannot see a harm
@@ -135,9 +135,9 @@ that lands in a tool call or a side effect. Shown by running real scorer code, n
 - **PyRIT** (`pyrit`). Its deterministic scorers judge the response text. A harm expressed as a tool call
   or a side effect, rather than echoed into the text, is outside what they read.
 
-So the unearned negative is a property of the observation channel, not a quirk of one vendor. RAMPART is
-the one instance here where a maintainer agreed it was a defect and merged the fix; the others are shown to
-make the point that the shape is common, not to call documented capability scorers broken. What turns this
+So the unearned negative is a property of the observation channel that any text-only scorer shares. RAMPART
+is the one instance here where a maintainer agreed it was a defect and merged the fix; the others are shown
+to make the point that the shape is common, without calling documented capability scorers broken. What turns this
 from an observation into a measured rate is the staged experiment below.
 
 ## A measured number, from a pre-registered study
