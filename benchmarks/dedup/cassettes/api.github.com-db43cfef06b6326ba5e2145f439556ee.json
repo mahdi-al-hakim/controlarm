@@ -1,0 +1,17 @@
+{
+  "provenance": "recorded",
+  "recorded_at": "2026-10-26T00:36:02.278448+00:00",
+  "request": {
+    "body": {
+      "query": "query{securityVulnerabilities(first:100, ecosystem:MAVEN, package:\"org.jenkins-ci.plugins:gatling\"){totalCount pageInfo{hasNextPage endCursor} nodes{advisory{ghsaId publishedAt withdrawnAt}}}}"
+    },
+    "kind": "gh-graphql",
+    "method": "POST",
+    "url": "https://api.github.com/graphql"
+  },
+  "rerun": "gh api graphql -f query=\"query{securityVulnerabilities(first:100, ecosystem:MAVEN, package:\\\"org.jenkins-ci.plugins:gatling\\\"){totalCount pageInfo{hasNextPage endCursor} nodes{advisory{ghsaId publishedAt withdrawnAt}}}}\"",
+  "response": {
+    "body": "{\"data\":{\"securityVulnerabilities\":{\"totalCount\":2,\"pageInfo\":{\"hasNextPage\":false,\"endCursor\":\"Y3Vyc29yOnYyOpK0MjAyMi0xMi0yMFQxNzozOTozMlrNkgc=\"},\"nodes\":[{\"advisory\":{\"ghsaId\":\"GHSA-gw97-cqwg-xmh4\",\"publishedAt\":\"2025-06-06T15:30:53Z\",\"withdrawnAt\":null}},{\"advisory\":{\"ghsaId\":\"GHSA-hv53-qjg6-5pm9\",\"publishedAt\":\"2022-05-24T17:13:39Z\",\"withdrawnAt\":null}}]}}}",
+    "status": 200
+  }
+}

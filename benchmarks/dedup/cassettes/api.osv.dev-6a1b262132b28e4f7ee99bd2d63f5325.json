@@ -1,0 +1,15 @@
+{
+  "provenance": "recorded",
+  "recorded_at": "2026-10-26T00:32:42.328720+00:00",
+  "request": {
+    "body": null,
+    "kind": "http",
+    "method": "GET",
+    "url": "https://api.osv.dev/v1/vulns/CVE-2025-45616"
+  },
+  "rerun": "curl -s https://api.osv.dev/v1/vulns/CVE-2025-45616",
+  "response": {
+    "body": "{\"id\":\"CVE-2025-45616\",\"details\":\"Incorrect access control in the /admin/** API of brcc v1.2.0 allows attackers to gain access to Admin rights via a crafted request.\",\"aliases\":[\"GHSA-w7xj-pj5f-8pwh\"],\"modified\":\"2026-10-20T11:08:21.156503489Z\",\"published\":\"2025-05-05T00:00:00Z\",\"database_specific\":{\"cna_assigner\":\"mitre\",\"osv_generated_from\":\"https://github.com/CVEProject/cvelistV5/tree/main/cves/2025/45xxx/CVE-2025-45616.json\"},\"references\":[{\"type\":\"ADVISORY\",\"url\":\"https://github.com/CVEProject/cvelistV5/tree/main/cves/2025/45xxx/CVE-2025-45616.json\"},{\"type\":\"ADVISORY\",\"url\":\"https://nvd.nist.gov/vuln/detail/CVE-2025-45616\"},{\"type\":\"REPORT\",\"url\":\"https://github.com/baidu/brcc/issues/194\"}],\"affected\":[{\"ranges\":[{\"type\":\"GIT\",\"repo\":\"https://github.com/baidu/brcc\",\"events\":[{\"introduced\":\"0\"},{\"last_affected\":\"e9292bcf97837f366c44eea6b4e8e0256ebb2a95\"}],\"database_specific\":{\"extracted_events\":[{\"range\":[{\"introduced\":\"0\"},{\"last_affected\":\"1.2.0\"}],\"source\":\"CPE_RANGE\",\"cpe\":\"cpe:2.3:a:baidu:brcc:*:*:*:*:*:*:*:*\"}]}}],\"versions\":[\"v1.2.0\",\"v1.1.0\",\"v0.2.0\",\"v1.0.5\",\"v0.1.0\",\"v1.0.4\",\"v1.0.2\",\"v1.0.1\",\"v1.0.0\"],\"database_specific\":{\"source\":\"https://storage.googleapis.com/cve-osv-conversion/osv-output/CVE-2025-45616.json\"}}],\"schema_version\":\"1.9.0\",\"severity\":[{\"type\":\"CVSS_V3\",\"score\":\"CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H\"}]}",
+    "status": 200
+  }
+}

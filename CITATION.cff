@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+title: "controlarm: a red-team evidence harness that refuses untrustworthy negatives"
+message: "If you use this software or its benchmark, please cite it."
+type: software
+authors:
+  - family-names: Alhakim
+    given-names: Mahdi
+repository-code: "https://github.com/mahdi-al-hakim/controlarm"
+license: Apache-2.0
+version: 0.1.0.dev0
+date-released: "2026-10-25"
+keywords:
+  - security
+  - red-team
+  - evaluation
+  - false-positive
+  - negative-results

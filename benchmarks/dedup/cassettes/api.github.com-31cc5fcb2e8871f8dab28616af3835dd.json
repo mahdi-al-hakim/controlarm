@@ -1,0 +1,17 @@
+{
+  "provenance": "recorded",
+  "recorded_at": "2026-10-26T00:33:32.333115+00:00",
+  "request": {
+    "body": {
+      "query": "query{securityAdvisories(first:100, identifier:{type:CVE, value:\"CVE-2025-27533\"}){totalCount pageInfo{hasNextPage} nodes{ghsaId publishedAt withdrawnAt}}}"
+    },
+    "kind": "gh-graphql",
+    "method": "POST",
+    "url": "https://api.github.com/graphql"
+  },
+  "rerun": "gh api graphql -f query=\"query{securityAdvisories(first:100, identifier:{type:CVE, value:\\\"CVE-2025-27533\\\"}){totalCount pageInfo{hasNextPage} nodes{ghsaId publishedAt withdrawnAt}}}\"",
+  "response": {
+    "body": "{\"data\":{\"securityAdvisories\":{\"totalCount\":1,\"pageInfo\":{\"hasNextPage\":false},\"nodes\":[{\"ghsaId\":\"GHSA-whxr-3p84-rf3c\",\"publishedAt\":\"2025-05-07T09:31:19Z\",\"withdrawnAt\":null}]}}}",
+    "status": 200
+  }
+}

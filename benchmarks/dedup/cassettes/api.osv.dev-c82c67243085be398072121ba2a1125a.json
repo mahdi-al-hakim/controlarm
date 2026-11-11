@@ -1,0 +1,15 @@
+{
+  "provenance": "recorded",
+  "recorded_at": "2026-10-27T12:28:20.567048+00:00",
+  "request": {
+    "body": null,
+    "kind": "http",
+    "method": "GET",
+    "url": "https://api.osv.dev/v1/vulns/CVE-2025-2905"
+  },
+  "rerun": "curl -s https://api.osv.dev/v1/vulns/CVE-2025-2905",
+  "response": {
+    "body": "{\"id\":\"CVE-2025-2905\",\"details\":\"Due to the improper configuration of XML parser, user-supplied XML is parsed without applying sufficient restrictions, enabling XML External Entity (XXE) resolution in multiple WSO2 Products.\\n\\nA successful XXE attack could allow a remote, unauthenticated attacker to:\\n  *  Read sensitive files from the server\u2019s filesystem.\\n  *  Perform denial-of-service (DoS) attacks, which can render the affected service unavailable.\",\"aliases\":[\"GHSA-h94w-8qhg-3xmc\"],\"modified\":\"2026-10-24T10:30:31.026222316Z\",\"published\":\"2025-05-05T09:15:15.923Z\",\"database_specific\":{},\"references\":[{\"type\":\"ADVISORY\",\"url\":\"https://security.docs.wso2.com/en/latest/security-announcements/security-advisories/2025/WSO2-2025-3993/\"}],\"affected\":[{\"ranges\":[{\"type\":\"GIT\",\"repo\":\"https://github.com/wso2/product-apim\",\"events\":[{\"introduced\":\"0\"},{\"last_affected\":\"2d31e24faeeb97e70d7f19033ccff2f843f8c892\"}],\"database_specific\":{\"extracted_events\":[{\"cpe\":\"cpe:2.3:a:wso2:api_manager:*:*:*:*:*:*:*:*\",\"range\":[{\"introduced\":\"0\"},{\"last_affected\":\"2.0.0\"}],\"source\":\"CPE_RANGE\"}]}}],\"versions\":[\"v2.0.0-rc5\",\"v2.0.0\",\"v2.0.0-rc4\",\"v2.0.0-rc3\",\"v2.0.0-rc2\",\"v2.0.0-rc1\",\"v2.0.0-ALPHA\",\"v2.0.0-M4\",\"v1.9.0\",\"v1.9.0-Beta-3\",\"v1.9.0-Beta-2\",\"v1.9.0-Beta\",\"v1.9.0-Alpha\",\"test-tag-1.9.0-Alpha\",\"v1.9.0-M2\"],\"database_specific\":{\"source\":\"https://storage.googleapis.com/cve-osv-conversion/osv-output/CVE-2025-2905.json\"}}],\"schema_version\":\"1.9.0\",\"severity\":[{\"type\":\"CVSS_V3\",\"score\":\"CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:H\"}]}",
+    "status": 200
+  }
+}

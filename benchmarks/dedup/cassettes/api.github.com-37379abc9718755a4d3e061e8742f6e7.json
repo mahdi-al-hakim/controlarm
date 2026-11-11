@@ -1,0 +1,17 @@
+{
+  "provenance": "recorded",
+  "recorded_at": "2026-10-26T00:32:56.684420+00:00",
+  "request": {
+    "body": {
+      "query": "query{securityVulnerabilities(first:100, ecosystem:MAVEN, package:\"org.apache.parquet:parquet-avro\"){totalCount pageInfo{hasNextPage endCursor} nodes{advisory{ghsaId publishedAt withdrawnAt}}}}"
+    },
+    "kind": "gh-graphql",
+    "method": "POST",
+    "url": "https://api.github.com/graphql"
+  },
+  "rerun": "gh api graphql -f query=\"query{securityVulnerabilities(first:100, ecosystem:MAVEN, package:\\\"org.apache.parquet:parquet-avro\\\"){totalCount pageInfo{hasNextPage endCursor} nodes{advisory{ghsaId publishedAt withdrawnAt}}}}\"",
+  "response": {
+    "body": "{\"data\":{\"securityVulnerabilities\":{\"totalCount\":2,\"pageInfo\":{\"hasNextPage\":false,\"endCursor\":\"Y3Vyc29yOnYyOpK0MjAyNS0wNC0wMVQxODowNDoxN1rOAAEStg==\"},\"nodes\":[{\"advisory\":{\"ghsaId\":\"GHSA-53wx-pr6q-m3j5\",\"publishedAt\":\"2025-05-06T12:30:23Z\",\"withdrawnAt\":null}},{\"advisory\":{\"ghsaId\":\"GHSA-2c59-37c4-qrx5\",\"publishedAt\":\"2025-04-01T09:30:20Z\",\"withdrawnAt\":null}}]}}}",
+    "status": 200
+  }
+}

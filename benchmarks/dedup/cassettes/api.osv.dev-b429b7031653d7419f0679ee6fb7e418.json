@@ -1,0 +1,15 @@
+{
+  "provenance": "recorded",
+  "recorded_at": "2026-10-26T00:32:50.147459+00:00",
+  "request": {
+    "body": null,
+    "kind": "http",
+    "method": "GET",
+    "url": "https://api.osv.dev/v1/vulns/CVE-2025-46762"
+  },
+  "rerun": "curl -s https://api.osv.dev/v1/vulns/CVE-2025-46762",
+  "response": {
+    "body": "{\"code\":5,\"message\":\"Vulnerability not found, but the following aliases were: GHSA-53wx-pr6q-m3j5\"}",
+    "status": 404
+  }
+}

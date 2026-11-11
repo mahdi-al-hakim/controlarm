@@ -1,0 +1,17 @@
+{
+  "provenance": "recorded",
+  "recorded_at": "2026-10-26T00:35:49.010703+00:00",
+  "request": {
+    "body": {
+      "query": "query{securityAdvisories(first:100, identifier:{type:GHSA, value:\"GHSA-98J6-67V3-MW34\"}){totalCount pageInfo{hasNextPage} nodes{ghsaId publishedAt withdrawnAt}}}"
+    },
+    "kind": "gh-graphql",
+    "method": "POST",
+    "url": "https://api.github.com/graphql"
+  },
+  "rerun": "gh api graphql -f query=\"query{securityAdvisories(first:100, identifier:{type:GHSA, value:\\\"GHSA-98J6-67V3-MW34\\\"}){totalCount pageInfo{hasNextPage} nodes{ghsaId publishedAt withdrawnAt}}}\"",
+  "response": {
+    "body": "{\"data\":{\"securityAdvisories\":{\"totalCount\":1,\"pageInfo\":{\"hasNextPage\":false},\"nodes\":[{\"ghsaId\":\"GHSA-98j6-67v3-mw34\",\"publishedAt\":\"2025-06-06T00:07:08Z\",\"withdrawnAt\":null}]}}}",
+    "status": 200
+  }
+}

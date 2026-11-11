@@ -1,0 +1,17 @@
+{
+  "provenance": "recorded",
+  "recorded_at": "2026-10-26T00:35:58.001860+00:00",
+  "request": {
+    "body": {
+      "query": "query{securityAdvisories(first:100, identifier:{type:CVE, value:\"CVE-2025-5806\"}){totalCount pageInfo{hasNextPage} nodes{ghsaId publishedAt withdrawnAt}}}"
+    },
+    "kind": "gh-graphql",
+    "method": "POST",
+    "url": "https://api.github.com/graphql"
+  },
+  "rerun": "gh api graphql -f query=\"query{securityAdvisories(first:100, identifier:{type:CVE, value:\\\"CVE-2025-5806\\\"}){totalCount pageInfo{hasNextPage} nodes{ghsaId publishedAt withdrawnAt}}}\"",
+  "response": {
+    "body": "{\"data\":{\"securityAdvisories\":{\"totalCount\":7,\"pageInfo\":{\"hasNextPage\":false},\"nodes\":[{\"ghsaId\":\"GHSA-hw6f-rjfj-j7j7\",\"publishedAt\":\"2025-08-29T20:08:24Z\",\"withdrawnAt\":null},{\"ghsaId\":\"GHSA-765j-9r45-w2q2\",\"publishedAt\":\"2025-09-11T16:51:57Z\",\"withdrawnAt\":null},{\"ghsaId\":\"GHSA-93mf-426m-g6x9\",\"publishedAt\":\"2025-09-09T19:19:33Z\",\"withdrawnAt\":null},{\"ghsaId\":\"GHSA-x9gp-vjh6-3wv6\",\"publishedAt\":\"2025-09-03T18:03:20Z\",\"withdrawnAt\":null},{\"ghsaId\":\"GHSA-5jch-xhw4-r43v\",\"publishedAt\":\"2025-08-29T20:07:47Z\",\"withdrawnAt\":null},{\"ghsaId\":\"GHSA-4855-q42w-5vr4\",\"publishedAt\":\"2025-08-29T20:07:27Z\",\"withdrawnAt\":null},{\"ghsaId\":\"GHSA-gw97-cqwg-xmh4\",\"publishedAt\":\"2025-06-06T15:30:53Z\",\"withdrawnAt\":null}]}}}",
+    "status": 200
+  }
+}

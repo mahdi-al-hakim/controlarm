@@ -1,0 +1,17 @@
+{
+  "provenance": "recorded",
+  "recorded_at": "2026-10-26T00:34:38.251545+00:00",
+  "request": {
+    "body": {
+      "query": "query{securityVulnerabilities(first:100, ecosystem:PIP, package:\"jupyter-core\"){totalCount pageInfo{hasNextPage endCursor} nodes{advisory{ghsaId publishedAt withdrawnAt}}}}"
+    },
+    "kind": "gh-graphql",
+    "method": "POST",
+    "url": "https://api.github.com/graphql"
+  },
+  "rerun": "gh api graphql -f query=\"query{securityVulnerabilities(first:100, ecosystem:PIP, package:\\\"jupyter-core\\\"){totalCount pageInfo{hasNextPage endCursor} nodes{advisory{ghsaId publishedAt withdrawnAt}}}}\"",
+  "response": {
+    "body": "{\"data\":{\"securityVulnerabilities\":{\"totalCount\":1,\"pageInfo\":{\"hasNextPage\":false,\"endCursor\":\"Y3Vyc29yOnYyOpK0MjAyMy0wOS0wMlQwNTowNjoxOFrNikw=\"},\"nodes\":[{\"advisory\":{\"ghsaId\":\"GHSA-m678-f26j-3hrp\",\"publishedAt\":\"2022-10-26T22:07:00Z\",\"withdrawnAt\":null}}]}}}",
+    "status": 200
+  }
+}

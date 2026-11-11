@@ -1,0 +1,15 @@
+{
+  "provenance": "recorded",
+  "recorded_at": "2026-10-26T00:32:58.152835+00:00",
+  "request": {
+    "body": null,
+    "kind": "http",
+    "method": "GET",
+    "url": "https://api.osv.dev/v1/vulns/GHSA-9PCC-GVX5-R5WM"
+  },
+  "rerun": "curl -s https://api.osv.dev/v1/vulns/GHSA-9PCC-GVX5-R5WM",
+  "response": {
+    "body": "{\"code\":5,\"message\":\"Vulnerability not found\"}",
+    "status": 404
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "id": "fetch-allowlist-backslash",
+  "subject": "the fetch allowlist cannot be reached past",
+  "notes": "The flawed mode of the local target. Prose only; no gate reads this field.",
+  "oracle": {
+    "kind": "parsed_field_diff",
+    "observable": "the parsed final_host field of the fetch response, not the echoed URL"
+  },
+  "liveness": {
+    "name": "LIVENESS",
+    "call": "examples.local_target.probes:route_works",
+    "args": {
+      "url": "https://allowed.example/ok",
+      "mode": "flawed"
+    },
+    "expectation": "executes, or the run is VOID"
+  },
+  "control": {
+    "name": "HONEST-CONTROL",
+    "call": "examples.local_target.probes:reached_off_list",
+    "args": {
+      "url": "https://listener.invalid/c",
+      "mode": "flawed"
+    },
+    "expectation": "refused by the boundary itself, or the run is VOID"
+  },
+  "arms": [
+    {
+      "name": "off-list host behind a backslash authority",
+      "call": "examples.local_target.probes:reached_off_list",
+      "args": {
+        "url": "https://allowed.example\\@listener.invalid/c",
+        "mode": "flawed"
+      },
+      "expectation": "refused"
+    }
+  ]
+}

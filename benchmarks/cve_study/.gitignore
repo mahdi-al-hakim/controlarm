@@ -1,0 +1,6 @@
+# Study fixtures are acquired at run time, never committed. See acquire.py and
+# docs/cve-study.md. The committed artefacts are fixtures.lock.json (the sha256
+# of every pinned distribution) and results/, which together make the study
+# reproducible without shipping anyone else's source tree.
+.cache/
+.ruff_cache/

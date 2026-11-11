@@ -1,0 +1,15 @@
+{
+  "provenance": "recorded",
+  "recorded_at": "2026-10-26T00:32:33.105958+00:00",
+  "request": {
+    "body": null,
+    "kind": "http",
+    "method": "GET",
+    "url": "https://api.osv.dev/v1/vulns/CVE-2025-29573"
+  },
+  "rerun": "curl -s https://api.osv.dev/v1/vulns/CVE-2025-29573",
+  "response": {
+    "body": "{\"id\":\"CVE-2025-29573\",\"details\":\"Cross-Site Scripting (XSS) vulnerability exists in Mezzanine CMS 6.0.0 in the \\\"View Entries\\\" feature within the Forms module.\",\"aliases\":[\"GHSA-2544-hpcq-6g27\",\"PYSEC-2025-136\"],\"modified\":\"2026-10-20T11:08:01.445826602Z\",\"published\":\"2025-05-05T00:00:00Z\",\"database_specific\":{\"cna_assigner\":\"mitre\",\"osv_generated_from\":\"https://github.com/CVEProject/cvelistV5/tree/main/cves/2025/29xxx/CVE-2025-29573.json\"},\"references\":[{\"type\":\"WEB\",\"url\":\"https://www.squadappsec.com/post/cve-2025-29573-persistent-xss-in-mezzanine-cms-6-0-0-via-malicious-filename\"},{\"type\":\"ADVISORY\",\"url\":\"https://github.com/CVEProject/cvelistV5/tree/main/cves/2025/29xxx/CVE-2025-29573.json\"},{\"type\":\"ADVISORY\",\"url\":\"https://nvd.nist.gov/vuln/detail/CVE-2025-29573\"},{\"type\":\"PACKAGE\",\"url\":\"https://github.com/stephenmcd/mezzanine\"}],\"affected\":[{\"ranges\":[{\"type\":\"GIT\",\"repo\":\"https://github.com/stephenmcd/mezzanine\",\"events\":[{\"introduced\":\"fe094f51c95ad4d15bbfab8a2286183a6f483d8d\"},{\"last_affected\":\"fe094f51c95ad4d15bbfab8a2286183a6f483d8d\"}],\"database_specific\":{\"extracted_events\":[{\"range\":[{\"introduced\":\"6.0.0\"},{\"last_affected\":\"6.0.0\"}],\"source\":\"CPE_STRING\",\"cpe\":\"cpe:2.3:a:jupo:mezzanine:6.0.0:*:*:*:*:*:*:*\"}]}}],\"versions\":[\"6.0.0\",\"v6.0.0\"],\"database_specific\":{\"source\":\"https://storage.googleapis.com/cve-osv-conversion/osv-output/CVE-2025-29573.json\"}}],\"schema_version\":\"1.9.0\",\"severity\":[{\"type\":\"CVSS_V3\",\"score\":\"CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N\"}]}",
+    "status": 200
+  }
+}

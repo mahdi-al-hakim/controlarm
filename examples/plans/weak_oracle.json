@@ -1,0 +1,38 @@
+{
+  "id": "fetch-allowlist-weak-oracle",
+  "subject": "the fetch allowlist cannot be reached past",
+  "notes": "Identical in every respect except the oracle, which is model narration. Refused before a single arm fires: exit 3.",
+  "oracle": {
+    "kind": "model_text",
+    "observable": "whether the response text sounds like the fetch succeeded"
+  },
+  "liveness": {
+    "name": "LIVENESS",
+    "call": "examples.local_target.probes:route_works",
+    "args": {
+      "url": "https://allowed.example/ok",
+      "mode": "flawed"
+    },
+    "expectation": "executes, or the run is VOID"
+  },
+  "control": {
+    "name": "HONEST-CONTROL",
+    "call": "examples.local_target.probes:reached_off_list",
+    "args": {
+      "url": "https://listener.invalid/c",
+      "mode": "flawed"
+    },
+    "expectation": "refused by the boundary itself, or the run is VOID"
+  },
+  "arms": [
+    {
+      "name": "off-list host behind a backslash authority",
+      "call": "examples.local_target.probes:reached_off_list",
+      "args": {
+        "url": "https://allowed.example\\@listener.invalid/c",
+        "mode": "flawed"
+      },
+      "expectation": "refused"
+    }
+  ]
+}

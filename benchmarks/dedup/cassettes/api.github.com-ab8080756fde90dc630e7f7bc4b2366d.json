@@ -1,0 +1,17 @@
+{
+  "provenance": "recorded",
+  "recorded_at": "2026-10-27T12:27:09.396324+00:00",
+  "request": {
+    "body": {
+      "query": "query{securityVulnerabilities(first:100, ecosystem:MAVEN, package:\"org.wso2.carbon.identity.framework:org.wso2.carbon.identity.user.store.configuration.ui\"){totalCount pageInfo{hasNextPage endCursor} nodes{advisory{ghsaId publishedAt withdrawnAt}}}}"
+    },
+    "kind": "gh-graphql",
+    "method": "POST",
+    "url": "https://api.github.com/graphql"
+  },
+  "rerun": "gh api graphql -f query=\"query{securityVulnerabilities(first:100, ecosystem:MAVEN, package:\\\"org.wso2.carbon.identity.framework:org.wso2.carbon.identity.user.store.configuration.ui\\\"){totalCount pageInfo{hasNextPage endCursor} nodes{advisory{ghsaId publishedAt withdrawnAt}}}}\"",
+  "response": {
+    "body": "{\"data\":{\"securityVulnerabilities\":{\"totalCount\":1,\"pageInfo\":{\"hasNextPage\":false,\"endCursor\":\"Y3Vyc29yOnYyOpK0MjAyNS0wNi0wNVQwNTo0OTowOVrOAAEejw==\"},\"nodes\":[{\"advisory\":{\"ghsaId\":\"GHSA-xpxp-r8hf-wgf6\",\"publishedAt\":\"2025-06-02T18:30:52Z\",\"withdrawnAt\":null}}]}}}",
+    "status": 200
+  }
+}

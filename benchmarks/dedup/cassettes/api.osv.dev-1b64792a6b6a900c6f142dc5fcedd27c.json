@@ -1,0 +1,15 @@
+{
+  "provenance": "recorded",
+  "recorded_at": "2026-10-26T00:33:45.628042+00:00",
+  "request": {
+    "body": null,
+    "kind": "http",
+    "method": "GET",
+    "url": "https://api.osv.dev/v1/vulns/GHSA-XPXP-R8HF-WGF6"
+  },
+  "rerun": "curl -s https://api.osv.dev/v1/vulns/GHSA-XPXP-R8HF-WGF6",
+  "response": {
+    "body": "{\"code\":5,\"message\":\"Vulnerability not found\"}",
+    "status": 404
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "provenance": "recorded",
+  "recorded_at": "2026-10-26T00:31:45.370989+00:00",
+  "request": {
+    "body": {
+      "query": "query{securityVulnerabilities(first:100, ecosystem:PIP, package:\"mobsf\"){totalCount pageInfo{hasNextPage endCursor} nodes{advisory{ghsaId publishedAt withdrawnAt}}}}"
+    },
+    "kind": "gh-graphql",
+    "method": "POST",
+    "url": "https://api.github.com/graphql"
+  },
+  "rerun": "gh api graphql -f query=\"query{securityVulnerabilities(first:100, ecosystem:PIP, package:\\\"mobsf\\\"){totalCount pageInfo{hasNextPage endCursor} nodes{advisory{ghsaId publishedAt withdrawnAt}}}}\"",
+  "response": {
+    "body": "{\"data\":{\"securityVulnerabilities\":{\"totalCount\":21,\"pageInfo\":{\"hasNextPage\":false,\"endCursor\":\"Y3Vyc29yOnYyOpK0MjAyMi0xMC0xOFQyMToxNzoyNVrNiDg=\"},\"nodes\":[{\"advisory\":{\"ghsaId\":\"GHSA-8j49-mmcx-4mp5\",\"publishedAt\":\"2026-08-18T18:01:26Z\",\"withdrawnAt\":null}},{\"advisory\":{\"ghsaId\":\"GHSA-3p54-567p-2wpr\",\"publishedAt\":\"2026-08-18T18:01:13Z\",\"withdrawnAt\":null}},{\"advisory\":{\"ghsaId\":\"GHSA-95px-34x5-p37h\",\"publishedAt\":\"2026-08-18T18:01:03Z\",\"withdrawnAt\":null}},{\"advisory\":{\"ghsaId\":\"GHSA-x768-8642-mmq9\",\"publishedAt\":\"2026-08-18T18:00:47Z\",\"withdrawnAt\":null}},{\"advisory\":{\"ghsaId\":\"GHSA-hqjr-43r5-9q58\",\"publishedAt\":\"2026-03-24T19:23:52Z\",\"withdrawnAt\":null}},{\"advisory\":{\"ghsaId\":\"GHSA-8hf7-h89p-3pqj\",\"publishedAt\":\"2026-01-26T23:36:19Z\",\"withdrawnAt\":null}},{\"advisory\":{\"ghsaId\":\"GHSA-ccc3-fvfx-mw3v\",\"publishedAt\":\"2025-09-02T17:14:06Z\",\"withdrawnAt\":null}},{\"advisory\":{\"ghsaId\":\"GHSA-9gh8-9r95-3fc3\",\"publishedAt\":\"2025-09-02T17:12:52Z\",\"withdrawnAt\":null}},{\"advisory\":{\"ghsaId\":\"GHSA-m435-9v6r-v5f6\",\"publishedAt\":\"2025-06-27T20:43:48Z\",\"withdrawnAt\":null}},{\"advisory\":{\"ghsaId\":\"GHSA-c5vg-26p8-q8cr\",\"publishedAt\":\"2025-05-05T19:32:27Z\",\"withdrawnAt\":null}},{\"advisory\":{\"ghsaId\":\"GHSA-mwfg-948f-2cc5\",\"publishedAt\":\"2025-05-05T14:55:59Z\",\"withdrawnAt\":null}},{\"advisory\":{\"ghsaId\":\"GHSA-cc8j-6phr-jv9x\",\"publishedAt\":\"2023-09-22T00:30:29Z\",\"withdrawnAt\":\"2025-04-10T14:29:56Z\"}},{\"advisory\":{\"ghsaId\":\"GHSA-fcfq-m8p6-gw56\",\"publishedAt\":\"2025-03-31T17:23:21Z\",\"withdrawnAt\":null}},{\"advisory\":{\"ghsaId\":\"GHSA-79f6-p65j-3m2m\",\"publishedAt\":\"2025-02-05T21:14:47Z\",\"withdrawnAt\":null}},{\"advisory\":{\"ghsaId\":\"GHSA-jrm8-xgf3-fwqr\",\"publishedAt\":\"2025-02-05T21:09:21Z\",\"withdrawnAt\":null}},{\"advisory\":{\"ghsaId\":\"GHSA-cxqq-w3x5-7ph3\",\"publishedAt\":\"2025-02-05T20:56:39Z\",\"withdrawnAt\":null}},{\"advisory\":{\"ghsaId\":\"GHSA-5jc6-h9w7-jm3p\",\"publishedAt\":\"2024-12-03T18:45:22Z\",\"withdrawnAt\":null}},{\"advisory\":{\"ghsaId\":\"GHSA-4hh3-vj32-gr6j\",\"publishedAt\":\"2024-08-19T17:29:52Z\",\"withdrawnAt\":null}},{\"advisory\":{\"ghsaId\":\"GHSA-8m9j-2f32-2vx4\",\"publishedAt\":\"2024-07-31T20:54:08Z\",\"withdrawnAt\":null}},{\"advisory\":{\"ghsaId\":\"GHSA-wpff-wm84-x5cx\",\"publishedAt\":\"2024-04-04T14:39:03Z\",\"withdrawnAt\":null}},{\"advisory\":{\"ghsaId\":\"GHSA-f42p-vc8p-7x54\",\"publishedAt\":\"2022-10-18T19:00:33Z\",\"withdrawnAt\":null}}]}}}",
+    "status": 200
+  }
+}

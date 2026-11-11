@@ -1,0 +1,1318 @@
+{
+  "selection_rule": "benchmarks/dedup/SELECTION_RULE.md",
+  "cutoff": "2025-06-01T00:00:00+00:00",
+  "built_at": "2026-10-27T12:36:09.471606+00:00",
+  "per_pool_target": 20,
+  "pools": {
+    "duplicate": {
+      "published_since": "2025-05-01T00:00:00+00:00",
+      "graphql": "query{securityAdvisories(first:100, orderBy:{field:PUBLISHED_AT, direction:ASC}, publishedSince:\"2025-05-01T00:00:00Z\", classifications:GENERAL){totalCount nodes{ghsaId publishedAt withdrawnAt identifiers{type value} vulnerabilities(first:100){nodes{package{ecosystem name}}}}}}",
+      "kept": 20
+    },
+    "novel": {
+      "published_since": "2025-06-01T00:00:00+00:00",
+      "graphql": "query{securityAdvisories(first:100, orderBy:{field:PUBLISHED_AT, direction:ASC}, publishedSince:\"2025-06-01T00:00:00Z\", classifications:GENERAL){totalCount nodes{ghsaId publishedAt withdrawnAt identifiers{type value} vulnerabilities(first:100){nodes{package{ecosystem name}}}}}}",
+      "kept": 20
+    }
+  },
+  "dropped": [
+    {
+      "ghsa": "GHSA-7cp4-jw97-3rc2",
+      "reason": "withdrawn (condition 1)"
+    },
+    {
+      "ghsa": "GHSA-vh4h-fvqf-q9wv",
+      "reason": "withdrawn (condition 1)"
+    },
+    {
+      "ghsa": "GHSA-4pc9-x2fx-p7vj",
+      "reason": "OSV record enumerates no versions (condition 3)"
+    },
+    {
+      "ghsa": "GHSA-qgp8-v765-qxx9",
+      "reason": "OSV record enumerates no versions (condition 3)"
+    },
+    {
+      "ghsa": "GHSA-6m8w-jc87-6cr7",
+      "reason": "OSV record enumerates no versions (condition 3)"
+    },
+    {
+      "ghsa": "GHSA-gcqf-f89c-68hv",
+      "reason": "OSV record enumerates no versions (condition 3)"
+    },
+    {
+      "ghsa": "GHSA-f9ch-h8j7-8jwg",
+      "reason": "OSV record enumerates no versions (condition 3)"
+    },
+    {
+      "ghsa": "GHSA-8w8f-h4cm-c4pg",
+      "reason": "OSV record enumerates no versions (condition 3)"
+    },
+    {
+      "ghsa": "GHSA-892p-pqrr-hxqr",
+      "reason": "OSV record enumerates no versions (condition 3)"
+    },
+    {
+      "ghsa": "GHSA-v2p5-q653-9j99",
+      "reason": "OSV record enumerates no versions (condition 3)"
+    },
+    {
+      "ghsa": "GHSA-f54f-hr32-586f",
+      "reason": "withdrawn (condition 1)"
+    },
+    {
+      "ghsa": "GHSA-7899-w6c4-vqc4",
+      "reason": "OSV record enumerates no versions (condition 3)"
+    },
+    {
+      "ghsa": "GHSA-42mr-jpwh-m9rv",
+      "reason": "OSV record enumerates no versions (condition 3)"
+    },
+    {
+      "ghsa": "GHSA-hg9m-67mm-7pg3",
+      "reason": "OSV record enumerates no versions (condition 3)"
+    },
+    {
+      "ghsa": "GHSA-pv22-fqcj-7xwh",
+      "reason": "OSV record enumerates no versions (condition 3)"
+    },
+    {
+      "ghsa": "GHSA-4vgf-2cm4-mp7c",
+      "reason": "OSV record enumerates no versions (condition 3)"
+    },
+    {
+      "ghsa": "GHSA-jqx4-9gpq-rppm",
+      "reason": "OSV record enumerates no versions (condition 3)"
+    },
+    {
+      "ghsa": "GHSA-m2xr-2vj4-wh94",
+      "reason": "OSV record enumerates no versions (condition 3)"
+    },
+    {
+      "ghsa": "GHSA-rwj2-w85g-5cmm",
+      "reason": "OSV record enumerates no versions (condition 3)"
+    },
+    {
+      "ghsa": "GHSA-g4r8-mp7g-85fq",
+      "reason": "OSV record enumerates no versions (condition 3)"
+    },
+    {
+      "ghsa": "GHSA-58xc-hpvq-8473",
+      "reason": "OSV record enumerates no versions (condition 3)"
+    },
+    {
+      "ghsa": "GHSA-wjmp-wphq-jvqf",
+      "reason": "OSV record enumerates no versions (condition 3)"
+    },
+    {
+      "ghsa": "GHSA-8gqj-226h-gm8r",
+      "reason": "OSV record enumerates no versions (condition 3)"
+    },
+    {
+      "ghsa": "GHSA-8j8w-wwqc-x596",
+      "reason": "OSV record enumerates no versions (condition 3)"
+    },
+    {
+      "ghsa": "GHSA-3px7-c4j3-576r",
+      "reason": "OSV record enumerates no versions (condition 3)"
+    },
+    {
+      "ghsa": "GHSA-6mcc-q3mg-3qg6",
+      "reason": "OSV record enumerates no versions (condition 3)"
+    },
+    {
+      "ghsa": "GHSA-9j65-rv5x-4vrf",
+      "reason": "OSV record enumerates no versions (condition 3)"
+    },
+    {
+      "ghsa": "GHSA-j972-j939-p2v3",
+      "reason": "OSV record enumerates no versions (condition 3)"
+    },
+    {
+      "ghsa": "GHSA-8cj5-5rvv-wf4v",
+      "reason": "OSV record enumerates no versions (condition 3)"
+    },
+    {
+      "ghsa": "GHSA-4xg4-54hm-9j77",
+      "reason": "OSV record enumerates no versions (condition 3)"
+    },
+    {
+      "ghsa": "GHSA-95rc-wc32-gm53",
+      "reason": "OSV record enumerates no versions (condition 3)"
+    },
+    {
+      "ghsa": "GHSA-65p9-j6pg-72hj",
+      "reason": "OSV record enumerates no versions (condition 3)"
+    },
+    {
+      "ghsa": "GHSA-7633-x85h-5mqh",
+      "reason": "OSV record enumerates no versions (condition 3)"
+    },
+    {
+      "ghsa": "GHSA-4p4w-6hg8-63wx",
+      "reason": "OSV record enumerates no versions (condition 3)"
+    },
+    {
+      "ghsa": "GHSA-2x3r-hwv5-p32x",
+      "reason": "OSV record enumerates no versions (condition 3)"
+    },
+    {
+      "ghsa": "GHSA-4v9v-hfq4-rm2v",
+      "reason": "OSV record enumerates no versions (condition 3)"
+    },
+    {
+      "ghsa": "GHSA-9jgg-88mc-972h",
+      "reason": "OSV record enumerates no versions (condition 3)"
+    },
+    {
+      "ghsa": "GHSA-xqxc-x6p3-w683",
+      "reason": "OSV record enumerates no versions (condition 3)"
+    },
+    {
+      "ghsa": "GHSA-7w8p-chxq-2789",
+      "reason": "OSV record enumerates no versions (condition 3)"
+    },
+    {
+      "ghsa": "GHSA-8vxj-4cph-c596",
+      "reason": "OSV record enumerates no versions (condition 3)"
+    },
+    {
+      "ghsa": "GHSA-f3fg-mf2q-fj3f",
+      "reason": "OSV record enumerates no versions (condition 3)"
+    },
+    {
+      "ghsa": "GHSA-pr59-jjr4-gcf6",
+      "reason": "OSV record enumerates no versions (condition 3)"
+    },
+    {
+      "ghsa": "GHSA-fvx2-x7ff-fc56",
+      "reason": "OSV record enumerates no versions (condition 3)"
+    },
+    {
+      "ghsa": "GHSA-g5hg-p3ph-g8qg",
+      "reason": "OSV record enumerates no versions (condition 3)"
+    },
+    {
+      "ghsa": "GHSA-m65q-v92h-cm7q",
+      "reason": "OSV record enumerates no versions (condition 3)"
+    },
+    {
+      "ghsa": "GHSA-jv4x-jv3h-qff5",
+      "reason": "OSV record enumerates no versions (condition 3)"
+    },
+    {
+      "ghsa": "GHSA-jq8x-v7jw-v675",
+      "reason": "withdrawn (condition 1)"
+    }
+  ],
+  "items": [
+    {
+      "id": "dup-id-01",
+      "family": "identifier",
+      "subject": "GHSA-8x27-jwjr-8545 CVE-2025-46337",
+      "label": "duplicate",
+      "ghsa": "GHSA-8x27-jwjr-8545",
+      "published_at": "2025-05-01T13:59:51Z",
+      "cves": [
+        "CVE-2025-46337"
+      ],
+      "ecosystem": "Packagist",
+      "package": "adodb/adodb-php",
+      "version": "v5.22.8"
+    },
+    {
+      "id": "dup-coord-01",
+      "family": "coordinate",
+      "subject": "pkg:composer/adodb/adodb-php@v5.22.8",
+      "label": "duplicate",
+      "ghsa": "GHSA-8x27-jwjr-8545",
+      "published_at": "2025-05-01T13:59:51Z",
+      "cves": [
+        "CVE-2025-46337"
+      ],
+      "ecosystem": "Packagist",
+      "package": "adodb/adodb-php",
+      "version": "v5.22.8"
+    },
+    {
+      "id": "dup-id-02",
+      "family": "identifier",
+      "subject": "GHSA-mm3m-5497-xggg CVE-2024-52979",
+      "label": "duplicate",
+      "ghsa": "GHSA-mm3m-5497-xggg",
+      "published_at": "2025-05-01T15:31:43Z",
+      "cves": [
+        "CVE-2024-52979"
+      ],
+      "ecosystem": "Maven",
+      "package": "org.elasticsearch:elasticsearch",
+      "version": "7.9.3"
+    },
+    {
+      "id": "dup-coord-02",
+      "family": "coordinate",
+      "subject": "pkg:maven/org.elasticsearch:elasticsearch@7.9.3",
+      "label": "duplicate",
+      "ghsa": "GHSA-mm3m-5497-xggg",
+      "published_at": "2025-05-01T15:31:43Z",
+      "cves": [
+        "CVE-2024-52979"
+      ],
+      "ecosystem": "Maven",
+      "package": "org.elasticsearch:elasticsearch",
+      "version": "7.9.3"
+    },
+    {
+      "id": "dup-id-03",
+      "family": "identifier",
+      "subject": "GHSA-h3vp-qwmx-5j25 CVE-2025-47226",
+      "label": "duplicate",
+      "ghsa": "GHSA-h3vp-qwmx-5j25",
+      "published_at": "2025-05-02T21:30:43Z",
+      "cves": [
+        "CVE-2025-47226"
+      ],
+      "ecosystem": "Packagist",
+      "package": "snipe/snipe-it",
+      "version": "v8.0.4"
+    },
+    {
+      "id": "dup-coord-03",
+      "family": "coordinate",
+      "subject": "pkg:composer/snipe/snipe-it@v8.0.4",
+      "label": "duplicate",
+      "ghsa": "GHSA-h3vp-qwmx-5j25",
+      "published_at": "2025-05-02T21:30:43Z",
+      "cves": [
+        "CVE-2025-47226"
+      ],
+      "ecosystem": "Packagist",
+      "package": "snipe/snipe-it",
+      "version": "v8.0.4"
+    },
+    {
+      "id": "dup-id-04",
+      "family": "identifier",
+      "subject": "GHSA-h94w-8qhg-3xmc CVE-2025-2905",
+      "label": "duplicate",
+      "ghsa": "GHSA-h94w-8qhg-3xmc",
+      "published_at": "2025-05-05T09:31:09Z",
+      "cves": [
+        "CVE-2025-2905"
+      ],
+      "ecosystem": "Maven",
+      "package": "org.wso2.am:am-distribution-parent",
+      "version": "2.1.0-alpha"
+    },
+    {
+      "id": "dup-coord-04",
+      "family": "coordinate",
+      "subject": "pkg:maven/org.wso2.am:am-distribution-parent@2.1.0-alpha",
+      "label": "duplicate",
+      "ghsa": "GHSA-h94w-8qhg-3xmc",
+      "published_at": "2025-05-05T09:31:09Z",
+      "cves": [
+        "CVE-2025-2905"
+      ],
+      "ecosystem": "Maven",
+      "package": "org.wso2.am:am-distribution-parent",
+      "version": "2.1.0-alpha"
+    },
+    {
+      "id": "dup-id-05",
+      "family": "identifier",
+      "subject": "GHSA-96hh-8hx5-cpw7 CVE-2024-51991",
+      "label": "duplicate",
+      "ghsa": "GHSA-96hh-8hx5-cpw7",
+      "published_at": "2025-05-05T14:55:41Z",
+      "cves": [
+        "CVE-2024-51991"
+      ],
+      "ecosystem": "Packagist",
+      "package": "october/system",
+      "version": "v1.1.9"
+    },
+    {
+      "id": "dup-coord-05",
+      "family": "coordinate",
+      "subject": "pkg:composer/october/system@v1.1.9",
+      "label": "duplicate",
+      "ghsa": "GHSA-96hh-8hx5-cpw7",
+      "published_at": "2025-05-05T14:55:41Z",
+      "cves": [
+        "CVE-2024-51991"
+      ],
+      "ecosystem": "Packagist",
+      "package": "october/system",
+      "version": "v1.1.9"
+    },
+    {
+      "id": "dup-id-06",
+      "family": "identifier",
+      "subject": "GHSA-mwfg-948f-2cc5 CVE-2025-46335",
+      "label": "duplicate",
+      "ghsa": "GHSA-mwfg-948f-2cc5",
+      "published_at": "2025-05-05T14:55:59Z",
+      "cves": [
+        "CVE-2025-46335"
+      ],
+      "ecosystem": "PyPI",
+      "package": "mobsf",
+      "version": "4.3.2"
+    },
+    {
+      "id": "dup-coord-06",
+      "family": "coordinate",
+      "subject": "pkg:pypi/mobsf@4.3.2",
+      "label": "duplicate",
+      "ghsa": "GHSA-mwfg-948f-2cc5",
+      "published_at": "2025-05-05T14:55:59Z",
+      "cves": [
+        "CVE-2025-46335"
+      ],
+      "ecosystem": "PyPI",
+      "package": "mobsf",
+      "version": "4.3.2"
+    },
+    {
+      "id": "dup-id-07",
+      "family": "identifier",
+      "subject": "GHSA-x39x-9qw5-ghrf CVE-2025-47241",
+      "label": "duplicate",
+      "ghsa": "GHSA-x39x-9qw5-ghrf",
+      "published_at": "2025-05-05T18:25:04Z",
+      "cves": [
+        "CVE-2025-47241"
+      ],
+      "ecosystem": "PyPI",
+      "package": "browser-use",
+      "version": "0.1.8"
+    },
+    {
+      "id": "dup-coord-07",
+      "family": "coordinate",
+      "subject": "pkg:pypi/browser-use@0.1.8",
+      "label": "duplicate",
+      "ghsa": "GHSA-x39x-9qw5-ghrf",
+      "published_at": "2025-05-05T18:25:04Z",
+      "cves": [
+        "CVE-2025-47241"
+      ],
+      "ecosystem": "PyPI",
+      "package": "browser-use",
+      "version": "0.1.8"
+    },
+    {
+      "id": "dup-id-08",
+      "family": "identifier",
+      "subject": "GHSA-c5vg-26p8-q8cr CVE-2025-46730",
+      "label": "duplicate",
+      "ghsa": "GHSA-c5vg-26p8-q8cr",
+      "published_at": "2025-05-05T19:32:27Z",
+      "cves": [
+        "CVE-2025-46730"
+      ],
+      "ecosystem": "PyPI",
+      "package": "mobsf",
+      "version": "4.3.2"
+    },
+    {
+      "id": "dup-coord-08",
+      "family": "coordinate",
+      "subject": "pkg:pypi/mobsf@4.3.2",
+      "label": "duplicate",
+      "ghsa": "GHSA-c5vg-26p8-q8cr",
+      "published_at": "2025-05-05T19:32:27Z",
+      "cves": [
+        "CVE-2025-46730"
+      ],
+      "ecosystem": "PyPI",
+      "package": "mobsf",
+      "version": "4.3.2"
+    },
+    {
+      "id": "dup-id-09",
+      "family": "identifier",
+      "subject": "GHSA-7c58-g782-9j38 CVE-2025-46731",
+      "label": "duplicate",
+      "ghsa": "GHSA-7c58-g782-9j38",
+      "published_at": "2025-05-05T19:35:37Z",
+      "cves": [
+        "CVE-2025-46731"
+      ],
+      "ecosystem": "Packagist",
+      "package": "craftcms/cms",
+      "version": "4.9.7"
+    },
+    {
+      "id": "dup-coord-09",
+      "family": "coordinate",
+      "subject": "pkg:composer/craftcms/cms@4.9.7",
+      "label": "duplicate",
+      "ghsa": "GHSA-7c58-g782-9j38",
+      "published_at": "2025-05-05T19:35:37Z",
+      "cves": [
+        "CVE-2025-46731"
+      ],
+      "ecosystem": "Packagist",
+      "package": "craftcms/cms",
+      "version": "4.9.7"
+    },
+    {
+      "id": "dup-id-10",
+      "family": "identifier",
+      "subject": "GHSA-jf2r-x3j4-23m7 CVE-2025-46723",
+      "label": "duplicate",
+      "ghsa": "GHSA-jf2r-x3j4-23m7",
+      "published_at": "2025-05-05T19:57:09Z",
+      "cves": [
+        "CVE-2025-46723"
+      ],
+      "ecosystem": "crates.io",
+      "package": "openvm",
+      "version": "1.0.0"
+    },
+    {
+      "id": "dup-coord-10",
+      "family": "coordinate",
+      "subject": "pkg:cargo/openvm@1.0.0",
+      "label": "duplicate",
+      "ghsa": "GHSA-jf2r-x3j4-23m7",
+      "published_at": "2025-05-05T19:57:09Z",
+      "cves": [
+        "CVE-2025-46723"
+      ],
+      "ecosystem": "crates.io",
+      "package": "openvm",
+      "version": "1.0.0"
+    },
+    {
+      "id": "dup-id-11",
+      "family": "identifier",
+      "subject": "GHSA-3527-qv2q-pfvx CVE-2025-46734",
+      "label": "duplicate",
+      "ghsa": "GHSA-3527-qv2q-pfvx",
+      "published_at": "2025-05-05T20:40:36Z",
+      "cves": [
+        "CVE-2025-46734"
+      ],
+      "ecosystem": "Packagist",
+      "package": "league/commonmark",
+      "version": "2.6.2"
+    },
+    {
+      "id": "dup-coord-11",
+      "family": "coordinate",
+      "subject": "pkg:composer/league/commonmark@2.6.2",
+      "label": "duplicate",
+      "ghsa": "GHSA-3527-qv2q-pfvx",
+      "published_at": "2025-05-05T20:40:36Z",
+      "cves": [
+        "CVE-2025-46734"
+      ],
+      "ecosystem": "Packagist",
+      "package": "league/commonmark",
+      "version": "2.6.2"
+    },
+    {
+      "id": "dup-id-12",
+      "family": "identifier",
+      "subject": "GHSA-pw95-88fg-3j6f CVE-2025-46726",
+      "label": "duplicate",
+      "ghsa": "GHSA-pw95-88fg-3j6f",
+      "published_at": "2025-05-05T20:40:44Z",
+      "cves": [
+        "CVE-2025-46726"
+      ],
+      "ecosystem": "PyPI",
+      "package": "langroid",
+      "version": "0.9.5"
+    },
+    {
+      "id": "dup-coord-12",
+      "family": "coordinate",
+      "subject": "pkg:pypi/langroid@0.9.5",
+      "label": "duplicate",
+      "ghsa": "GHSA-pw95-88fg-3j6f",
+      "published_at": "2025-05-05T20:40:44Z",
+      "cves": [
+        "CVE-2025-46726"
+      ],
+      "ecosystem": "PyPI",
+      "package": "langroid",
+      "version": "0.9.5"
+    },
+    {
+      "id": "dup-id-13",
+      "family": "identifier",
+      "subject": "GHSA-2544-hpcq-6g27 CVE-2025-29573",
+      "label": "duplicate",
+      "ghsa": "GHSA-2544-hpcq-6g27",
+      "published_at": "2025-05-05T21:31:28Z",
+      "cves": [
+        "CVE-2025-29573"
+      ],
+      "ecosystem": "PyPI",
+      "package": "mezzanine",
+      "version": "6.0.0"
+    },
+    {
+      "id": "dup-coord-13",
+      "family": "coordinate",
+      "subject": "pkg:pypi/mezzanine@6.0.0",
+      "label": "duplicate",
+      "ghsa": "GHSA-2544-hpcq-6g27",
+      "published_at": "2025-05-05T21:31:28Z",
+      "cves": [
+        "CVE-2025-29573"
+      ],
+      "ecosystem": "PyPI",
+      "package": "mezzanine",
+      "version": "6.0.0"
+    },
+    {
+      "id": "dup-id-14",
+      "family": "identifier",
+      "subject": "GHSA-w7xj-pj5f-8pwh CVE-2025-45616",
+      "label": "duplicate",
+      "ghsa": "GHSA-w7xj-pj5f-8pwh",
+      "published_at": "2025-05-05T21:31:30Z",
+      "cves": [
+        "CVE-2025-45616"
+      ],
+      "ecosystem": "Maven",
+      "package": "com.baidu.mapp:brcc-core",
+      "version": "1.1.0"
+    },
+    {
+      "id": "dup-coord-14",
+      "family": "coordinate",
+      "subject": "pkg:maven/com.baidu.mapp:brcc-core@1.1.0",
+      "label": "duplicate",
+      "ghsa": "GHSA-w7xj-pj5f-8pwh",
+      "published_at": "2025-05-05T21:31:30Z",
+      "cves": [
+        "CVE-2025-45616"
+      ],
+      "ecosystem": "Maven",
+      "package": "com.baidu.mapp:brcc-core",
+      "version": "1.1.0"
+    },
+    {
+      "id": "dup-id-15",
+      "family": "identifier",
+      "subject": "GHSA-53wx-pr6q-m3j5 CVE-2025-46762",
+      "label": "duplicate",
+      "ghsa": "GHSA-53wx-pr6q-m3j5",
+      "published_at": "2025-05-06T12:30:23Z",
+      "cves": [
+        "CVE-2025-46762"
+      ],
+      "ecosystem": "Maven",
+      "package": "org.apache.parquet:parquet-avro",
+      "version": "1.9.0"
+    },
+    {
+      "id": "dup-coord-15",
+      "family": "coordinate",
+      "subject": "pkg:maven/org.apache.parquet:parquet-avro@1.9.0",
+      "label": "duplicate",
+      "ghsa": "GHSA-53wx-pr6q-m3j5",
+      "published_at": "2025-05-06T12:30:23Z",
+      "cves": [
+        "CVE-2025-46762"
+      ],
+      "ecosystem": "Maven",
+      "package": "org.apache.parquet:parquet-avro",
+      "version": "1.9.0"
+    },
+    {
+      "id": "dup-id-16",
+      "family": "identifier",
+      "subject": "GHSA-9pcc-gvx5-r5wm CVE-2025-30165",
+      "label": "duplicate",
+      "ghsa": "GHSA-9pcc-gvx5-r5wm",
+      "published_at": "2025-05-06T16:38:35Z",
+      "cves": [
+        "CVE-2025-30165"
+      ],
+      "ecosystem": "PyPI",
+      "package": "vllm",
+      "version": "0.9.2"
+    },
+    {
+      "id": "dup-coord-16",
+      "family": "coordinate",
+      "subject": "pkg:pypi/vllm@0.9.2",
+      "label": "duplicate",
+      "ghsa": "GHSA-9pcc-gvx5-r5wm",
+      "published_at": "2025-05-06T16:38:35Z",
+      "cves": [
+        "CVE-2025-30165"
+      ],
+      "ecosystem": "PyPI",
+      "package": "vllm",
+      "version": "0.9.2"
+    },
+    {
+      "id": "dup-id-17",
+      "family": "identifier",
+      "subject": "GHSA-4g8m-5mj5-c8xg CVE-2025-46736",
+      "label": "duplicate",
+      "ghsa": "GHSA-4g8m-5mj5-c8xg",
+      "published_at": "2025-05-06T16:38:55Z",
+      "cves": [
+        "CVE-2025-46736"
+      ],
+      "ecosystem": "NuGet",
+      "package": "Umbraco.Cms",
+      "version": "13.8.0-rc"
+    },
+    {
+      "id": "dup-coord-17",
+      "family": "coordinate",
+      "subject": "pkg:nuget/Umbraco.Cms@13.8.0-rc",
+      "label": "duplicate",
+      "ghsa": "GHSA-4g8m-5mj5-c8xg",
+      "published_at": "2025-05-06T16:38:55Z",
+      "cves": [
+        "CVE-2025-46736"
+      ],
+      "ecosystem": "NuGet",
+      "package": "Umbraco.Cms",
+      "version": "13.8.0-rc"
+    },
+    {
+      "id": "dup-id-18",
+      "family": "identifier",
+      "subject": "GHSA-p2f8-vq4r-gqg3 CVE-2025-4388",
+      "label": "duplicate",
+      "ghsa": "GHSA-p2f8-vq4r-gqg3",
+      "published_at": "2025-05-06T18:30:39Z",
+      "cves": [
+        "CVE-2025-4388"
+      ],
+      "ecosystem": "Maven",
+      "package": "com.liferay:com.liferay.marketplace.app.manager.web",
+      "version": "5.0.9"
+    },
+    {
+      "id": "dup-coord-18",
+      "family": "coordinate",
+      "subject": "pkg:maven/com.liferay:com.liferay.marketplace.app.manager.web@5.0.9",
+      "label": "duplicate",
+      "ghsa": "GHSA-p2f8-vq4r-gqg3",
+      "published_at": "2025-05-06T18:30:39Z",
+      "cves": [
+        "CVE-2025-4388"
+      ],
+      "ecosystem": "Maven",
+      "package": "com.liferay:com.liferay.marketplace.app.manager.web",
+      "version": "5.0.9"
+    },
+    {
+      "id": "dup-id-19",
+      "family": "identifier",
+      "subject": "GHSA-f7jh-m6wp-jm7f CVE-2025-2901",
+      "label": "duplicate",
+      "ghsa": "GHSA-f7jh-m6wp-jm7f",
+      "published_at": "2025-05-06T18:51:27Z",
+      "cves": [
+        "CVE-2025-2901"
+      ],
+      "ecosystem": "Maven",
+      "package": "org.jboss.hal:hal-console",
+      "version": "3.7.9.Final"
+    },
+    {
+      "id": "dup-coord-19",
+      "family": "coordinate",
+      "subject": "pkg:maven/org.jboss.hal:hal-console@3.7.9.Final",
+      "label": "duplicate",
+      "ghsa": "GHSA-f7jh-m6wp-jm7f",
+      "published_at": "2025-05-06T18:51:27Z",
+      "cves": [
+        "CVE-2025-2901"
+      ],
+      "ecosystem": "Maven",
+      "package": "org.jboss.hal:hal-console",
+      "version": "3.7.9.Final"
+    },
+    {
+      "id": "dup-id-20",
+      "family": "identifier",
+      "subject": "GHSA-whxr-3p84-rf3c CVE-2025-27533",
+      "label": "duplicate",
+      "ghsa": "GHSA-whxr-3p84-rf3c",
+      "published_at": "2025-05-07T09:31:19Z",
+      "cves": [
+        "CVE-2025-27533"
+      ],
+      "ecosystem": "Maven",
+      "package": "org.apache.activemq:activemq-openwire-legacy",
+      "version": "5.9.1"
+    },
+    {
+      "id": "dup-coord-20",
+      "family": "coordinate",
+      "subject": "pkg:maven/org.apache.activemq:activemq-openwire-legacy@5.9.1",
+      "label": "duplicate",
+      "ghsa": "GHSA-whxr-3p84-rf3c",
+      "published_at": "2025-05-07T09:31:19Z",
+      "cves": [
+        "CVE-2025-27533"
+      ],
+      "ecosystem": "Maven",
+      "package": "org.apache.activemq:activemq-openwire-legacy",
+      "version": "5.9.1"
+    },
+    {
+      "id": "nov-id-01",
+      "family": "identifier",
+      "subject": "GHSA-49rr-34j5-r8mw CVE-2025-5420",
+      "label": "novel",
+      "ghsa": "GHSA-49rr-34j5-r8mw",
+      "published_at": "2025-06-02T00:30:28Z",
+      "cves": [
+        "CVE-2025-5420"
+      ],
+      "ecosystem": "Packagist",
+      "package": "juzaweb/cms",
+      "version": "v3.4.2"
+    },
+    {
+      "id": "nov-coord-01",
+      "family": "coordinate",
+      "subject": "pkg:composer/juzaweb/cms@v3.4.2",
+      "label": "novel",
+      "ghsa": "GHSA-49rr-34j5-r8mw",
+      "published_at": "2025-06-02T00:30:28Z",
+      "cves": [
+        "CVE-2025-5420"
+      ],
+      "ecosystem": "Packagist",
+      "package": "juzaweb/cms",
+      "version": "v3.4.2"
+    },
+    {
+      "id": "nov-id-02",
+      "family": "identifier",
+      "subject": "GHSA-xpxp-r8hf-wgf6 CVE-2024-8008",
+      "label": "novel",
+      "ghsa": "GHSA-xpxp-r8hf-wgf6",
+      "published_at": "2025-06-02T18:30:52Z",
+      "cves": [
+        "CVE-2024-8008"
+      ],
+      "ecosystem": "Maven",
+      "package": "org.wso2.carbon.identity.framework:org.wso2.carbon.identity.user.store.configuration.ui",
+      "version": "7.5.9"
+    },
+    {
+      "id": "nov-coord-02",
+      "family": "coordinate",
+      "subject": "pkg:maven/org.wso2.carbon.identity.framework:org.wso2.carbon.identity.user.store.configuration.ui@7.5.9",
+      "label": "novel",
+      "ghsa": "GHSA-xpxp-r8hf-wgf6",
+      "published_at": "2025-06-02T18:30:52Z",
+      "cves": [
+        "CVE-2024-8008"
+      ],
+      "ecosystem": "Maven",
+      "package": "org.wso2.carbon.identity.framework:org.wso2.carbon.identity.user.store.configuration.ui",
+      "version": "7.5.9"
+    },
+    {
+      "id": "nov-id-03",
+      "family": "identifier",
+      "subject": "GHSA-cp5v-2hmc-3vjx CVE-2024-1440",
+      "label": "novel",
+      "ghsa": "GHSA-cp5v-2hmc-3vjx",
+      "published_at": "2025-06-02T18:30:52Z",
+      "cves": [
+        "CVE-2024-1440"
+      ],
+      "ecosystem": "Maven",
+      "package": "org.wso2.carbon.identity.framework:org.wso2.carbon.identity.application.authentication.endpoint.util",
+      "version": "7.0.83"
+    },
+    {
+      "id": "nov-coord-03",
+      "family": "coordinate",
+      "subject": "pkg:maven/org.wso2.carbon.identity.framework:org.wso2.carbon.identity.application.authentication.endpoint.util@7.0.83",
+      "label": "novel",
+      "ghsa": "GHSA-cp5v-2hmc-3vjx",
+      "published_at": "2025-06-02T18:30:52Z",
+      "cves": [
+        "CVE-2024-1440"
+      ],
+      "ecosystem": "Maven",
+      "package": "org.wso2.carbon.identity.framework:org.wso2.carbon.identity.application.authentication.endpoint.util",
+      "version": "7.0.83"
+    },
+    {
+      "id": "nov-id-04",
+      "family": "identifier",
+      "subject": "GHSA-5gr5-vmmr-82g6 CVE-2025-45855",
+      "label": "novel",
+      "ghsa": "GHSA-5gr5-vmmr-82g6",
+      "published_at": "2025-06-03T15:31:26Z",
+      "cves": [
+        "CVE-2025-45855"
+      ],
+      "ecosystem": "Maven",
+      "package": "xyz.erupt:erupt",
+      "version": "1.9.3"
+    },
+    {
+      "id": "nov-coord-04",
+      "family": "coordinate",
+      "subject": "pkg:maven/xyz.erupt:erupt@1.9.3",
+      "label": "novel",
+      "ghsa": "GHSA-5gr5-vmmr-82g6",
+      "published_at": "2025-06-03T15:31:26Z",
+      "cves": [
+        "CVE-2025-45855"
+      ],
+      "ecosystem": "Maven",
+      "package": "xyz.erupt:erupt",
+      "version": "1.9.3"
+    },
+    {
+      "id": "nov-id-05",
+      "family": "identifier",
+      "subject": "GHSA-9qvj-rpj8-v5c8 CVE-2025-46548",
+      "label": "novel",
+      "ghsa": "GHSA-9qvj-rpj8-v5c8",
+      "published_at": "2025-06-03T15:31:27Z",
+      "cves": [
+        "CVE-2025-46548"
+      ],
+      "ecosystem": "Maven",
+      "package": "org.apache.pekko:pekko-management_2.12",
+      "version": "1.1.0-M1"
+    },
+    {
+      "id": "nov-coord-05",
+      "family": "coordinate",
+      "subject": "pkg:maven/org.apache.pekko:pekko-management_2.12@1.1.0-M1",
+      "label": "novel",
+      "ghsa": "GHSA-9qvj-rpj8-v5c8",
+      "published_at": "2025-06-03T15:31:27Z",
+      "cves": [
+        "CVE-2025-46548"
+      ],
+      "ecosystem": "Maven",
+      "package": "org.apache.pekko:pekko-management_2.12",
+      "version": "1.1.0-M1"
+    },
+    {
+      "id": "nov-id-06",
+      "family": "identifier",
+      "subject": "GHSA-7v6m-28jr-rg84 CVE-2025-35036",
+      "label": "novel",
+      "ghsa": "GHSA-7v6m-28jr-rg84",
+      "published_at": "2025-06-03T21:30:39Z",
+      "cves": [
+        "CVE-2025-35036"
+      ],
+      "ecosystem": "Maven",
+      "package": "org.hibernate.validator:hibernate-validator",
+      "version": "6.1.7.Final"
+    },
+    {
+      "id": "nov-coord-06",
+      "family": "coordinate",
+      "subject": "pkg:maven/org.hibernate.validator:hibernate-validator@6.1.7.Final",
+      "label": "novel",
+      "ghsa": "GHSA-7v6m-28jr-rg84",
+      "published_at": "2025-06-03T21:30:39Z",
+      "cves": [
+        "CVE-2025-35036"
+      ],
+      "ecosystem": "Maven",
+      "package": "org.hibernate.validator:hibernate-validator",
+      "version": "6.1.7.Final"
+    },
+    {
+      "id": "nov-id-07",
+      "family": "identifier",
+      "subject": "GHSA-v9m8-9xxp-q492 CVE-2025-48951",
+      "label": "novel",
+      "ghsa": "GHSA-v9m8-9xxp-q492",
+      "published_at": "2025-06-04T20:31:39Z",
+      "cves": [
+        "CVE-2025-48951"
+      ],
+      "ecosystem": "Packagist",
+      "package": "auth0/auth0-php",
+      "version": "8.3.0"
+    },
+    {
+      "id": "nov-coord-07",
+      "family": "coordinate",
+      "subject": "pkg:composer/auth0/auth0-php@8.3.0",
+      "label": "novel",
+      "ghsa": "GHSA-v9m8-9xxp-q492",
+      "published_at": "2025-06-04T20:31:39Z",
+      "cves": [
+        "CVE-2025-48951"
+      ],
+      "ecosystem": "Packagist",
+      "package": "auth0/auth0-php",
+      "version": "8.3.0"
+    },
+    {
+      "id": "nov-id-08",
+      "family": "identifier",
+      "subject": "GHSA-33p9-3p43-82vq CVE-2025-30167",
+      "label": "novel",
+      "ghsa": "GHSA-33p9-3p43-82vq",
+      "published_at": "2025-06-04T21:00:23Z",
+      "cves": [
+        "CVE-2025-30167"
+      ],
+      "ecosystem": "PyPI",
+      "package": "jupyter-core",
+      "version": "5.8.0"
+    },
+    {
+      "id": "nov-coord-08",
+      "family": "coordinate",
+      "subject": "pkg:pypi/jupyter-core@5.8.0",
+      "label": "novel",
+      "ghsa": "GHSA-33p9-3p43-82vq",
+      "published_at": "2025-06-04T21:00:23Z",
+      "cves": [
+        "CVE-2025-30167"
+      ],
+      "ecosystem": "PyPI",
+      "package": "jupyter-core",
+      "version": "5.8.0"
+    },
+    {
+      "id": "nov-id-09",
+      "family": "identifier",
+      "subject": "GHSA-fr6r-p8hv-x3c4 CVE-2025-48953",
+      "label": "novel",
+      "ghsa": "GHSA-fr6r-p8hv-x3c4",
+      "published_at": "2025-06-04T23:50:55Z",
+      "cves": [
+        "CVE-2025-48953"
+      ],
+      "ecosystem": "NuGet",
+      "package": "Umbraco.Cms",
+      "version": "15.4.1"
+    },
+    {
+      "id": "nov-coord-09",
+      "family": "coordinate",
+      "subject": "pkg:nuget/Umbraco.Cms@15.4.1",
+      "label": "novel",
+      "ghsa": "GHSA-fr6r-p8hv-x3c4",
+      "published_at": "2025-06-04T23:50:55Z",
+      "cves": [
+        "CVE-2025-48953"
+      ],
+      "ecosystem": "NuGet",
+      "package": "Umbraco.Cms",
+      "version": "15.4.1"
+    },
+    {
+      "id": "nov-id-10",
+      "family": "identifier",
+      "subject": "GHSA-cq37-g2qp-3c2p CVE-2025-48957",
+      "label": "novel",
+      "ghsa": "GHSA-cq37-g2qp-3c2p",
+      "published_at": "2025-06-04T23:54:35Z",
+      "cves": [
+        "CVE-2025-48957"
+      ],
+      "ecosystem": "PyPI",
+      "package": "astrbot",
+      "version": "3.5.9"
+    },
+    {
+      "id": "nov-coord-10",
+      "family": "coordinate",
+      "subject": "pkg:pypi/astrbot@3.5.9",
+      "label": "novel",
+      "ghsa": "GHSA-cq37-g2qp-3c2p",
+      "published_at": "2025-06-04T23:54:35Z",
+      "cves": [
+        "CVE-2025-48957"
+      ],
+      "ecosystem": "PyPI",
+      "package": "astrbot",
+      "version": "3.5.9"
+    },
+    {
+      "id": "nov-id-11",
+      "family": "identifier",
+      "subject": "GHSA-gmhf-gg8w-jw42 CVE-2025-48995",
+      "label": "novel",
+      "ghsa": "GHSA-gmhf-gg8w-jw42",
+      "published_at": "2025-06-05T00:37:19Z",
+      "cves": [
+        "CVE-2025-48995"
+      ],
+      "ecosystem": "PyPI",
+      "package": "signxml",
+      "version": "4.0.3"
+    },
+    {
+      "id": "nov-coord-11",
+      "family": "coordinate",
+      "subject": "pkg:pypi/signxml@4.0.3",
+      "label": "novel",
+      "ghsa": "GHSA-gmhf-gg8w-jw42",
+      "published_at": "2025-06-05T00:37:19Z",
+      "cves": [
+        "CVE-2025-48995"
+      ],
+      "ecosystem": "PyPI",
+      "package": "signxml",
+      "version": "4.0.3"
+    },
+    {
+      "id": "nov-id-12",
+      "family": "identifier",
+      "subject": "GHSA-6vx8-pcwv-xhf4 CVE-2025-48994",
+      "label": "novel",
+      "ghsa": "GHSA-6vx8-pcwv-xhf4",
+      "published_at": "2025-06-05T00:38:20Z",
+      "cves": [
+        "CVE-2025-48994"
+      ],
+      "ecosystem": "PyPI",
+      "package": "signxml",
+      "version": "4.0.3"
+    },
+    {
+      "id": "nov-coord-12",
+      "family": "coordinate",
+      "subject": "pkg:pypi/signxml@4.0.3",
+      "label": "novel",
+      "ghsa": "GHSA-6vx8-pcwv-xhf4",
+      "published_at": "2025-06-05T00:38:20Z",
+      "cves": [
+        "CVE-2025-48994"
+      ],
+      "ecosystem": "PyPI",
+      "package": "signxml",
+      "version": "4.0.3"
+    },
+    {
+      "id": "nov-id-13",
+      "family": "identifier",
+      "subject": "GHSA-862m-5253-832r",
+      "label": "novel",
+      "ghsa": "GHSA-862m-5253-832r",
+      "published_at": "2025-06-05T01:19:24Z",
+      "cves": [],
+      "ecosystem": "Packagist",
+      "package": "auth0/wordpress",
+      "version": "5.0.1"
+    },
+    {
+      "id": "nov-coord-13",
+      "family": "coordinate",
+      "subject": "pkg:composer/auth0/wordpress@5.0.1",
+      "label": "novel",
+      "ghsa": "GHSA-862m-5253-832r",
+      "published_at": "2025-06-05T01:19:24Z",
+      "cves": [],
+      "ecosystem": "Packagist",
+      "package": "auth0/wordpress",
+      "version": "5.0.1"
+    },
+    {
+      "id": "nov-id-14",
+      "family": "identifier",
+      "subject": "GHSA-7xr5-9hcq-chf9 CVE-2025-48432",
+      "label": "novel",
+      "ghsa": "GHSA-7xr5-9hcq-chf9",
+      "published_at": "2025-06-05T03:30:58Z",
+      "cves": [
+        "CVE-2025-48432"
+      ],
+      "ecosystem": "PyPI",
+      "package": "django",
+      "version": "5.2.1"
+    },
+    {
+      "id": "nov-coord-14",
+      "family": "coordinate",
+      "subject": "pkg:pypi/django@5.2.1",
+      "label": "novel",
+      "ghsa": "GHSA-7xr5-9hcq-chf9",
+      "published_at": "2025-06-05T03:30:58Z",
+      "cves": [
+        "CVE-2025-48432"
+      ],
+      "ecosystem": "PyPI",
+      "package": "django",
+      "version": "5.2.1"
+    },
+    {
+      "id": "nov-id-15",
+      "family": "identifier",
+      "subject": "GHSA-47m2-26rw-j2jw CVE-2025-49007",
+      "label": "novel",
+      "ghsa": "GHSA-47m2-26rw-j2jw",
+      "published_at": "2025-06-05T05:21:34Z",
+      "cves": [
+        "CVE-2025-49007"
+      ],
+      "ecosystem": "RubyGems",
+      "package": "rack",
+      "version": "3.1.9"
+    },
+    {
+      "id": "nov-coord-15",
+      "family": "coordinate",
+      "subject": "pkg:gem/rack@3.1.9",
+      "label": "novel",
+      "ghsa": "GHSA-47m2-26rw-j2jw",
+      "published_at": "2025-06-05T05:21:34Z",
+      "cves": [
+        "CVE-2025-49007"
+      ],
+      "ecosystem": "RubyGems",
+      "package": "rack",
+      "version": "3.1.9"
+    },
+    {
+      "id": "nov-id-16",
+      "family": "identifier",
+      "subject": "GHSA-v3c8-3pr6-gr7p CVE-2025-1793",
+      "label": "novel",
+      "ghsa": "GHSA-v3c8-3pr6-gr7p",
+      "published_at": "2025-06-05T06:30:26Z",
+      "cves": [
+        "CVE-2025-1793"
+      ],
+      "ecosystem": "PyPI",
+      "package": "llama-index",
+      "version": "0.9.9"
+    },
+    {
+      "id": "nov-coord-16",
+      "family": "coordinate",
+      "subject": "pkg:pypi/llama-index@0.9.9",
+      "label": "novel",
+      "ghsa": "GHSA-v3c8-3pr6-gr7p",
+      "published_at": "2025-06-05T06:30:26Z",
+      "cves": [
+        "CVE-2025-1793"
+      ],
+      "ecosystem": "PyPI",
+      "package": "llama-index",
+      "version": "0.9.9"
+    },
+    {
+      "id": "nov-id-17",
+      "family": "identifier",
+      "subject": "GHSA-g3p6-82vc-43jh CVE-2025-48493",
+      "label": "novel",
+      "ghsa": "GHSA-g3p6-82vc-43jh",
+      "published_at": "2025-06-05T16:53:23Z",
+      "cves": [
+        "CVE-2025-48493"
+      ],
+      "ecosystem": "Packagist",
+      "package": "yiisoft/yii2-redis",
+      "version": "2.0.9"
+    },
+    {
+      "id": "nov-coord-17",
+      "family": "coordinate",
+      "subject": "pkg:composer/yiisoft/yii2-redis@2.0.9",
+      "label": "novel",
+      "ghsa": "GHSA-g3p6-82vc-43jh",
+      "published_at": "2025-06-05T16:53:23Z",
+      "cves": [
+        "CVE-2025-48493"
+      ],
+      "ecosystem": "Packagist",
+      "package": "yiisoft/yii2-redis",
+      "version": "2.0.9"
+    },
+    {
+      "id": "nov-id-18",
+      "family": "identifier",
+      "subject": "GHSA-98j6-67v3-mw34",
+      "label": "novel",
+      "ghsa": "GHSA-98j6-67v3-mw34",
+      "published_at": "2025-06-06T00:07:08Z",
+      "cves": [],
+      "ecosystem": "Packagist",
+      "package": "auth0/symfony",
+      "version": "5.0.0-BETA1"
+    },
+    {
+      "id": "nov-coord-18",
+      "family": "coordinate",
+      "subject": "pkg:composer/auth0/symfony@5.0.0-BETA1",
+      "label": "novel",
+      "ghsa": "GHSA-98j6-67v3-mw34",
+      "published_at": "2025-06-06T00:07:08Z",
+      "cves": [],
+      "ecosystem": "Packagist",
+      "package": "auth0/symfony",
+      "version": "5.0.0-BETA1"
+    },
+    {
+      "id": "nov-id-19",
+      "family": "identifier",
+      "subject": "GHSA-c42h-56wx-h85q",
+      "label": "novel",
+      "ghsa": "GHSA-c42h-56wx-h85q",
+      "published_at": "2025-06-06T15:20:46Z",
+      "cves": [],
+      "ecosystem": "Packagist",
+      "package": "auth0/login",
+      "version": "7.2.1"
+    },
+    {
+      "id": "nov-coord-19",
+      "family": "coordinate",
+      "subject": "pkg:composer/auth0/login@7.2.1",
+      "label": "novel",
+      "ghsa": "GHSA-c42h-56wx-h85q",
+      "published_at": "2025-06-06T15:20:46Z",
+      "cves": [],
+      "ecosystem": "Packagist",
+      "package": "auth0/login",
+      "version": "7.2.1"
+    },
+    {
+      "id": "nov-id-20",
+      "family": "identifier",
+      "subject": "GHSA-gw97-cqwg-xmh4 CVE-2025-5806",
+      "label": "novel",
+      "ghsa": "GHSA-gw97-cqwg-xmh4",
+      "published_at": "2025-06-06T15:30:53Z",
+      "cves": [
+        "CVE-2025-5806"
+      ],
+      "ecosystem": "Maven",
+      "package": "org.jenkins-ci.plugins:gatling",
+      "version": "136.vb"
+    },
+    {
+      "id": "nov-coord-20",
+      "family": "coordinate",
+      "subject": "pkg:maven/org.jenkins-ci.plugins:gatling@136.vb",
+      "label": "novel",
+      "ghsa": "GHSA-gw97-cqwg-xmh4",
+      "published_at": "2025-06-06T15:30:53Z",
+      "cves": [
+        "CVE-2025-5806"
+      ],
+      "ecosystem": "Maven",
+      "package": "org.jenkins-ci.plugins:gatling",
+      "version": "136.vb"
+    }
+  ]
+}

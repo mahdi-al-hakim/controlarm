@@ -1,0 +1,17 @@
+{
+  "provenance": "recorded",
+  "recorded_at": "2026-10-26T00:34:53.206854+00:00",
+  "request": {
+    "body": {
+      "query": "query{securityVulnerabilities(first:100, ecosystem:PIP, package:\"astrbot\"){totalCount pageInfo{hasNextPage endCursor} nodes{advisory{ghsaId publishedAt withdrawnAt}}}}"
+    },
+    "kind": "gh-graphql",
+    "method": "POST",
+    "url": "https://api.github.com/graphql"
+  },
+  "rerun": "gh api graphql -f query=\"query{securityVulnerabilities(first:100, ecosystem:PIP, package:\\\"astrbot\\\"){totalCount pageInfo{hasNextPage endCursor} nodes{advisory{ghsaId publishedAt withdrawnAt}}}}\"",
+  "response": {
+    "body": "{\"data\":{\"securityVulnerabilities\":{\"totalCount\":8,\"pageInfo\":{\"hasNextPage\":false,\"endCursor\":\"Y3Vyc29yOnYyOpK0MjAyNS0wNi0wNFQyMzo1NDozNlrOAAEefQ==\"},\"nodes\":[{\"advisory\":{\"ghsaId\":\"GHSA-r6vm-4xwg-w69h\",\"publishedAt\":\"2026-06-01T03:30:26Z\",\"withdrawnAt\":null}},{\"advisory\":{\"ghsaId\":\"GHSA-f63h-wc26-pmvc\",\"publishedAt\":\"2026-05-17T15:31:42Z\",\"withdrawnAt\":null}},{\"advisory\":{\"ghsaId\":\"GHSA-mq9q-25hm-g4gp\",\"publishedAt\":\"2026-05-01T12:30:25Z\",\"withdrawnAt\":null}},{\"advisory\":{\"ghsaId\":\"GHSA-h3rr-9wqj-v3c6\",\"publishedAt\":\"2026-04-25T18:32:58Z\",\"withdrawnAt\":null}},{\"advisory\":{\"ghsaId\":\"GHSA-4m32-cjv7-f425\",\"publishedAt\":\"2025-11-14T21:52:23Z\",\"withdrawnAt\":null}},{\"advisory\":{\"ghsaId\":\"GHSA-vm2f-46xc-5jc3\",\"publishedAt\":\"2025-11-07T18:30:31Z\",\"withdrawnAt\":null}},{\"advisory\":{\"ghsaId\":\"GHSA-xrj9-mw57-j34v\",\"publishedAt\":\"2025-11-07T18:30:30Z\",\"withdrawnAt\":null}},{\"advisory\":{\"ghsaId\":\"GHSA-cq37-g2qp-3c2p\",\"publishedAt\":\"2025-06-04T23:54:35Z\",\"withdrawnAt\":null}}]}}}",
+    "status": 200
+  }
+}

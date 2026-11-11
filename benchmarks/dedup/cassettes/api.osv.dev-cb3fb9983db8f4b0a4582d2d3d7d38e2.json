@@ -1,0 +1,15 @@
+{
+  "provenance": "recorded",
+  "recorded_at": "2026-10-26T00:31:31.084940+00:00",
+  "request": {
+    "body": null,
+    "kind": "http",
+    "method": "GET",
+    "url": "https://api.osv.dev/v1/vulns/CVE-2024-51991"
+  },
+  "rerun": "curl -s https://api.osv.dev/v1/vulns/CVE-2024-51991",
+  "response": {
+    "body": "{\"code\":5,\"message\":\"Vulnerability not found, but the following aliases were: GHSA-96hh-8hx5-cpw7\"}",
+    "status": 404
+  }
+}

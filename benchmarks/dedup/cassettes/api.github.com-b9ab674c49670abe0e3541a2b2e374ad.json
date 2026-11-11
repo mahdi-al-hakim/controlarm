@@ -1,0 +1,17 @@
+{
+  "provenance": "recorded",
+  "recorded_at": "2026-10-26T00:34:15.010708+00:00",
+  "request": {
+    "body": {
+      "query": "query{securityVulnerabilities(first:100, ecosystem:MAVEN, package:\"org.apache.pekko:pekko-management_2.12\"){totalCount pageInfo{hasNextPage endCursor} nodes{advisory{ghsaId publishedAt withdrawnAt}}}}"
+    },
+    "kind": "gh-graphql",
+    "method": "POST",
+    "url": "https://api.github.com/graphql"
+  },
+  "rerun": "gh api graphql -f query=\"query{securityVulnerabilities(first:100, ecosystem:MAVEN, package:\\\"org.apache.pekko:pekko-management_2.12\\\"){totalCount pageInfo{hasNextPage endCursor} nodes{advisory{ghsaId publishedAt withdrawnAt}}}}\"",
+  "response": {
+    "body": "{\"data\":{\"securityVulnerabilities\":{\"totalCount\":1,\"pageInfo\":{\"hasNextPage\":false,\"endCursor\":\"Y3Vyc29yOnYyOpK0MjAyNS0wNi0wNlQxNTozMzozNVrOAAEelg==\"},\"nodes\":[{\"advisory\":{\"ghsaId\":\"GHSA-9qvj-rpj8-v5c8\",\"publishedAt\":\"2025-06-03T15:31:27Z\",\"withdrawnAt\":null}}]}}}",
+    "status": 200
+  }
+}

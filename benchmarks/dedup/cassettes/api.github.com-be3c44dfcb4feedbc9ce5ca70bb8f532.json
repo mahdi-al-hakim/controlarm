@@ -1,0 +1,17 @@
+{
+  "provenance": "recorded",
+  "recorded_at": "2026-10-26T00:34:23.064055+00:00",
+  "request": {
+    "body": {
+      "query": "query{securityVulnerabilities(first:100, ecosystem:MAVEN, package:\"org.hibernate.validator:hibernate-validator\"){totalCount pageInfo{hasNextPage endCursor} nodes{advisory{ghsaId publishedAt withdrawnAt}}}}"
+    },
+    "kind": "gh-graphql",
+    "method": "POST",
+    "url": "https://api.github.com/graphql"
+  },
+  "rerun": "gh api graphql -f query=\"query{securityVulnerabilities(first:100, ecosystem:MAVEN, package:\\\"org.hibernate.validator:hibernate-validator\\\"){totalCount pageInfo{hasNextPage endCursor} nodes{advisory{ghsaId publishedAt withdrawnAt}}}}\"",
+  "response": {
+    "body": "{\"data\":{\"securityVulnerabilities\":{\"totalCount\":7,\"pageInfo\":{\"hasNextPage\":false,\"endCursor\":\"Y3Vyc29yOnYyOpK0MjAyMS0wNi0wNFQyMTozNToyMVrNRsA=\"},\"nodes\":[{\"advisory\":{\"ghsaId\":\"GHSA-m8p2-495h-ccmh\",\"publishedAt\":\"2020-01-08T17:01:52Z\",\"withdrawnAt\":null}},{\"advisory\":{\"ghsaId\":\"GHSA-7v6m-28jr-rg84\",\"publishedAt\":\"2025-06-03T21:30:39Z\",\"withdrawnAt\":null}},{\"advisory\":{\"ghsaId\":\"GHSA-7v6m-28jr-rg84\",\"publishedAt\":\"2025-06-03T21:30:39Z\",\"withdrawnAt\":null}},{\"advisory\":{\"ghsaId\":\"GHSA-x83m-pf6f-pf9g\",\"publishedAt\":\"2024-11-07T12:30:34Z\",\"withdrawnAt\":null}},{\"advisory\":{\"ghsaId\":\"GHSA-m8p2-495h-ccmh\",\"publishedAt\":\"2020-01-08T17:01:52Z\",\"withdrawnAt\":null}},{\"advisory\":{\"ghsaId\":\"GHSA-rmrm-75hp-phr2\",\"publishedAt\":\"2021-06-04T21:36:34Z\",\"withdrawnAt\":null}},{\"advisory\":{\"ghsaId\":\"GHSA-rmrm-75hp-phr2\",\"publishedAt\":\"2021-06-04T21:36:34Z\",\"withdrawnAt\":null}}]}}}",
+    "status": 200
+  }
+}
