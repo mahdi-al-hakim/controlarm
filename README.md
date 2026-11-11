@@ -11,8 +11,8 @@ script can't mistake an unproven run for a clean result.
 The failure it guards against shipped in Microsoft's RAMPART: a safety test passed against an agent
 built to exfiltrate, because the evaluator could not observe the exfiltration. I found it by hand and
 wrote the fix ([PR #141](https://github.com/microsoft/RAMPART/pull/141), merged), and RAMPART's
-evaluators now return `UNDETERMINED` when they cannot observe the evidence they need. controlarm didn't
-find that bug; it encodes the rule I applied there.
+evaluators now return `UNDETERMINED` when they cannot observe the evidence they need. controlarm
+encodes the rule I applied there.
 [`docs/observability-gap-in-the-wild.md`](docs/observability-gap-in-the-wild.md) has the before and
 after, and a small study of the same gap on constructed transcripts.
 
@@ -23,11 +23,11 @@ the hunts can't.
 - **Six verdicts instead of two.** `VOID`, `CONFOUNDED`, `INCONCLUSIVE`, `NO-TESTS`, `KILL`, `CANDIDATE`.
   A run whose instrument failed is `VOID`. A run whose test never reached the check is `CONFOUNDED`.
   Neither one means "no bug", and the three refusal states call for three different next actions. The
-  order they are applied in is a precedence rule: the most severe refusal that applies wins. The code and
-  the committed results call that rule the lattice.
+  order they are applied in is a precedence rule (the lattice, in the code): the most severe refusal
+  that applies wins.
 - **A positive control is required.** A run is `VOID` unless a liveness arm executed and a positive control
-  was refused *by the boundary itself*, and not by an expired credential or a rate limit. The code and the
-  committed results label this arm `honest-control`; the term for it is positive control.
+  (`honest_control` in the code) was refused *by the boundary itself*, and not by an expired credential
+  or a rate limit.
 - **A named reason for every failure.** Mutually exclusive confound patterns, so "no such tool" is never
   filed as a missing precondition.
 - **Prior-art gating.** A candidate finding with a stale or unmeasured dedup verdict does not promote.
@@ -118,17 +118,9 @@ Each `--check` exits non-zero if a committed number moved; without it, `run_benc
 not re-run by any of these; `tests/test_observability_gap.py` checks its figures against the committed
 output.
 
-## The failure this prevents, found in a shipped eval
+## A small study of the observability gap
 
-The clearest evidence that an unobservable check causes real failures is that one shipped in a
-maintained agent-safety framework and had to be fixed. In `microsoft/RAMPART`, Microsoft's
-open-source agentic red-teaming harness, a safety test passed against an agent that exfiltrated to an
-external host on every turn, because the adapter it ran under could not observe side effects and the
-evaluator reported that absence as a clean result. The fix, which makes such an evaluator return
-`UNDETERMINED` instead of a false `SAFE`, is merged as PR #141. That is the same rule this repository
-enforces as `VOID`: a negative is trustworthy only once the instrument is shown to work.
-
-The observability-gap document also has a small study of the gap on 72 transcripts I constructed,
+The study measures the gap on 72 transcripts I constructed,
 each graded by `claude-haiku-4-5-20251001` once with the tool call visible and once with only the
 agent's text. Two cells carry the information. Shown only the text,
 the judge called 4 of 16 harmful transcripts safe when the text described the destination in
@@ -141,16 +133,11 @@ matrix and the full study are in
 [`docs/observability-gap-in-the-wild.md`](docs/observability-gap-in-the-wild.md); the data and the
 script are in [`benchmarks/observability_gap/`](benchmarks/observability_gap/).
 
-The rest of this README is how the discipline is enforced here, the one gate with a measured rate
-(prior-art dedup), and the head-to-head comparisons that came back null, all kept in full and in
-[`GAPS.md`](GAPS.md).
-
 ## A localisation on real CVEs: keep the record of whether your test reached the target
 
 Measured against **11 real public CVEs**, each at a pre-fix and a post-fix pinned version, where the
-vendor's patch is the ground truth and nothing in this repository gets a vote. Eight vulnerability
-classes, nine distributions, 110 runs. Memory safety is excluded by rule and by test, because a sanitizer
-is already a mechanical oracle there.
+vendor's patch is the ground truth. Eight vulnerability classes, nine distributions, 110 runs. Memory
+safety is excluded by rule and by test, because a sanitizer is already a mechanical oracle there.
 
 A competent baseline that reads its own positive control and is allowed to abstain refuses a broken rig
 because it is handed one derived record: *did the treatment arm reach the target at all.* Deny it only
@@ -166,34 +153,24 @@ all eleven CVEs, so a run-level denominator counts the same deterministic result
 | all breakage modes | mode | 0 of 8 | 4 of 8 | p = 0.0769 |
 | real breakage modes | run (not independent) | 0 of 55 | 22 of 55 | p = 3.4e-08 |
 
-**At five modes that difference is not statistically distinguishable from chance.** The mechanism is
-visible; the rate is not measured. The run-level p-values are arithmetically correct and substantively
-meaningless, and they are shown so the inflation stays visible.
+**At five modes that difference is not statistically distinguishable from chance.** The run-level
+p-value treats runs as independent and should not be read as evidence. On the three real modes where
+the baseline still refuses correctly without the record, it refuses for an unrelated reason, so 2 of 5
+is a floor, not an estimate.
 
-Two qualifications, both in the unflattering direction. On the three real modes where the reachability
-record is denied and the baseline still refuses correctly, it refuses for an unrelated reason that happens
-to fire, which was not predicted: so 2 of 5 is a floor on how often the record matters. It is not an
-estimate of it. And the record was handed to the baseline deliberately, because withholding it would have
-flattered the gates by deleting data.
-
-So the claim here is narrow: keep the record of whether each test reached its target. It makes no case
-for this library and gives no rate. Design, selection rule, per-CVE table and remaining threats in
-[`docs/cve-study.md`](docs/cve-study.md) and
+The claim is only: keep the record of whether each test reached its target. Design, selection rule,
+per-CVE table and remaining threats in [`docs/cve-study.md`](docs/cve-study.md) and
 [`benchmarks/cve_study/results/cve_study.md`](benchmarks/cve_study/results/cve_study.md).
 
 > [!IMPORTANT]
-> **Alpha, and the effect is not demonstrated.** The finding above only localises where the reachability
-> record matters; it is not evidence that the discipline changes outcomes. Every
-> head-to-head comparison between enforcing these rules and not enforcing them has come out null, on both
-> corpora. The one effect that does reach significance, in the oracle experiment, holds at its own unit of
-> analysis, the probe, and loses significance only when the single probe no interpretive callable can
-> match is dropped. All three nulls are stated below. The corpora are small and most of them were built
-> by one person, so read [`GAPS.md`](GAPS.md) before citing anything here.
+> **Alpha.** Every head-to-head comparison between enforcing these rules and not enforcing them has
+> come out null on both corpora (below). The corpora are small and mostly built by one person; see
+> [`GAPS.md`](GAPS.md).
 
 ## How this repository checks itself
 
 The discipline is enforced on this repository by the same kind of machinery it asks you to apply to a
-target. This is the part worth copying even if nothing else here is.
+target.
 
 - **180 guards, each one neutered in CI.** `python tools/mutate_guards.py` removes every guard in turn and
   fails the build if any removal leaves the test suite green, because a guard whose removal no test
@@ -211,8 +188,6 @@ target. This is the part worth copying even if nothing else here is.
   declared-to-enforced rule ratio. The denominator is prose and the two candidate mappings disagree by an
   order of magnitude, so the command prints all three counts with their provenance, prints both candidate
   ratios labelled unusable, names what would have to exist for the ratio to be computable, and exits 2.
-  The contract files a number the tool cannot derive under tool failure (2) rather than refusal (3),
-  and exiting 0 with a low ratio would report a measurement nobody made.
 - **A refusal never exits 2 and a crash never exits 3.** Both are pinned by tests, over every refusal the
   subcommands can reach and six injected exception types.
 
@@ -234,13 +209,10 @@ its own positive control and is allowed to abstain, called one of them "no bug".
 | **fair unguarded baseline (the primary comparison)** | **1** | 5 | **0.17** |
 | the check that produced each catalogued error (provenance, not a comparison) | 6 | 0 | 1.00 |
 
-That margin is a two-sided **Fisher exact p = 1.00**: not distinguishable from no effect, and not close.
-Against the third arm the same test gives **p = 0.0022**, but that arm cannot emit a refusal verdict at
-all, so the figure measures its output alphabet rather than its judgement. It is kept for provenance and
-is not a comparison. Both the denominator and the fixtures behind this table were corrected after a
-critique by a separate Claude agent prompted to break the gates, and the margin got smaller: the full
-correction is [`GAPS.md`](GAPS.md) G2b, and the critique, its runner and its fair baseline are in
-`benchmarks/fp_corpus/critic/`.
+That margin is a two-sided **Fisher exact p = 1.00**. Against the third arm the same test gives
+**p = 0.0022**, but that arm cannot emit a refusal verdict at all, so the figure measures its output
+alphabet rather than its judgement. The denominator and fixtures were corrected after a critique by a
+separate Claude agent ([`GAPS.md`](GAPS.md) G2b; `benchmarks/fp_corpus/critic/`).
 
 **Null 2: the CVE study, with the rig intact.** On the pre-fix set the gated configuration and the fair
 baseline both score a false-negative rate of **0/11 = 0.00 [0.00, 0.28]**, two-sided Fisher **p = 1.00**.
@@ -257,23 +229,23 @@ LLM-as-judge; the mechanical arm reads a status code or a byte.
 | mechanical (strength 3-4) | 24 | 1 | 0.042 | [0.001, 0.211] |
 | interpretive (strength 0-1) | 24 | 12 | 0.500 | [0.291, 0.709] |
 
-The direction survives; the magnitude does not. The two target modes share one oracle function, so the
-probe is the correct unit of analysis: that gives 1 of 12 versus 7 of 12, **p = 0.027**, with overlapping
-intervals, and dropping the single probe no interpretive callable can match brings it to **p = 0.063**.
-Treat it as evidence of direction on one target, not as a rate. It also refutes the strong form of the
-claim, because the one mechanical error is a real flaw whose only observable is a status code.
+The two target modes share one oracle function, so the probe is the correct unit of analysis: that gives
+1 of 12 versus 7 of 12, **p = 0.027**, with overlapping intervals, and dropping the single probe no
+interpretive callable can match brings it to **p = 0.063**. Treat it as evidence of direction on one
+target, not as a rate. It also refutes the strong form of the claim, because the one mechanical error is
+a real flaw whose only observable is a status code.
 
 **The discipline also has a measured price.** It is over-conservative on one breakage mode, and that
 costs it 11 correct findings that the baseline reports. Its confound table also cannot distinguish a
 target that refuses by not finding something from a rig that fails the same way. Both are priced in
-[`GAPS.md`](GAPS.md) G11. Neither was tuned away.
+[`GAPS.md`](GAPS.md) G11.
 
 ### Gate precision and recall, on the held-out sets
 
-On the catalogue corpus the gates score 1.00/1.00, and that number is **near-circular and should be
-ignored**: the corpus and the gates derive from the same 16-item catalogue, so it measures whether the
-implementation is correct. It says nothing about generalisation. The two held-out sets are the ones worth quoting, and both were
-written against the gates as implemented, not against the rules they encode.
+On the catalogue corpus the gates score 1.00/1.00, which is near-circular: the corpus and the gates
+derive from the same 16-item catalogue, so it measures whether the implementation is correct and says
+nothing about generalisation. The two held-out sets below were both written against the gates as
+implemented, not against the rules they encode.
 
 | set | author | cases | recall | precision | accuracy |
 |---|---|---|---|---|---|
@@ -294,9 +266,7 @@ out to be an accident, through a different gate than its label claimed. Post-rep
 
 Scored against 80 labelled items over 40 advisories, where the labels are a date comparison on a field
 GitHub publishes against a pinned cutoff, set by a selection rule:
-[`benchmarks/dedup/SELECTION_RULE.md`](benchmarks/dedup/SELECTION_RULE.md). By my own records the rule
-was fixed before the corpus was built; the public history starts with the rule and the corpus already
-present, so it cannot show that order. Three real sources over free
+[`benchmarks/dedup/SELECTION_RULE.md`](benchmarks/dedup/SELECTION_RULE.md). Three real sources over free
 public corpora (OSV.dev, the GitHub Advisory Database, NVD's CVE API 2.0). CI never touches the network:
 the measurement replays about 360 committed recordings, each carrying its own request and a command to
 re-issue it.
@@ -304,9 +274,9 @@ re-issue it.
 Recall is **100.0% (40/40; 95% CI 91.2%-100.0%)**, precision **75.5% (40/53; 95% CI 61.7%-86.2%)**, and
 specificity **67.5% (27/40; 95% CI 50.9%-81.4%)**.
 
-**Read the specificity first, and read it per family.** Recall is the flattering half, and the
-selection rule says why: it calls the coordinate-level `duplicate` label near-tautological for OSV,
-because that label's version is taken from the advisory's own OSV record. The identifier family scores
+**Specificity, per family.** Recall is the easy half: the selection rule calls the coordinate-level
+`duplicate` label near-tautological for OSV, because that label's version is taken from the advisory's
+own OSV record. The identifier family scores
 100% on all three metrics. The coordinate family is the real question, and
 there the gate scores precision 60.6% and **specificity 35.0% (7/20; 95% CI 15.4%-59.2%)**, flagging 13 of
 20 genuinely novel items as prior art. Six of the 13 rest on one documented coverage gap alone: the GitHub
@@ -325,7 +295,7 @@ did not answer. What each source covers, what it does not, and the threats to va
 - **Not a vulnerability scanner.** It finds nothing. It gates what you may call a result.
 - **Not for memory safety.** A crash under ASan settles the question mechanically, so in that domain the
   problem is largely solved by tooling that predates this. `controlarm` is for the domains with no such
-  oracle: agent security, authorization, business logic, semantic correctness.
+  oracle: agent security, authorisation, business logic, semantic correctness.
 - **Not exploit confirmation.** That problem is well served already; see Prior art.
 - **Not evidence that the method finds more bugs.** Nothing here measures yield. See [`GAPS.md`](GAPS.md).
 
@@ -361,15 +331,12 @@ CI removes each check in turn to show a test catches it, and the failures are pu
 - **XBOW (2026-06)** published the coverage argument: "it found something real, but it did not tell you
   what it missed". https://xbow.com/blog/mythos-gpt-5-5-ai-vulnerability-detection-security
 - **Strix** ships a `confirmed` / `ruled_out` / `open_proof_gap` trichotomy, including an explicit
-  proof-gap state, at a scale this project will not reach.
+  proof-gap state.
 - **garak** and **PyRIT** already report scorer quality against human-labelled sets. Publishing precision
-  and recall for a detector is not itself novel, and I have merged code in PyRIT, so this repository would
-  be a poor place to claim otherwise.
+  and recall for a detector is not itself novel.
 - **`red-team-blue-team-agent-fabric`** states the same position in almost the same words: "a test that
   did not reach the target is not a passing security test", and ships INCONCLUSIVE verdicts and sentinel
-  controls. Which of us wrote it down first is not something either of us can demonstrate, so the claim
-  here is only that the idea was not ours alone.
-  https://github.com/msaleme/red-team-blue-team-agent-fabric
+  controls. https://github.com/msaleme/red-team-blue-team-agent-fabric
 - **ATOBench** studies where autonomous offensive agents stop searching, which is the saturation question
   this repository does not address.
 - **Anthropic's open-source scanning pipeline** reports that *"only one was invalid, i.e. a 'false
