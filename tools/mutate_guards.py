@@ -208,6 +208,12 @@ MUTATIONS: list[Mutation] = [
     ),
     Mutation(
         "controls",
+        "a probe that raised is never read as a refusal (defect 11)",
+        r'if raised and reason == "other":',
+        "if False:  # MUTATED",
+    ),
+    Mutation(
+        "controls",
         "test arms are filtered by role",
         r"tests = \[a for a in self\.arms if a\.role is Role\.TEST\]",
         "tests = list(self.arms)  # MUTATED",

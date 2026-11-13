@@ -17,8 +17,10 @@ This is testing infrastructure, so the interesting failures are in the rails:
   infrastructure, or into a private, loopback, link-local, reserved or multicast range, without being
   refused.
 - **A verdict that overstates its evidence.** Any configuration producing `CANDIDATE` or `KILL` without a
-  liveness arm that executed and a positive control refused by the boundary itself. This is the project's
-  central invariant and a counterexample is its most severe possible defect.
+  liveness arm that executed and an honest control refused for none of the recognised unrelated causes,
+  or one that reads a probe's exception as a refusal. This is the project's central invariant and a
+  counterexample is its most severe possible defect. A `KILL` from a probe that cannot see a success is
+  a known gap ([`GAPS.md`](GAPS.md) G16), not a report.
 - **The example target reachable off loopback.**
 
 ## What does not count

@@ -15,6 +15,7 @@ import pytest
 
 from controlarm.controls.run import (
     CONFOUND_PATTERNS,
+    PROBE_CRASHED,
     Arm,
     Outcome,
     Role,
@@ -78,6 +79,88 @@ def test_exception_is_captured_not_raised_and_keeps_its_reason():
     assert arm.outcome is Outcome.CONFOUNDED
     assert arm.reason == "runtime-failed"
     assert "ConnectionRefusedError" in arm.detail
+
+
+# Defect 11. Each probe below crashes with a message that no confound pattern
+# matches, which is exactly the case that used to classify as "other" and so be
+# read as the boundary refusing.
+CRASHES = {
+    "KeyError": lambda: {}["final_host"],
+    "ZeroDivisionError": lambda: 1 / 0,
+    "IndexError": lambda: [][0],
+}
+
+
+@pytest.mark.parametrize("kind", sorted(CRASHES))
+def test_a_crash_with_no_named_cause_is_never_a_refusal(kind):
+    run = Run("t")
+    arm = run.arm("crashes", CRASHES[kind])
+    assert arm.outcome is Outcome.CONFOUNDED
+    assert arm.reason == PROBE_CRASHED
+    assert kind in arm.detail
+
+
+def test_a_crashed_test_arm_denies_kill():
+    run = Run("t")
+    run.liveness(EXECUTES)
+    run.honest_control(REFUSED)
+    run.arm("crashes", CRASHES["KeyError"])
+    got, why = run.decide()
+    assert got is Verdict.CONFOUNDED
+    assert "never reached the check" in why
+
+
+def test_a_crashed_arm_among_clean_refusals_is_inconclusive():
+    run = Run("t")
+    run.liveness(EXECUTES)
+    run.honest_control(REFUSED)
+    run.arm("refused", REFUSED)
+    run.arm("crashes", CRASHES["ZeroDivisionError"])
+    got, _ = run.decide()
+    assert got is Verdict.INCONCLUSIVE
+
+
+def test_a_crashed_honest_control_voids():
+    """A crash in the honest control is not the boundary refusing."""
+    run = Run("t")
+    run.liveness(EXECUTES)
+    run.honest_control(CRASHES["IndexError"])
+    run.arm("refused", REFUSED)
+    got, why = run.decide()
+    assert got is Verdict.VOID
+    assert "never shown to enforce" in why
+    assert PROBE_CRASHED in why
+
+
+def test_a_crashed_liveness_voids():
+    run = Run("t")
+    run.liveness(CRASHES["KeyError"])
+    run.honest_control(REFUSED)
+    run.arm("refused", REFUSED)
+    got, _ = run.decide()
+    assert got is Verdict.VOID
+
+
+def test_probe_crashed_is_assigned_and_not_a_pattern():
+    """It is set from the exception, never matched from text, so it cannot be in the table."""
+    assert PROBE_CRASHED not in CONFOUND_PATTERNS
+    assert classify_failure("<exception KeyError: 'x'>") == "other"
+
+
+def test_known_gap_a_blind_probe_still_reads_as_kill():
+    """GAPS.md G16, pinned on purpose so the README and G16 cannot drift.
+
+    A probe that cannot observe the result returns "not fired", which reads
+    exactly like a boundary that held. The lattice cannot tell the two apart
+    without a known positive to calibrate the probe against. If a calibration arm
+    is ever added and this starts failing, update G16 and the README with it.
+    """
+    run = Run("t")
+    run.liveness(EXECUTES)
+    run.honest_control(REFUSED)
+    run.arm("blind", lambda: (False, "no observation"))
+    got, _ = run.decide()
+    assert got is Verdict.KILL
 
 
 def test_bare_bool_return_is_accepted():

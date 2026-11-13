@@ -443,6 +443,33 @@ and a change in how a judge grades would not move any committed number.
 *To close it:* commit each judge reply beside the request that produced it, the way
 `benchmarks/dedup/cassettes/` does for the dedup study, so that a replay can re-score the study offline.
 
+## G16. A KILL assumes each test probe could see a success, and nothing checks that
+
+Found after publication, with defect 11 in `src/controlarm/controls/run.py`.
+
+The liveness arm shows the rig reaching the target, through a probe that deliberately asks a different
+question. The honest control shows the plain action failing for none of the recognised unrelated causes.
+Neither shows that the probe a test arm uses would report a success if one happened. A probe that cannot
+observe the result, because it reads the wrong field, its parser is broken, or it never looks, returns
+"not fired" on every arm. That is indistinguishable from a boundary that held: the run is filed `KILL`
+and the CLI exits 0. On the deliberately flawed local target, a probe that sends the backslash bypass
+but cannot read the parsed result turns a real `CANDIDATE` into a `KILL`.
+`tests/test_controls.py::test_known_gap_a_blind_probe_still_reads_as_kill` pins that behaviour, so this
+entry cannot go stale without a test noticing.
+
+The same inference sits under the honest control. "Refused by the boundary itself" means the failure
+matched none of the recognised unrelated causes. It is elimination, not a positive sign from the
+boundary.
+
+Defect 11 was the sharpest case and is fixed. A probe that raised an exception whose message matched no
+confound pattern used to read as a refusal, so a crashed test arm gave `KILL` and a crashed honest
+control read as the boundary refusing. It now carries the reason `probe-crashed`, which can deny a
+`KILL` but never support one.
+
+*To close it:* a calibration arm per probe. The same probe, pointed at a case where the action is known
+to succeed, must fire, or the run is `VOID`. On the local target that case is `flawed` mode with the
+backslash authority, where the probe does fire. Not built.
+
 ---
 
 ## Things deliberately not claimed

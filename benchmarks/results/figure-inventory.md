@@ -34,7 +34,7 @@ falsifying the figure in place and requiring the suite to go red.
 | oracle experiment, the interpretive oracle | `benchmarks/results/fp_corpus.json` | `oracle_experiment.determinate.interpretive.false_verdicts over .probe_results, Clopper-Pearson` | `12/24 = 0.500 [0.291, 0.709]` |
 | oracle experiment, at the probe level | `benchmarks/results/fp_corpus.json` | `oracle_experiment.rows grouped by probe over the two determinate modes` | `1 of 12 versus 7 of 12, p = 0.027` |
 | oracle experiment, probe level with the unmatchable probe dropped | `benchmarks/results/fp_corpus.json` | `oracle_experiment.rows, one interpretive-only error removed` | `p = 0.063` |
-| guards neutered in CI | `tools/mutate_guards.py` | `len(MUTATIONS)` | `180` |
+| guards neutered in CI | `tools/mutate_guards.py` | `len(MUTATIONS)` | `181` |
 | CVEs reached | `benchmarks/cve_study/results/cve_study.json` | `measurement.cves_reached` | `11` |
 | CVE study, runs | `benchmarks/cve_study/results/cve_study.json` | `measurement.runs_total` | `110` |
 | CVE study, vulnerability classes | `benchmarks/cve_study/results/cve_study.json` | `targets[status=REACHED].class, distinct` | `8` |

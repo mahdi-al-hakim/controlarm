@@ -201,11 +201,13 @@ do.
 
 ## How this relates to controlarm's `VOID` rule
 
-This is the discipline controlarm encodes, found in the wild and fixed at the source. RAMPART before the
-fix had no way to tell that its instrument was blind, so it reported a clean result. controlarm's rule is
-that a negative is `VOID` unless a positive control fired first, because a test that cannot observe the
-evidence it judges has no basis for reporting that the evidence is absent. The RAMPART evaluators now
-return `UNDETERMINED` for exactly this reason, which is the same move under a different name.
+This is the discipline controlarm comes from, found in the wild and fixed at the source. RAMPART before
+the fix had no way to tell that its instrument was blind, so it reported a clean result. The RAMPART
+evaluators now return `UNDETERMINED` when they cannot observe the evidence they judge. controlarm's rule
+covers the rig: a negative is `VOID` unless a liveness check reached the target and the honest control
+was refused for none of the recognised unrelated causes. It does not cover the case RAMPART had, a
+probe blind to the evidence while everything around it works. Such a probe reads as a boundary that held
+([`GAPS.md`](../GAPS.md) G16).
 
 What this case is: a real, merged, single-framework existence proof that the failure mode occurs in
 production safety tooling.

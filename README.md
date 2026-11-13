@@ -1,18 +1,23 @@
 # controlarm
 
-**A harness that refuses to call a security test negative unless the rig was shown to work.**
+**A harness that refuses to call a security test negative until the run shows the target answering and
+the boundary refusing.**
 
 An agent that reports "no vulnerability found" is making two claims: that it looked, and that looking
-would have worked. controlarm checks the second one. A run counts as negative only after a liveness
-check passed and a positive control was refused by the boundary itself, and not by an expired
-credential or a rate limit. Without both, the run is `VOID` and the CLI exits 3 instead of 0, so a
-script can't mistake an unproven run for a clean result.
+would have worked. controlarm checks the rig behind the second claim. A run counts as negative only
+after a liveness check reached the target and the honest control, the same attack with no evasion, was
+refused for none of the recognised unrelated causes, such as an expired credential or a rate limit.
+Without both, the run is `VOID` and the CLI exits 3 instead of 0, so a script can't mistake an
+unproven run for a clean result.
 
-The failure it guards against shipped in Microsoft's RAMPART: a safety test passed against an agent
+The failure that motivates it shipped in Microsoft's RAMPART: a safety test passed against an agent
 built to exfiltrate, because the evaluator could not observe the exfiltration. I found it by hand and
 wrote the fix ([PR #141](https://github.com/microsoft/RAMPART/pull/141), merged), and RAMPART's
 evaluators now return `UNDETERMINED` when they cannot observe the evidence they need. controlarm
-encodes the rule I applied there.
+applies the same discipline to the parts of a run it can check: whether the rig reached the target and
+whether the boundary refused the plain attack. Whether a test probe can see a success is still up to
+whoever wrote it, and a probe that cannot reads exactly like a boundary that held. That is the half
+RAMPART's evaluator got wrong ([`GAPS.md`](GAPS.md) G16).
 [`docs/observability-gap-in-the-wild.md`](docs/observability-gap-in-the-wild.md) has the before and
 after, and a small study of the same gap on constructed transcripts.
 
@@ -25,9 +30,9 @@ the hunts can't.
   Neither one means "no bug", and the three refusal states call for three different next actions. The
   order they are applied in is a precedence rule (the lattice, in the code): the most severe refusal
   that applies wins.
-- **A positive control is required.** A run is `VOID` unless a liveness arm executed and a positive control
-  (`honest_control` in the code) was refused *by the boundary itself*, and not by an expired credential
-  or a rate limit.
+- **Two controls are required.** A run is `VOID` unless a liveness arm executed and the honest control
+  (`honest_control` in the code) was refused for none of the recognised unrelated causes, such as an
+  expired credential or a rate limit. A probe that raises an exception is never read as a refusal.
 - **A named reason for every failure.** Mutually exclusive confound patterns, so "no such tool" is never
   filed as a missing precondition.
 - **Prior-art gating.** A candidate finding with a stale or unmeasured dedup verdict does not promote.
@@ -172,7 +177,7 @@ per-CVE table and remaining threats in [`docs/cve-study.md`](docs/cve-study.md) 
 The discipline is enforced on this repository by the same kind of machinery it asks you to apply to a
 target.
 
-- **180 guards, each one neutered in CI.** `python tools/mutate_guards.py` removes every guard in turn and
+- **181 guards, each one neutered in CI.** `python tools/mutate_guards.py` removes every guard in turn and
   fails the build if any removal leaves the test suite green, because a guard whose removal no test
   notices has nothing showing that it works.
 - **The README is an input to the test suite.** The snippet above is extracted and executed in all three
@@ -188,8 +193,9 @@ target.
   declared-to-enforced rule ratio. The denominator is prose and the two candidate mappings disagree by an
   order of magnitude, so the command prints all three counts with their provenance, prints both candidate
   ratios labelled unusable, names what would have to exist for the ratio to be computable, and exits 2.
-- **A refusal never exits 2 and a crash never exits 3.** Both are pinned by tests, over every refusal the
-  subcommands can reach and six injected exception types.
+- **A refusal never exits 2 and a tool crash never exits 3.** Both are pinned by tests, over every refusal
+  the subcommands can reach and six injected exception types. A probe that raises is a different case:
+  its arm is recorded as `probe-crashed`, which can deny a `KILL` but never support one.
 
 ## What is measured, and where it came out null
 

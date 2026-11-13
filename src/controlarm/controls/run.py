@@ -18,9 +18,22 @@ be removed without removing its justification:
   9  the honest control was refused for a confounding  -> the boundary was never shown to
      reason rather than by the boundary                   enforce anything, yet the run
                                                           proceeded as if it had
+ 11  a probe raised an exception whose message         -> a crashed test arm read as
+     matched no confound pattern                          refused, so the run was KILL;
+                                                          a crashed honest control read as
+                                                          the boundary refusing
 
 Defect 9 is not inherited from the private harness; it was found while porting
 this module and is covered by ``tests/test_controls.py::test_confounded_honest_control_voids``.
+Defect 11 was found after publication. ``_call`` already caught the exception and
+kept its text, but a message no pattern matched classified as ``"other"``, the one
+reason a verdict treats as evidence of a refusal. A probe that raised now carries
+the reason ``probe-crashed`` unless its message names a more specific cause.
+
+What a ``KILL`` does not show: that each test arm's probe could have seen a
+success. A probe that cannot observe the result reports every arm as not fired,
+and that reads exactly like a boundary that held. Check each probe once against a
+known positive. ``GAPS.md`` G16.
 """
 
 from __future__ import annotations
@@ -33,6 +46,7 @@ from enum import Enum
 
 __all__ = [
     "CONFOUND_PATTERNS",
+    "PROBE_CRASHED",
     "Arm",
     "Outcome",
     "Role",
@@ -75,7 +89,10 @@ class Verdict(str, Enum):
     """Controls ran and no test arm was defined."""
 
     KILL = "KILL"
-    """Every test arm was blocked and none failed for an unrelated reason."""
+    """Every test arm was blocked and none failed for an unrelated reason.
+
+    It assumes each test arm's probe could have seen a success. Nothing here
+    checks that; see the module docstring."""
 
 
 class Role(str, Enum):
@@ -131,6 +148,12 @@ CONFOUND_PATTERNS: Mapping[str, str] = {
 }
 
 _COMPILED = {name: re.compile(pat, re.IGNORECASE) for name, pat in CONFOUND_PATTERNS.items()}
+
+#: The reason an arm carries when its probe raised and the message named no more
+#: specific cause (defect 11). Assigned, not matched, so it is not in
+#: ``CONFOUND_PATTERNS``: a pattern would have to be written against exception
+#: text, and the point is that any exception counts, whatever its text says.
+PROBE_CRASHED = "probe-crashed"
 
 
 def classify_failure(text: str, patterns: Mapping[str, str] | None = None) -> str:
@@ -293,11 +316,14 @@ class Run:
                 "explained by that and not by any flaw under test.",
             )
         if self._honest is Outcome.CONFOUNDED:
+            reason = next(
+                (a.reason for a in reversed(self.arms) if a.role is Role.HONEST_CONTROL), "unknown"
+            )
             return (
                 Verdict.VOID,
-                "The honest control was refused, but for an unrelated reason rather than by the "
-                "boundary. The boundary was therefore never shown to enforce anything, so a "
-                "blocked test arm is not evidence. Remove the confound and re-run.",
+                f"The honest control failed for an unrelated reason ({reason}) rather than being "
+                "refused by the boundary. The boundary was therefore never shown to enforce "
+                "anything, so a blocked test arm is not evidence. Remove the confound and re-run.",
             )
 
         tests = [a for a in self.arms if a.role is Role.TEST]
@@ -338,28 +364,32 @@ class Run:
     def _attempt(
         self, fn: Callable[[], tuple[bool, str] | bool], *, must_execute: bool
     ) -> tuple[Outcome, str, str]:
-        ok, detail = _call(fn)
+        ok, detail, raised = _call(fn)
         reason = classify_failure(detail, self.patterns)
         if ok:
             return (Outcome.EXECUTED, detail, reason)
+        # Defect 11: an exception is the probe failing, never the boundary refusing.
+        if raised and reason == "other":
+            reason = PROBE_CRASHED
         if reason != "other":
             return (Outcome.CONFOUNDED, detail, reason)
         return (Outcome.REFUSED, detail, reason)
 
 
-def _call(fn: Callable[[], tuple[bool, str] | bool]) -> tuple[bool, str]:
+def _call(fn: Callable[[], tuple[bool, str] | bool]) -> tuple[bool, str, bool]:
     """Call ``fn``, turning any exception into a named failure rather than a crash.
 
-    The exception type and message are preserved in ``detail`` so
-    ``classify_failure`` can still see a connection refusal or a rate limit. A
-    swallowed reason is the defect this module exists to prevent, so nothing here
-    discards one.
+    Returns ``(ok, detail, raised)``. The exception type and message are preserved
+    in ``detail`` so ``classify_failure`` can still see a connection refusal or a
+    rate limit, and ``raised`` says the probe crashed, so a message that matches
+    nothing is not read as a refusal (defect 11). A swallowed reason is the defect
+    this module exists to prevent, so nothing here discards one.
     """
     try:
         result = fn()
     except Exception as exc:
-        return False, f"<exception {type(exc).__name__}: {exc}>"
+        return False, f"<exception {type(exc).__name__}: {exc}>", True
     if isinstance(result, tuple):
         ok, detail = result[0], result[1]
-        return bool(ok), str(detail)
-    return bool(result), ""
+        return bool(ok), str(detail), False
+    return bool(result), "", False

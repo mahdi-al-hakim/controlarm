@@ -31,6 +31,7 @@ the installed ``controlarm`` command, which is what it is for.
 
 from controlarm.controls.run import (
     CONFOUND_PATTERNS,
+    PROBE_CRASHED,
     Arm,
     Outcome,
     Role,
@@ -135,6 +136,7 @@ __all__ = [
     "MODES",
     "ORACLE_STRENGTH",
     "PLACEHOLDER_PATTERNS",
+    "PROBE_CRASHED",
     "REFUSAL_MARKERS",
     "STRENGTH_FLOOR",
     "Arm",

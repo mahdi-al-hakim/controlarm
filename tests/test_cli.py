@@ -979,6 +979,48 @@ def test_a_refused_run_still_writes_nothing_a_reader_could_mistake_for_clean(wor
     assert json.loads(out.read_text(encoding="utf-8"))["verdict"] == "VOID"
 
 
+def _crashing(spec: dict) -> dict:
+    """The same arm, with an argument the probe does not accept, so the call raises a
+    TypeError whose message names no confound."""
+    return spec | {"args": spec["args"] | {"bogus": 1}}
+
+
+def test_a_probe_that_raises_never_prints_kill_or_exits_0(workspace):
+    """Defect 11 through the CLI: a crashed test arm used to print KILL and exit 0."""
+    source = json.loads((ROOT / "examples/plans/fetch_allowlist.json").read_text("utf-8"))
+    out = workspace / "crashed_arm.json"
+    result = run(
+        "run",
+        _plan(workspace, "crashed_arm_plan.json", arms=[_crashing(source["arms"][0])]),
+        "--out",
+        str(out),
+        "--now",
+        NOW,
+        "--json",
+    )
+    assert result.code == Exit.REFUSED
+    assert result.json["verdict"] == "CONFOUNDED"
+    test_arm = [a for a in json.loads(out.read_text("utf-8"))["arms"] if a["role"] == "test"]
+    assert test_arm[0]["reason"] == "probe-crashed"
+
+
+def test_a_crashed_honest_control_voids_through_the_cli(workspace):
+    """Defect 11 on the control: the crash used to count as the boundary refusing."""
+    source = json.loads((ROOT / "examples/plans/fetch_allowlist.json").read_text("utf-8"))
+    result = run(
+        "run",
+        _plan(workspace, "crashed_control_plan.json", control=_crashing(source["control"])),
+        "--out",
+        str(workspace / "crashed_control.json"),
+        "--now",
+        NOW,
+        "--json",
+    )
+    assert result.code == Exit.REFUSED
+    assert result.json["verdict"] == "VOID"
+    assert "probe-crashed" in result.json["reason"]
+
+
 # ============================================================ oracle rate and G8
 
 

@@ -457,7 +457,7 @@ invariants this repository declares enforced
             4  tools/mutate_guards.py           mutation target: n/a (tooling)
 
 guards mechanically pinned
-    180   tools/mutate_guards.py MUTATIONS, each neutered in CI to prove a test catches its removal
+    181   tools/mutate_guards.py MUTATIONS, each neutered in CI to prove a test catches its removal
 ...
 DECLARED-TO-ENFORCED RATIO: NOT COMPUTED.
   - The denominator is prose. ...
