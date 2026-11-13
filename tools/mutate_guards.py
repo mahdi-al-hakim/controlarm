@@ -209,8 +209,38 @@ MUTATIONS: list[Mutation] = [
     Mutation(
         "controls",
         "a probe that raised is never read as a refusal (defect 11)",
-        r'if raised and reason == "other":',
+        r'if broke == "raised" and reason == "other":',
         "if False:  # MUTATED",
+    ),
+    Mutation(
+        "controls",
+        "a malformed probe result is never read as a refusal (defect 11)",
+        r'if broke == "malformed":',
+        "if False:  # MUTATED",
+    ),
+    Mutation(
+        "controls",
+        "a value that is not a result is not read by its truth (defect 11)",
+        r'return False, f"<not a result:[^\n]*',
+        'return bool(result), "", None  # MUTATED',
+    ),
+    Mutation(
+        "controls",
+        "a probe cannot end the run by raising SystemExit (defect 11)",
+        r"except BaseException as exc:[^\n]*",
+        "except Exception as exc:  # MUTATED",
+    ),
+    Mutation(
+        "controls",
+        "a broken probe voids the run (defect 11)",
+        r"if broken:",
+        "if False:  # MUTATED",
+    ),
+    Mutation(
+        "controls",
+        "an unprintable probe value cannot end the run (defect 11)",
+        r"except BaseException:  # an unprintable value[^\n]*",
+        "except Exception:  # MUTATED",
     ),
     Mutation(
         "controls",
@@ -1031,6 +1061,12 @@ MUTATIONS: list[Mutation] = [
     # ---------------------------------------------------------- cli/commands.py
     Mutation(
         "cli_commands",
+        "a run that stops part-way leaves no stale record",
+        r"Path\(ns\.out\)\.unlink\(missing_ok=True\)",
+        "pass  # MUTATED",
+    ),
+    Mutation(
+        "cli_commands",
         "an unhandled exception renders as a tool failure",
         r"            code=Exit\.TOOL_FAILURE,",
         "            code=Exit.OK,  # MUTATED",
@@ -1163,6 +1199,12 @@ MUTATIONS: list[Mutation] = [
         '"exit_code": 0,  # MUTATED',
     ),
     # -------------------------------------------------------------- cli/plan.py
+    Mutation(
+        "cli_plan",
+        "a probe module that exits on import is refused, not obeyed",
+        r"except BaseException as exc:  # a module that exits on import[^\n]*",
+        "except Exception as exc:  # MUTATED",
+    ),
     Mutation(
         "cli_plan",
         "an inadmissible oracle refuses the plan before any arm fires",

@@ -3,7 +3,10 @@
 ``controlarm run`` resolves each arm's ``call`` as ``module:attribute`` and
 invokes it with the arm's ``args``. A probe therefore has to be an ordinary
 keyword-argument function returning ``(fired, detail)``, where ``detail`` is the
-text the confound classifier reads. These are the ones the worked example in
+text the confound classifier reads. Report a refusal by returning
+``(False, detail)``. A probe that returns anything else has broken and the run is
+VOID; so has one that raises, unless its error names a recognised unrelated cause
+such as a refused connection. These are the ones the worked example in
 ``docs/cli.md`` uses, and they exist here rather than in the package for the
 same reason the example target does: a probe that shipped inside the thing it
 measures is harder for a reviewer to trust.

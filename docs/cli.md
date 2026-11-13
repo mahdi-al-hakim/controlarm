@@ -29,8 +29,10 @@ Two consequences, both pinned by tests in `tests/test_cli.py`:
 
 * **A refusal never exits 2.** `test_a_refusal_never_exits_2` exercises every refusal the
   subcommands can reach and asserts 3 for each.
-* **A crash never exits 3.** `test_a_crash_never_exits_3` injects six unrelated exception types and
-  asserts 2 for each, with `verdict: TOOL-FAILURE` printed.
+* **A tool crash never exits 3.** `test_a_crash_never_exits_3` injects six unrelated exception types and
+  asserts 2 for each, with `verdict: TOOL-FAILURE` printed. Inside a run, a probe that breaks is
+  handled by the run: it records the failure and returns `VOID`, or `CONFOUNDED` when the error names
+  a recognised unrelated cause, and both exit 3.
 
 A usage error from the argument parser is 2, and correctly so: a mis-invoked instrument measured
 nothing either.
@@ -40,8 +42,12 @@ nothing either.
 ```bash
 #!/usr/bin/env bash
 controlarm run plan.json --out run.json
-case $? in
-  0) echo "a trusted negative: the arms ran, the control fired, nothing happened" ;;
+code=$?
+# Exit 0 counts only with a record that says KILL. A probe that kills its own process (os._exit)
+# ends the run with 0 before anything is written, and no harness can catch that from inside.
+if [ "$code" -eq 0 ] && ! grep -q '"verdict": "KILL"' run.json 2>/dev/null; then code=2; fi
+case $code in
+  0) echo "a negative the controls support; it assumes each probe can see a success" ;;
   2) echo "CONTROLARM FAILED. This is not evidence about the target." ; exit 1 ;;
   3) echo "refused. Read run.json for the reason; this is the normal path." ;;
   4) echo "something executed. Re-run from fresh state before calling it a finding." ;;
@@ -232,7 +238,7 @@ control is the only flag anybody would ever use.
     "name": "HONEST-CONTROL",
     "call": "examples.local_target.probes:reached_off_list",
     "args": {"url": "https://listener.invalid/c", "mode": "flawed"},
-    "expectation": "refused by the boundary itself, or the run is VOID"
+    "expectation": "refused, and not for a recognised unrelated cause, or the run is VOID"
   },
   "arms": [
     {
@@ -288,9 +294,9 @@ exit=3
 
 | lattice verdict | exit | why |
 |---|---|---|
-| `KILL` | 0 | the arms ran, the control fired, nothing happened. The one verdict that is a result |
+| `KILL` | 0 | the rig reached the target, the plain attack was refused, and no test arm got through. The one verdict that is a result, and it assumes each probe can see a success (`GAPS.md` G16) |
 | `CANDIDATE` | 4 | something executed. A draft, not a finding, until it is re-run from fresh state |
-| `VOID` | 3 | the rig was never shown to produce a positive. No absence here is interpretable |
+| `VOID` | 3 | the rig was never shown to produce a positive, or a probe broke. No absence here is interpretable |
 | `CONFOUNDED` | 3 | the rig held and every arm failed for a named unrelated reason |
 | `INCONCLUSIVE` | 3 | partial evidence, and one confound is enough to deny a `KILL` |
 | `NO-TESTS` | 3 | controls ran and no test arm was defined |
@@ -457,7 +463,7 @@ invariants this repository declares enforced
             4  tools/mutate_guards.py           mutation target: n/a (tooling)
 
 guards mechanically pinned
-    181   tools/mutate_guards.py MUTATIONS, each neutered in CI to prove a test catches its removal
+    188   tools/mutate_guards.py MUTATIONS, each neutered in CI to prove a test catches its removal
 ...
 DECLARED-TO-ENFORCED RATIO: NOT COMPUTED.
   - The denominator is prose. ...

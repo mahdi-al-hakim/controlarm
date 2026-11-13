@@ -999,7 +999,7 @@ def test_a_probe_that_raises_never_prints_kill_or_exits_0(workspace):
         "--json",
     )
     assert result.code == Exit.REFUSED
-    assert result.json["verdict"] == "CONFOUNDED"
+    assert result.json["verdict"] == "VOID"
     test_arm = [a for a in json.loads(out.read_text("utf-8"))["arms"] if a["role"] == "test"]
     assert test_arm[0]["reason"] == "probe-crashed"
 
@@ -1018,7 +1018,60 @@ def test_a_crashed_honest_control_voids_through_the_cli(workspace):
     )
     assert result.code == Exit.REFUSED
     assert result.json["verdict"] == "VOID"
-    assert "probe-crashed" in result.json["reason"]
+    assert "Fix the probe" in result.json["reason"]
+
+
+def test_a_probe_that_calls_sys_exit_is_recorded_not_obeyed(workspace):
+    """Defect 11: SystemExit from a probe used to end the CLI with exit 0 and no record."""
+    out = workspace / "exits.json"
+    exits = {"name": "exits", "call": "sys:exit", "args": {}, "expectation": "refused"}
+    result = run(
+        "run",
+        _plan(workspace, "exits_plan.json", arms=[exits]),
+        "--out",
+        str(out),
+        "--now",
+        NOW,
+        "--json",
+    )
+    assert result.code == Exit.REFUSED
+    assert result.json["verdict"] == "VOID"
+    assert json.loads(out.read_text("utf-8"))["verdict"] == "VOID"
+
+
+def test_a_probe_module_that_exits_on_import_is_refused(workspace, monkeypatch):
+    """Resolution imports each probe's module. One that called sys.exit while importing used to end
+    the CLI with exit 0 and no record."""
+    (workspace / "exits_on_import_probe.py").write_text(
+        "import sys\nsys.exit(0)\n", encoding="utf-8"
+    )
+    monkeypatch.syspath_prepend(str(workspace))
+    arm = {
+        "name": "exits",
+        "call": "exits_on_import_probe:probe",
+        "args": {},
+        "expectation": "refused",
+    }
+    out = workspace / "exits_on_import.json"
+    result = run(
+        "run",
+        _plan(workspace, "exits_on_import_plan.json", arms=[arm]),
+        "--out",
+        str(out),
+        "--now",
+        NOW,
+    )
+    assert result.code == Exit.REFUSED
+    assert not out.exists()
+
+
+def test_a_run_that_stops_part_way_leaves_no_stale_record(workspace):
+    """The previous run's KILL must not survive a later run that never produced a verdict."""
+    out = workspace / "stale.json"
+    out.write_text(json.dumps({"verdict": "KILL"}), encoding="utf-8")
+    result = run("run", str(workspace / "no-such-plan.json"), "--out", str(out), "--now", NOW)
+    assert result.code == Exit.TOOL_FAILURE
+    assert not out.exists()
 
 
 # ============================================================ oracle rate and G8

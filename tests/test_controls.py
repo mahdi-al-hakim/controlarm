@@ -16,6 +16,7 @@ import pytest
 from controlarm.controls.run import (
     CONFOUND_PATTERNS,
     PROBE_CRASHED,
+    PROBE_MALFORMED,
     Arm,
     Outcome,
     Role,
@@ -100,36 +101,126 @@ def test_a_crash_with_no_named_cause_is_never_a_refusal(kind):
     assert kind in arm.detail
 
 
-def test_a_crashed_test_arm_denies_kill():
+def test_a_crashed_test_arm_voids_the_run():
     run = Run("t")
     run.liveness(EXECUTES)
     run.honest_control(REFUSED)
     run.arm("crashes", CRASHES["KeyError"])
     got, why = run.decide()
-    assert got is Verdict.CONFOUNDED
-    assert "never reached the check" in why
+    assert got is Verdict.VOID
+    assert "Fix the probe" in why
 
 
-def test_a_crashed_arm_among_clean_refusals_is_inconclusive():
+def test_a_crashed_arm_among_clean_refusals_still_voids():
     run = Run("t")
     run.liveness(EXECUTES)
     run.honest_control(REFUSED)
     run.arm("refused", REFUSED)
     run.arm("crashes", CRASHES["ZeroDivisionError"])
     got, _ = run.decide()
-    assert got is Verdict.INCONCLUSIVE
+    assert got is Verdict.VOID
 
 
 def test_a_crashed_honest_control_voids():
-    """A crash in the honest control is not the boundary refusing."""
+    """The crash says nothing about the boundary, so the boundary was never shown to enforce."""
     run = Run("t")
     run.liveness(EXECUTES)
     run.honest_control(CRASHES["IndexError"])
     run.arm("refused", REFUSED)
     got, why = run.decide()
     assert got is Verdict.VOID
-    assert "never shown to enforce" in why
-    assert PROBE_CRASHED in why
+    assert "HONEST-CONTROL" in why
+
+
+# Defect 11, second pass: a value that is not a bool or a (bool, detail) pair was read
+# by its truth, so a failed liveness probe returning a list counted as executed.
+MALFORMED = {
+    "None": None,
+    "list": [False, "403 forbidden"],
+    "dict": {"ok": False},
+    "str": "403 forbidden",
+    "int first": (0, "403"),
+    "one-tuple": (False,),
+    "three-tuple": (False, "403", "extra"),
+}
+
+
+@pytest.mark.parametrize("kind", sorted(MALFORMED))
+def test_a_malformed_result_is_a_probe_failure(kind):
+    run = Run("t")
+    arm = run.arm("odd", lambda: MALFORMED[kind])
+    assert arm.outcome is Outcome.CONFOUNDED
+    assert arm.reason == PROBE_MALFORMED
+
+
+def test_a_failed_liveness_probe_returning_a_list_voids_the_run():
+    run = Run("t")
+    run.liveness(lambda: [False, "403 forbidden"])
+    run.honest_control(REFUSED)
+    run.arm("refused", REFUSED)
+    got, _ = run.decide()
+    assert got is Verdict.VOID
+
+
+def test_a_probe_that_forgets_to_return_voids_the_run():
+    run = Run("t")
+    run.liveness(EXECUTES)
+    run.honest_control(REFUSED)
+    run.arm("no return", lambda: None)
+    got, _ = run.decide()
+    assert got is Verdict.VOID
+
+
+class _Custom(BaseException):
+    pass
+
+
+def _exits():
+    raise SystemExit(0)
+
+
+def _custom():
+    raise _Custom("escaped")
+
+
+@pytest.mark.parametrize("probe", [_exits, _custom], ids=["SystemExit", "custom BaseException"])
+def test_a_probe_cannot_end_the_run(probe):
+    run = Run("t")
+    run.liveness(EXECUTES)
+    run.honest_control(REFUSED)
+    arm = run.arm("ends the process", probe)
+    assert arm.reason == PROBE_CRASHED
+    assert run.decide()[0] is Verdict.VOID
+
+
+class _Unprintable:
+    def __str__(self):
+        raise SystemExit(0)
+
+
+class _UnprintableError(Exception):
+    def __str__(self):
+        raise SystemExit(0)
+
+
+def _raises_unprintable():
+    raise _UnprintableError()
+
+
+def test_an_unprintable_value_from_a_probe_cannot_end_the_run():
+    """Printing a probe's value runs the probe's own code; its __str__ may not end the run."""
+    run = Run("t")
+    assert run.arm("unprintable detail", lambda: (False, _Unprintable())).reason == PROBE_MALFORMED
+    assert run.arm("unprintable result", lambda: _Unprintable()).reason == PROBE_MALFORMED
+    assert run.arm("unprintable exception", _raises_unprintable).reason == PROBE_CRASHED
+
+
+def test_keyboard_interrupt_still_stops_the_run():
+    def interrupted():
+        raise KeyboardInterrupt
+
+    with pytest.raises(KeyboardInterrupt):
+        Run("t").arm("interrupted", interrupted)
 
 
 def test_a_crashed_liveness_voids():
@@ -141,26 +232,40 @@ def test_a_crashed_liveness_voids():
     assert got is Verdict.VOID
 
 
-def test_probe_crashed_is_assigned_and_not_a_pattern():
-    """It is set from the exception, never matched from text, so it cannot be in the table."""
+def test_probe_failure_reasons_come_from_the_call_and_are_outside_the_table():
+    """The reasons describe what the call did; a pattern over the text could never assign them."""
     assert PROBE_CRASHED not in CONFOUND_PATTERNS
+    assert PROBE_MALFORMED not in CONFOUND_PATTERNS
     assert classify_failure("<exception KeyError: 'x'>") == "other"
 
 
 def test_known_gap_a_blind_probe_still_reads_as_kill():
-    """GAPS.md G16, pinned on purpose so the README and G16 cannot drift.
+    """GAPS.md G16, pinned on the local target so the README and G16 cannot drift.
 
-    A probe that cannot observe the result returns "not fired", which reads
-    exactly like a boundary that held. The lattice cannot tell the two apart
-    without a known positive to calibrate the probe against. If a calibration arm
-    is ever added and this starts failing, update G16 and the README with it.
+    The same backslash bypass, sent the same way. A probe that reads the parsed
+    result reports CANDIDATE; a probe that sends the request but cannot read the
+    result reports "not fired", and the run reads as KILL. Nothing in the lattice
+    can tell the two apart without a known positive to calibrate the probe against.
+    If a calibration arm is ever added and this starts failing, update G16 and the
+    README with it.
     """
-    run = Run("t")
-    run.liveness(EXECUTES)
-    run.honest_control(REFUSED)
-    run.arm("blind", lambda: (False, "no observation"))
-    got, _ = run.decide()
-    assert got is Verdict.KILL
+    from examples.local_target.probes import fetch, reached_off_list, route_works
+
+    bypass = "https://allowed.example\\@listener.invalid/c"
+
+    def blind(url, mode):
+        fetch(url, mode)  # the request goes through; the probe just never looks
+        return False, "no observation"
+
+    def verdict_with(probe):
+        run = Run("t")
+        run.liveness(lambda: route_works("https://allowed.example/ok", "flawed"))
+        run.honest_control(lambda: reached_off_list("https://listener.invalid/c", "flawed"))
+        run.arm("backslash bypass", lambda: probe(bypass, "flawed"))
+        return run.decide()[0]
+
+    assert verdict_with(reached_off_list) is Verdict.CANDIDATE
+    assert verdict_with(blind) is Verdict.KILL
 
 
 def test_bare_bool_return_is_accepted():

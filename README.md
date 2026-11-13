@@ -1,12 +1,12 @@
 # controlarm
 
 **A harness that refuses to call a security test negative until the run shows the target answering and
-the boundary refusing.**
+the plain attack being refused.**
 
 An agent that reports "no vulnerability found" is making two claims: that it looked, and that looking
 would have worked. controlarm checks the rig behind the second claim. A run counts as negative only
 after a liveness check reached the target and the honest control, the same attack with no evasion, was
-refused for none of the recognised unrelated causes, such as an expired credential or a rate limit.
+refused, and not for a recognised unrelated cause such as an expired credential or a rate limit.
 Without both, the run is `VOID` and the CLI exits 3 instead of 0, so a script can't mistake an
 unproven run for a clean result.
 
@@ -15,7 +15,7 @@ built to exfiltrate, because the evaluator could not observe the exfiltration. I
 wrote the fix ([PR #141](https://github.com/microsoft/RAMPART/pull/141), merged), and RAMPART's
 evaluators now return `UNDETERMINED` when they cannot observe the evidence they need. controlarm
 applies the same discipline to the parts of a run it can check: whether the rig reached the target and
-whether the boundary refused the plain attack. Whether a test probe can see a success is still up to
+whether the plain attack was refused. Whether a test probe can see a success is still up to
 whoever wrote it, and a probe that cannot reads exactly like a boundary that held. That is the half
 RAMPART's evaluator got wrong ([`GAPS.md`](GAPS.md) G16).
 [`docs/observability-gap-in-the-wild.md`](docs/observability-gap-in-the-wild.md) has the before and
@@ -31,8 +31,10 @@ the hunts can't.
   order they are applied in is a precedence rule (the lattice, in the code): the most severe refusal
   that applies wins.
 - **Two controls are required.** A run is `VOID` unless a liveness arm executed and the honest control
-  (`honest_control` in the code) was refused for none of the recognised unrelated causes, such as an
-  expired credential or a rate limit. A probe that raises an exception is never read as a refusal.
+  (`honest_control` in the code) was refused, and not for a recognised unrelated cause such as an
+  expired credential or a rate limit. A probe that returns something that is not a result makes the run
+  `VOID`, and so does one that raises, unless its error names a recognised unrelated cause such as a
+  refused connection.
 - **A named reason for every failure.** Mutually exclusive confound patterns, so "no such tool" is never
   filed as a missing precondition.
 - **Prior-art gating.** A candidate finding with a stale or unmeasured dedup verdict does not promote.
@@ -177,7 +179,7 @@ per-CVE table and remaining threats in [`docs/cve-study.md`](docs/cve-study.md) 
 The discipline is enforced on this repository by the same kind of machinery it asks you to apply to a
 target.
 
-- **181 guards, each one neutered in CI.** `python tools/mutate_guards.py` removes every guard in turn and
+- **188 guards, each one neutered in CI.** `python tools/mutate_guards.py` removes every guard in turn and
   fails the build if any removal leaves the test suite green, because a guard whose removal no test
   notices has nothing showing that it works.
 - **The README is an input to the test suite.** The snippet above is extracted and executed in all three
@@ -194,8 +196,9 @@ target.
   order of magnitude, so the command prints all three counts with their provenance, prints both candidate
   ratios labelled unusable, names what would have to exist for the ratio to be computable, and exits 2.
 - **A refusal never exits 2 and a tool crash never exits 3.** Both are pinned by tests, over every refusal
-  the subcommands can reach and six injected exception types. A probe that raises is a different case:
-  its arm is recorded as `probe-crashed`, which can deny a `KILL` but never support one.
+  the subcommands can reach and six injected exception types. A probe that breaks inside a run is
+  handled by the run instead: it records the failure and returns `VOID`, or `CONFOUNDED` when the
+  error names a recognised unrelated cause, and both exit 3.
 
 ## What is measured, and where it came out null
 

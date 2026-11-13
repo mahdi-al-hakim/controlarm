@@ -44,6 +44,11 @@ guard cannot be removed without removing its justification:
      therefore siblings, the mapping is keyed on the concrete classes, and
      ``tests/test_cli.py`` asserts that no refusal can ever produce ``2`` and
      that no inability-to-measure can ever produce ``3``.
+
+Defect 2 is about the tool itself. A probe that breaks inside a run is a
+different case: the run catches it, records it on the arm, and returns
+``VOID`` (or ``CONFOUNDED`` when the error names a recognised unrelated cause),
+so the command exits ``REFUSED``.
 """
 
 from __future__ import annotations

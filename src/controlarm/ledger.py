@@ -92,7 +92,9 @@ class LedgerVerdict(str, Enum):
     """Controls ran and no test arm was defined."""
 
     KILL = "KILL"
-    """A trusted negative: the arms ran, the control fired, nothing happened."""
+    """A negative the controls support: the rig reached the target, the plain attack was
+    refused, and no test arm got through. It still assumes each probe could see a success
+    (GAPS.md G16)."""
 
     CANDIDATE = "CANDIDATE"
     """Something executed. Not a finding until re-run from fresh state."""
@@ -110,6 +112,7 @@ class LedgerVerdict(str, Enum):
 class Band(str, Enum):
     """Which kind of claim a verdict makes. Item 2 lives here."""
 
+    # "Trusted" means the controls held. Each probe is still assumed to see a success: GAPS.md G16.
     NEGATIVE_TRUSTED = "negative-trusted"
     NEGATIVE_UNTRUSTED = "negative-untrusted"
     NOT_A_RESULT = "not-a-result"

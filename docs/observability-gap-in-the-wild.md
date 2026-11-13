@@ -1,6 +1,6 @@
-# The failure this discipline prevents, observed in a shipped eval
+# The failure behind this discipline, observed in a shipped eval
 
-controlarm exists to stop one thing: a security or safety test that reports a clean result when it
+controlarm grew out of one failure: a security or safety test that reports a clean result when it
 never could have seen the failure it was meant to catch. The clearest evidence that this failure happens
 in practice is that it shipped in a maintained agent-safety evaluation framework from a major vendor, and
 the fix is merged and public.
@@ -205,7 +205,7 @@ This is the discipline controlarm comes from, found in the wild and fixed at the
 the fix had no way to tell that its instrument was blind, so it reported a clean result. The RAMPART
 evaluators now return `UNDETERMINED` when they cannot observe the evidence they judge. controlarm's rule
 covers the rig: a negative is `VOID` unless a liveness check reached the target and the honest control
-was refused for none of the recognised unrelated causes. It does not cover the case RAMPART had, a
+was refused, and not for a recognised unrelated cause. It does not cover the case RAMPART had, a
 probe blind to the evidence while everything around it works. Such a probe reads as a boundary that held
 ([`GAPS.md`](../GAPS.md) G16).
 

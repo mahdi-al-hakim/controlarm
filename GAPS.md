@@ -448,23 +448,27 @@ and a change in how a judge grades would not move any committed number.
 Found after publication, with defect 11 in `src/controlarm/controls/run.py`.
 
 The liveness arm shows the rig reaching the target, through a probe that deliberately asks a different
-question. The honest control shows the plain action failing for none of the recognised unrelated causes.
+question. The honest control shows the plain action refused, and not for a recognised unrelated cause.
 Neither shows that the probe a test arm uses would report a success if one happened. A probe that cannot
 observe the result, because it reads the wrong field, its parser is broken, or it never looks, returns
-"not fired" on every arm. That is indistinguishable from a boundary that held: the run is filed `KILL`
+"not fired" on every arm, and so does a probe that catches its own error, or whose subprocess or
+worker thread fails without telling it. That is indistinguishable from a boundary that held: the run is filed `KILL`
 and the CLI exits 0. On the deliberately flawed local target, a probe that sends the backslash bypass
 but cannot read the parsed result turns a real `CANDIDATE` into a `KILL`.
 `tests/test_controls.py::test_known_gap_a_blind_probe_still_reads_as_kill` pins that behaviour, so this
 entry cannot go stale without a test noticing.
 
-The same inference sits under the honest control. "Refused by the boundary itself" means the failure
-matched none of the recognised unrelated causes. It is elimination, not a positive sign from the
-boundary.
+The same inference sits under the honest control: the plain attack counts as refused when its failure
+matches none of the recognised unrelated causes. The boundary gives no positive sign, so this is an
+inference by elimination.
 
-Defect 11 was the sharpest case and is fixed. A probe that raised an exception whose message matched no
-confound pattern used to read as a refusal, so a crashed test arm gave `KILL` and a crashed honest
-control read as the boundary refusing. It now carries the reason `probe-crashed`, which can deny a
-`KILL` but never support one.
+Defect 11 covered the cases a harness can see for itself, and is fixed. A probe that raised an
+exception whose message matched no confound pattern used to read as a refusal, so a crashed test arm
+gave `KILL`. A probe that returned anything but a `bool` or a `(bool, detail)` pair was read by its
+truth, so a failed liveness probe that returned `[False, "403"]` counted as executed and a probe
+that forgot to return counted as refused. `SystemExit` from a probe ended the CLI with exit 0 and no
+record. Each of these now makes the run `VOID`. A probe that catches its own error and reports "not
+fired" can't be told apart from the blind probe above, and stays in this gap.
 
 *To close it:* a calibration arm per probe. The same probe, pointed at a case where the action is known
 to succeed, must fire, or the run is `VOID`. On the local target that case is `flawed` mode with the

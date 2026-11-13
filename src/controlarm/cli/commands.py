@@ -304,6 +304,9 @@ def cmd_oracle_rate(ns: argparse.Namespace) -> Emission:
 
 def cmd_run(ns: argparse.Namespace) -> Emission:
     """Execute a declared plan and write ``run.json`` with the verdict lattice."""
+    # A run that stops part-way must not leave the previous run's verdict where a script will
+    # read it, so the old record goes before anything else can fail.
+    Path(ns.out).unlink(missing_ok=True)
     try:
         plan = Plan.from_path(ns.plan)
     except OSError as exc:

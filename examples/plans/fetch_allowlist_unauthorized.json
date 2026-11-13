@@ -22,7 +22,7 @@
       "url": "https://listener.invalid/c",
       "mode": "unauthorized-all"
     },
-    "expectation": "refused by the boundary itself, or the run is VOID"
+    "expectation": "refused, and not for a recognised unrelated cause, or the run is VOID"
   },
   "arms": [
     {

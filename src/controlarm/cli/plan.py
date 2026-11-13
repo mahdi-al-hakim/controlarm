@@ -341,7 +341,9 @@ def _resolve(path: str) -> Callable[..., Any]:
         sys.path.insert(0, cwd)
     try:
         module = importlib.import_module(module_name)
-    except Exception as exc:
+    except KeyboardInterrupt:
+        raise
+    except BaseException as exc:  # a module that exits on import is refused, not obeyed
         raise PlanError(
             f"call {path!r}: could not import {module_name!r} ({type(exc).__name__}: {exc}). "
             "Resolution happens before any arm runs, so nothing was fired."

@@ -1,5 +1,5 @@
 cff-version: 1.2.0
-title: "controlarm: a red-team evidence harness that refuses untrustworthy negatives"
+title: "controlarm: a red-team evidence harness that refuses negatives its controls do not support"
 message: "If you use this software or its benchmark, please cite it."
 type: software
 authors:

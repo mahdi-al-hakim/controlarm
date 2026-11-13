@@ -18,22 +18,23 @@ be removed without removing its justification:
   9  the honest control was refused for a confounding  -> the boundary was never shown to
      reason rather than by the boundary                   enforce anything, yet the run
                                                           proceeded as if it had
- 11  a probe raised an exception whose message         -> a crashed test arm read as
-     matched no confound pattern                          refused, so the run was KILL;
-                                                          a crashed honest control read as
-                                                          the boundary refusing
+ 11  a probe broke: it raised an exception whose     -> a crashed test arm read as refused, so
+     message matched no confound pattern, called          the run was KILL; a failed liveness
+     sys.exit, or returned something other than a         probe that returned [False, "403"]
+     result                                               read as executed
 
 Defect 9 is not inherited from the private harness; it was found while porting
 this module and is covered by ``tests/test_controls.py::test_confounded_honest_control_voids``.
-Defect 11 was found after publication. ``_call`` already caught the exception and
-kept its text, but a message no pattern matched classified as ``"other"``, the one
-reason a verdict treats as evidence of a refusal. A probe that raised now carries
-the reason ``probe-crashed`` unless its message names a more specific cause.
+Defect 11 was found after publication, in two passes of review. ``_call`` caught
+``Exception`` and kept its text, but a message no pattern matched classified as
+``"other"``, the one reason a verdict treats as evidence of a refusal; any return
+value that was not a tuple was read by its truth; and ``SystemExit`` escaped the
+run. A probe that breaks in any of these ways now makes the run VOID.
 
 What a ``KILL`` does not show: that each test arm's probe could have seen a
-success. A probe that cannot observe the result reports every arm as not fired,
-and that reads exactly like a boundary that held. Check each probe once against a
-known positive. ``GAPS.md`` G16.
+success. A probe that cannot observe the result, or that catches its own error
+and reports "not fired", reads exactly like a boundary that held. Check each probe
+once against a known positive. ``GAPS.md`` G16.
 """
 
 from __future__ import annotations
@@ -47,6 +48,8 @@ from enum import Enum
 __all__ = [
     "CONFOUND_PATTERNS",
     "PROBE_CRASHED",
+    "PROBE_FAILURES",
+    "PROBE_MALFORMED",
     "Arm",
     "Outcome",
     "Role",
@@ -149,11 +152,15 @@ CONFOUND_PATTERNS: Mapping[str, str] = {
 
 _COMPILED = {name: re.compile(pat, re.IGNORECASE) for name, pat in CONFOUND_PATTERNS.items()}
 
-#: The reason an arm carries when its probe raised and the message named no more
-#: specific cause (defect 11). Assigned, not matched, so it is not in
-#: ``CONFOUND_PATTERNS``: a pattern would have to be written against exception
-#: text, and the point is that any exception counts, whatever its text says.
+#: Reasons an arm carries when its probe broke (defect 11). They come from what the
+#: call did, so they are not in ``CONFOUND_PATTERNS``: a pattern would have to be
+#: written against the text, and a broken probe counts whatever its text says.
+#: Either one makes the run VOID.
 PROBE_CRASHED = "probe-crashed"
+"""The probe raised, and its message named no more specific cause."""
+PROBE_MALFORMED = "probe-malformed"
+"""The probe returned something other than a ``bool`` or a ``(bool, detail)`` pair."""
+PROBE_FAILURES = frozenset({PROBE_CRASHED, PROBE_MALFORMED})
 
 
 def classify_failure(text: str, patterns: Mapping[str, str] | None = None) -> str:
@@ -253,7 +260,7 @@ class Run:
                 outcome,
                 detail,
                 reason,
-                "must be refused by the boundary itself or the run is VOID",
+                "must be refused, and not for a recognised unrelated cause, or the run is VOID",
             )
         )
         return outcome is Outcome.REFUSED
@@ -295,6 +302,14 @@ class Run:
 
     def decide(self) -> tuple[Verdict, str]:
         """The whole state machine. Exhaustively covered by ``tests/test_controls.py``."""
+        broken = [a.name for a in self.arms if a.reason in PROBE_FAILURES]
+        if broken:
+            return (
+                Verdict.VOID,
+                f"The probe for {broken} raised or returned something that is not a result, so "
+                "the instrument failed and no absence in this run is interpretable. Fix the "
+                "probe, then re-run. This is VOID, not KILL.",
+            )
         if self._liveness is Outcome.CONFOUNDED:
             return (
                 Verdict.VOID,
@@ -321,9 +336,9 @@ class Run:
             )
             return (
                 Verdict.VOID,
-                f"The honest control failed for an unrelated reason ({reason}) rather than being "
-                "refused by the boundary. The boundary was therefore never shown to enforce "
-                "anything, so a blocked test arm is not evidence. Remove the confound and re-run.",
+                f"The honest control failed for an unrelated reason ({reason}), so the boundary "
+                "was never shown to enforce anything and a blocked test arm is not evidence. "
+                "Remove the confound and re-run.",
             )
 
         tests = [a for a in self.arms if a.role is Role.TEST]
@@ -364,32 +379,60 @@ class Run:
     def _attempt(
         self, fn: Callable[[], tuple[bool, str] | bool], *, must_execute: bool
     ) -> tuple[Outcome, str, str]:
-        ok, detail, raised = _call(fn)
+        ok, detail, broke = _call(fn)
+        # Defect 11: a probe that broke tells us about the probe, and nothing about the boundary.
+        if broke == "malformed":
+            return (Outcome.CONFOUNDED, detail, PROBE_MALFORMED)
         reason = classify_failure(detail, self.patterns)
         if ok:
             return (Outcome.EXECUTED, detail, reason)
-        # Defect 11: an exception is the probe failing, never the boundary refusing.
-        if raised and reason == "other":
+        if broke == "raised" and reason == "other":
             reason = PROBE_CRASHED
         if reason != "other":
             return (Outcome.CONFOUNDED, detail, reason)
         return (Outcome.REFUSED, detail, reason)
 
 
-def _call(fn: Callable[[], tuple[bool, str] | bool]) -> tuple[bool, str, bool]:
-    """Call ``fn``, turning any exception into a named failure rather than a crash.
+def _call(fn: Callable[[], tuple[bool, str] | bool]) -> tuple[bool, str, str | None]:
+    """Call ``fn`` and return ``(ok, detail, broke)``.
 
-    Returns ``(ok, detail, raised)``. The exception type and message are preserved
-    in ``detail`` so ``classify_failure`` can still see a connection refusal or a
-    rate limit, and ``raised`` says the probe crashed, so a message that matches
-    nothing is not read as a refusal (defect 11). A swallowed reason is the defect
-    this module exists to prevent, so nothing here discards one.
+    ``broke`` is ``None`` for a well-formed result, ``"raised"`` if the probe
+    raised, and ``"malformed"`` if it returned anything but a ``bool`` or a
+    ``(bool, detail)`` pair. Defect 11: the old code read any other value by its
+    truth, so a failed liveness probe that returned ``[False, "403"]`` counted as
+    executed, and a probe that forgot to return counted as refused.
+
+    An exception's type and message are kept in ``detail`` so ``classify_failure``
+    can still see a connection refusal or a rate limit. ``SystemExit`` and other
+    ``BaseException`` subclasses are caught too, because a probe ending the process
+    would end the run without a verdict. ``KeyboardInterrupt`` still stops the run.
     """
     try:
         result = fn()
-    except Exception as exc:
-        return False, f"<exception {type(exc).__name__}: {exc}>", True
-    if isinstance(result, tuple):
-        ok, detail = result[0], result[1]
-        return bool(ok), str(detail), False
-    return bool(result), "", False
+    except KeyboardInterrupt:
+        raise
+    except BaseException as exc:  # a probe may not end the run
+        message = _text(exc)
+        return False, f"<exception {type(exc).__name__}: {message or '<unprintable>'}>", "raised"
+    if isinstance(result, bool):
+        return result, "", None
+    if isinstance(result, tuple) and len(result) == 2 and isinstance(result[0], bool):
+        detail = _text(result[1])
+        if detail is None:
+            return False, "<a detail that could not be printed>", "malformed"
+        return result[0], detail, None
+    shown = _text(result)
+    shown = "<unprintable>" if shown is None else shown[:200]
+    return False, f"<not a result: {type(result).__name__} {shown!r}>", "malformed"
+
+
+def _text(value: object) -> str | None:
+    """``str(value)``, or ``None`` if printing it raised. Printing a probe's value runs the probe's
+    own code, and a ``__str__`` raising ``SystemExit`` would otherwise end the run from outside
+    the guard above."""
+    try:
+        return str(value)
+    except KeyboardInterrupt:
+        raise
+    except BaseException:  # an unprintable value may not end the run
+        return None

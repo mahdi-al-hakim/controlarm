@@ -1155,7 +1155,9 @@ def test_a_retracted_figure_appears_only_inside_its_retraction(figure):
     offences = []
     for path in _authored_documents():
         text = path.read_text(encoding="utf-8")
-        for match in re.finditer(re.escape(figure), text):
+        # Anchored like every numeric pattern in this repository, so a withdrawn "88 guards" is not
+        # found inside a live "188 guards".
+        for match in re.finditer(r"(?<!\w)" + re.escape(figure) + r"(?!\w)", text):
             window = text[max(0, match.start() - 400) : match.end() + 400].lower()
             if not any(marker in window for marker in RETRACTION_MARKERS):
                 rel = path.relative_to(ROOT).as_posix()
